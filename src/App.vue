@@ -1,16 +1,13 @@
 <template>
-  <v-app>
+  <div>
     <router-view/>
-  </v-app>
+  </div>
 </template>
 <script>
 
 export default {
   name: 'App',
   data() {
-    return {
-      title: 'Vuetify.js',
-    };
   },
 };
 </script>
