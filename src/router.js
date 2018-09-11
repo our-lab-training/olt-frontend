@@ -14,15 +14,11 @@ export default new Router({
       path: '/',
       name: 'home',
       component: PreAuthHome,
-      children: [
-      ],
     },
     {
       path: '/dashboard/',
       name: 'Dashboard',
       component: PostAuthHome,
-      children: [
-      ],
     },
   ],
 });
