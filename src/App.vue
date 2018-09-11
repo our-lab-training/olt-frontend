@@ -7,7 +7,9 @@
 
 export default {
   name: 'App',
-  data() {
-  },
 };
 </script>
+
+<style>
+@import url('/css/typography.css');
+</style>
