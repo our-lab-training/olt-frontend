@@ -1,8 +1,9 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import PreAuthHome from './views/preAuth/home.vue';
-import PostAuthHome from './views/postAuth/dashboard.vue';
+import landing from './views/Landing.vue';
+import Login from './components/LoginCard.vue';
+import Home from './views/Home.vue';
 
 Vue.use(Router);
 
@@ -12,13 +13,20 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: PreAuthHome,
+      name: 'Home',
+      component: landing,
+      children: [
+        {
+          path: '',
+          name: 'Login',
+          component: Login,
+        },
+      ],
     },
     {
       path: '/dashboard/',
       name: 'Dashboard',
-      component: PostAuthHome,
+      component: Home,
     },
   ],
 });
