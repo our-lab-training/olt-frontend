@@ -10,7 +10,7 @@
           <ion-label position="stacked">PhemeID</ion-label>
           <ion-input type="number"
           v-bind:value = "user.internalId"
-          v-on:ionChange = "user.email = $event.target.value"
+          v-on:ionChange = "user.internalId = $event.target.value"
           @keyup.enter="loginUser"
           required></ion-input>
         </ion-item>
@@ -61,7 +61,7 @@ export default {
   data() {
     return {
       user: {
-        email: '',
+        internalId: '',
         password: '',
       },
     };
