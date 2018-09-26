@@ -20,7 +20,6 @@ export default {
   methods: {
     ...mapActions('locations', { findLocations: 'find' }),
     ...mapGetters('self', { listSelf: 'list' }),
-
   },
   async mounted() {
     const self = await this.listSelf()[0];
