@@ -23,4 +23,10 @@ export default {
 </script>
 
 <style scoped>
+ion-grid {
+  height: 100%;
+}
+ion-row {
+  height: 100%;
+}
 </style>

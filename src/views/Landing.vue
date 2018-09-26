@@ -1,30 +1,14 @@
 <template>
   <div class="ion-page">
     <div class="background-image"></div>
-
-    <ion-content class="clear-background">
-      <transition :name="transitionName">
-        <router-view/>
-      </transition>
+    <ion-content class="background-image">
+      <router-view/>
     </ion-content>
   </div>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-      transitionName: '',
-    };
-  },
-  watch: {
-    $route(to, from) {
-      const toDepth = to.path.split('/').length;
-      const fromDepth = from.path.split('/').length;
-      this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left';
-      this.routeName = this.$router.currentRoute;
-    },
-  },
 };
 </script>
 

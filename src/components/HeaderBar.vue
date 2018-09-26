@@ -1,27 +1,24 @@
 <template>
-<ion-header v-if="headerType === 'login'">
-  <ion-toolbar>
-    <ion-title>{{ headerTitle }}</ion-title>
-    <ion-buttons slot="primary">
-      <ion-button fill="solid" color="primary">
-        Training
-        <ion-icon slot="end" name="book"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
-<ion-header v-else-if="headerType === 'dashboard'">
-  <ion-toolbar>
-    <ion-title>{{ headerTitle }}</ion-title>
-  </ion-toolbar>
-</ion-header>
+  <ion-header no-border>
+    <ion-toolbar>
+      <ion-title start>Access 2.0 Dashboard</ion-title>
+      <ion-buttons start>
+        <ion-button>
+          My Groups
+        </ion-button>
+        <ion-button>
+          Public Groups
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
 </template>
+
+<style scoped>
+</style>
 
 <script>
 export default {
-  props: [
-    'headerType',
-    'headerTitle',
-  ],
+  name: 'HeaderBar',
 };
 </script>

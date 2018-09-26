@@ -11,8 +11,9 @@ Vue.use(FeathersVuex);
 export default new Vuex.Store({
 
   plugins: [
-    service('users'),
-    auth({ userService: 'users' }),
+    service('locations'),
+    service('self'),
+    auth({ userService: 'self' }),
   ],
 
   state: {

@@ -1,21 +1,21 @@
 <template>
   <centered>
-    <ion-card>
+    <ion-card class="loginCard">
       <ion-card-header>
           <ion-card-subtitle>Access 2.0</ion-card-subtitle>
           <ion-card-title>Login</ion-card-title>
       </ion-card-header>
       <ion-card-content>
         <ion-item>
-          <ion-label position="stacked">PhemeID</ion-label>
-          <ion-input type="number"
+          <ion-label position="stacked">PhemeID (Exactly 8 Digits)</ion-label>
+          <ion-input type="text"
           v-bind:value = "user.internalId"
           v-on:ionChange = "user.internalId = $event.target.value"
           @keyup.enter="loginUser"
           required></ion-input>
         </ion-item>
         <ion-item>
-          <ion-label position="stacked">Password</ion-label>
+          <ion-label position="stacked">Password (Minimum of 6 Characters)</ion-label>
           <ion-input type="password"
           v-bind:value = "user.password"
           v-on:ionChange = "user.password = $event.target.value"
@@ -51,8 +51,6 @@
 import { mapActions } from 'vuex';
 
 import Centered from '@/components/General/Centered.vue';
-import app from '@/feathers-client';
-
 
 export default {
   components: {
@@ -69,38 +67,37 @@ export default {
   computed: {
     valid() {
       let result = true;
-      Object.values(this.user).forEach((element) => {
-        if (element.length === 0) {
-          result = false;
-        }
-      });
+      if (this.user.password.length < 6 || this.user.internalId.length !== 8) {
+        result = false;
+      }
+      if (!/^\d+$/.test(this.user.internalId)) {
+        result = false;
+      }
       return result;
     },
   },
   methods: {
+    ...mapActions('auth', { authenticate: 'authenticate' }),
+    ...mapActions('self', { findSelf: 'find' }),
     async loginUser() {
       if (this.valid) {
-        await app.authenticate({
+        await this.authenticate({
           strategy: 'pheme',
           username: this.user.internalId,
           password: this.user.password,
-        }).then(() => {
-          // Logged in
-        }).catch((e) => {
-          // Show login page (potentially with `e.message`)
-          console.error('Authentication error', e);
         });
+        await this.findSelf();
+        this.$router.push('/dashboard');
       }
     },
-    ...mapActions('user', ['login']),
   },
 };
 </script>
-
 
 <style>
 .loginCard {
   max-width: 320px;
   margin: 1rem auto;
+  background: #e8fcfe;
 }
 </style>
