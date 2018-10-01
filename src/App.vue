@@ -12,4 +12,9 @@ export default {
 
 <style>
 @import url('/css/typography.css');
+@import url('/css/main.css');
+
+ion-grid {
+  color: transparent;
+}
 </style>

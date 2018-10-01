@@ -1,6 +1,6 @@
 <template>
   <centered>
-    <ion-card class="loginCard">
+    <ion-card class="loginCard" color="light">
       <ion-card-header>
           <ion-card-subtitle>Access 2.0</ion-card-subtitle>
           <ion-card-title>Login</ion-card-title>
@@ -8,19 +8,23 @@
       <ion-card-content>
         <ion-item>
           <ion-label position="stacked">PhemeID (Exactly 8 Digits)</ion-label>
-          <ion-input type="text"
-          v-bind:value = "user.internalId"
-          v-on:ionChange = "user.internalId = $event.target.value"
-          @keyup.enter="loginUser"
-          required></ion-input>
+          <ion-input
+            type="text"
+            v-bind:value = "user.internalId"
+            v-on:ionChange = "user.internalId = $event.target.value"
+            @keyup.enter="loginUser"
+            required
+          />
         </ion-item>
         <ion-item>
           <ion-label position="stacked">Password (Minimum of 6 Characters)</ion-label>
-          <ion-input type="password"
-          v-bind:value = "user.password"
-          v-on:ionChange = "user.password = $event.target.value"
-          @keyup.enter="loginUser"
-          required></ion-input>
+          <ion-input
+            type="password"
+            v-bind:value = "user.password"
+            v-on:ionChange = "user.password = $event.target.value"
+            @keyup.enter="loginUser"
+            required
+          />
         </ion-item>
         <ion-item>
            <ion-button
@@ -98,6 +102,5 @@ export default {
 .loginCard {
   max-width: 320px;
   margin: 1rem auto;
-  background: #e8fcfe;
 }
 </style>
