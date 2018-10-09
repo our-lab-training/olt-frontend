@@ -1,39 +1,65 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import landing from './views/Landing.vue';
-import Login from './components/LoginCard.vue';
+import store from '@/store';
 
-import Home from './views/Home.vue';
-import Dashboard from './components/postAuth/Dashboard.vue';
+import Landing from './views/layouts/Landing.vue';
+import login from './views/login.vue';
+
+import Home from './views/layouts/Home.vue';
+import dashboard from './views/dashboard.vue';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
     {
       path: '/',
-      component: landing,
+      component: Home,
       children: [
         {
           path: '/',
-          name: 'Login',
-          component: Login,
+          name: 'Home',
+          component: dashboard,
         },
       ],
     },
     {
       path: '/',
-      component: Home,
+      component: Landing,
       children: [
         {
-          path: '/dashboard/',
-          name: 'Dashboard',
-          component: Dashboard,
+          path: '/login/',
+          name: 'Login',
+          component: login,
+          meta: { isPublic: true },
+        },
+        {
+          path: '/logout/',
+          name: 'Logout',
+          component: login,
+          meta: { isPublic: true },
         },
       ],
     },
+    { path: '*', redirect: '/' },
   ],
 });
+
+router.beforeEach((to, from, next) => {
+  const isPublic = to.matched.some(record => !!record.meta.isPublic);
+  console.log(to.path);
+  if (to.path === '/logout') {
+    return store.dispatch('auth/logout').catch(console.error).then(() => next({ path: '/login' }));
+  }
+  if (isPublic && store.state.auth.user) {
+    return next({ path: '/' });
+  } else if (!isPublic && !store.state.auth.user) {
+    return next({ path: '/login' });
+  }
+  return next();
+});
+
+export default router;

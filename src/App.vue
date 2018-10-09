@@ -1,20 +1,28 @@
 <template>
-  <ion-app>
-    <router-view/>
-  </ion-app>
+  <v-app>
+
+    <v-content>
+      <router-view/>
+    </v-content>
+
+    <v-footer app>
+      <v-flex text-xs-center>
+        <span>&copy; 2018 - Coded By <a class="th-link" href="https://thinkhub.io">Think<b>Hub</b>.io</a></span>
+      </v-flex>
+    </v-footer>
+  </v-app>
 </template>
-<script>
 
-export default {
-  name: 'App',
-};
-</script>
+<style scoped>
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700');
 
-<style>
-@import url('/css/typography.css');
-@import url('/css/main.css');
+.th-link {
+  font-family: 'Lato', sans-serif;
+  text-decoration: none;
+  color: black;
+}
 
-ion-grid {
-  color: transparent;
+.th-link:hover {
+  text-decoration: underline;
 }
 </style>
