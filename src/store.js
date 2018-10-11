@@ -12,7 +12,24 @@ export default new Vuex.Store({
 
   plugins: [
     service('groups', { paginate: true }),
-    service('users', { paginate: true }),
+    service('users', {
+      paginate: true,
+      getters: {
+        hasPerm: (state, getters) => (permission, exact = false) => {
+          const user = getters.current;
+          let perm = permission;
+          if (typeof permission === 'string') perm = permission.split('.');
+          return user.perms.all.some((p) => {
+            if (exact && p.length !== perm.length) return false;
+            for (let i = 0; i < Math.min(p.length, perm.length); i += 1) {
+              if (!exact && p[i] === '*') return true;
+              if ((exact || perm[i] !== '*') && perm[i] !== p[i]) return false;
+            }
+            return true;
+          });
+        },
+      },
+    }),
     auth({ userService: 'users' }),
   ],
 

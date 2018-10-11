@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@feathersjs/authentication-client": "^1.0.4",
-    "@feathersjs/feathers": "^3.2.1",
+    "@feathersjs/feathers": "^3.2.3",
     "@feathersjs/socketio-client": "^1.1.2",
     "feathers-vuex": "^1.4.8",
     "lodash": "^4.17.11",
