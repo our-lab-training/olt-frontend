@@ -13,7 +13,7 @@
 </template>
 <script>
 export default {
-  props: ['title', 'icon', 'notify'],
+  props: ['title', 'icon', 'notify', 'link'],
 };
 </script>
 
