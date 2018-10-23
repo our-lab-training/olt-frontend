@@ -5,7 +5,7 @@
       <router-view/>
     </v-content>
 
-    <v-footer app>
+    <v-footer app absolute>
       <v-flex text-xs-center>
         <span>&copy; 2018 - Coded By <a class="th-link" href="https://thinkhub.io">Think<b>Hub</b>.io</a></span>
       </v-flex>

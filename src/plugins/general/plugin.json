@@ -1,0 +1,32 @@
+{
+  "ref": "general",
+  "name": "General",
+  "entries": {
+    "pluginAdmin": {
+      "name": "Manage Plugins",
+      "component": "frontend/pluginAdmin",
+      "modal": true,
+      "icon": "build",
+      "visiblePerms": [
+        "{groupId}.group.update"
+      ]
+    },
+    "joinGroup": {
+      "name": "Join Group",
+      "component": "frontend/joinGroup",
+      "modal": true,
+      "icon": "input",
+      "ifEnrolledIs": false,
+      "onlyGroupOfTypes": ["public"]
+    },
+    "leaveGroup": {
+      "name": "Leave Group",
+      "component": "frontend/leaveGroup",
+      "modal": true,
+      "icon": "cancel_presentation",
+      "ifEnrolledIs": true,
+      "onlyGroupOfTypes": ["public"]
+    }
+  },
+  "global": true
+}

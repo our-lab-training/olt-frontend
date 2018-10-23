@@ -6,6 +6,7 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import './registerServiceWorker';
+import './plugins/load-plugins';
 
 Vue.config.productionTip = false;
 Vue.config.ignoredElements = [/^ion-/];

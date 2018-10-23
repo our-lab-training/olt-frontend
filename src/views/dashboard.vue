@@ -35,18 +35,23 @@
     </v-layout>
     <v-tabs-items v-model="tabsValue" class="elevation-1">
       <v-tab-item>
-        <groups-list type="enrolled"/>
+        <groups-list type="enrolled" @openModal="modalEntry=$event"/>
       </v-tab-item>
       <v-tab-item>
-        <groups-list type="public"/>
+        <groups-list type="public" @openModal="modalEntry=$event"/>
       </v-tab-item>
       <v-tab-item v-if="showTemplates">
-        <groups-list type="templates"/>
+        <groups-list type="templates" @openModal="modalEntry=$event"/>
       </v-tab-item>
       <v-tab-item v-if="searchValue">
-        <groups-list type="search" :query="searchValue"/>
+        <groups-list type="search" :query="searchValue" @openModal="modalEntry=$event"/>
       </v-tab-item>
     </v-tabs-items>
+    <plugin-modal
+      v-if="modalEntry"
+      :entry="modalEntry"
+      @closed="modalEntry=null"
+    />
   </div>
 </template>
 
@@ -55,12 +60,14 @@ import { mapActions, mapGetters } from 'vuex';
 import groupsAdd from './partials/groups/add.vue';
 import groupsDelete from './partials/groups/delete.vue';
 import groupsList from './partials/groups/list.vue';
+import pluginModal from './partials/groups/plugin-modal.vue';
 
 export default {
   components: {
     groupsAdd,
     groupsList,
     groupsDelete,
+    pluginModal,
   },
   data() {
     return {
@@ -68,6 +75,7 @@ export default {
       tabsValue: 0,
       searchTab: 2,
       searchValue: '',
+      modalEntry: null,
     };
   },
   methods: {

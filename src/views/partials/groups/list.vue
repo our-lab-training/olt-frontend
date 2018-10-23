@@ -1,5 +1,5 @@
 <template>
-  <v-expansion-panel expand :value="groups.map((_, i) => i < 3)">
+  <v-expansion-panel expand v-model="expanded">
     <v-expansion-panel-content
       v-for="(group, i) in groups"
       :key="i"
@@ -7,96 +7,98 @@
       <div slot="header" class="title" v-text="group.name"></div>
 
       <v-layout align-start justify-start class="icon-list">
-        <module-icon
-          v-for="(mod, i) in group.modules"
+        <entry-icon
+          v-for="(entry, i) in group.entries"
           :key="i"
-          :title="mod.name"
-          :icon="mod.icon"
-          :notify="mod.notify"
-          :link="mod.link"
+          :entry="entry"
+          :group="group"
+          @openModal="$emit('openModal', $event)"
         />
       </v-layout>
     </v-expansion-panel-content>
   </v-expansion-panel>
 </template>
 <script>
+import { find, filter, map, orderBy } from 'lodash';
 import { mapGetters, mapState } from 'vuex';
-import moduleIcon from './module-icon.vue';
+import entryIcon from './entry-icon.vue';
 
 export default {
   components: {
-    moduleIcon,
+    entryIcon,
   },
   computed: {
     ...mapState('groups', ['isRemovePending', 'isCreatePending', 'isFindPending']),
-  },
-  props: ['type', 'query'],
-  watch: {
-    query(q) {
-      this.loadGroups(q);
-    },
-    isFindPending(pending) {
-      if (pending) return;
-      this.loadGroups(this.query);
-    },
-    isRemovePending(pending) {
-      if (pending) return;
-      // this.getGroups = this.findGroup();
-      this.loadGroups(this.query);
-    },
-    isCreatePending(pending) {
-      if (pending) return;
-      // this.getGroups = this.findGroup();
-      this.loadGroups(this.query);
-    },
-  },
-  methods: {
+    ...mapGetters('users', ['hasPerm']),
     ...mapGetters('groups', { findGroup: 'find' }),
-    ...mapGetters('auth', { currentUser: 'current' }),
-    async loadGroups(query) {
+    groups() {
+      if (this.isFindPending || this.isRemovePending || this.isCreatePending) Math.random();
+      if (this.type === 'search' && !this.query) return [];
+
       const { user } = this.$store.state.auth;
+      let query = null;
+      if (this.type === 'search') {
+        query = RegExp(`(${this.query.trim().replace(/[^\w ]/g, '').replace(/[ ]+/g, ')|(')})`, 'i');
+      }
       const typeQueries = {
-        search: { name: { $regex: query, $options: 'i' } },
+        search: { name: v => query.test(v) },
         public: { type: 'public' },
         templates: { type: 'template' },
-        enrolled: { $or: [{ _id: { $in: user.perms.groups } }, { type: 'global' }] },
+        enrolled: { _id: { $in: user.perms.groups } },
       };
-      if (this.type === 'search' && !query) return;
-      this.groups = this.getGroups({ query: typeQueries[this.type] }).data.map((group) => {
-        const isEnrolled = user.perms.groups.indexOf(group._id) !== -1 || group.type === 'global';
-        if (isEnrolled || group.type === 'template') group.modules = this.loadModules(group);
-        else group.modules = [];
-        if (group.type === 'public') {
-          if (isEnrolled) {
-            group.modules.push({
-              name: 'Leave Group',
-              icon: 'cancel_presentation',
-              link: `/groups/${group._id}/unenroll`,
-            });
-          } else {
-            group.modules.push({
-              name: 'Join Group',
-              icon: 'input',
-              link: `/groups/${group._id}/enroll`,
-            });
-          }
+      let groups = this.findGroup({ query: typeQueries[this.type] }).data;
+
+      groups = groups.map((group) => {
+        const isEnrolled = user.perms.groups.indexOf(group._id) !== -1;
+        if (isEnrolled || ['template', 'public'].indexOf(group.type) !== -1) {
+          group.entries = this.loadPluginEntries(group, isEnrolled);
         }
         return group;
       });
-      console.log(this.groups, this.type);
+
+      return groups;
     },
-    async loadModules(/* group */) {
-      return [];
+  },
+  props: ['type', 'query'],
+  methods: {
+    loadPluginEntries(group, isEnrolled) {
+      const plugs = [
+        ...filter(this.$plugins, plugin => plugin.global),
+      ];
+      const ents = [];
+      map(plugs, (plugin) => {
+        map(plugin.entries, (entry, ref) => {
+          if ((
+            entry.onlyGroupOfTypes &&
+            entry.onlyGroupOfTypes.indexOf(group.type) === -1
+          ) ||
+          (
+            typeof entry.ifEnrolledIs === 'boolean' &&
+            entry.ifEnrolledIs !== isEnrolled
+          ) ||
+          (
+            entry.visiblePerms &&
+            !find(entry.visiblePerms, perm => this.hasPerm(perm.replace('{groupId}', group._id)))
+          ) ||
+          (
+            entry.invisiblePerms &&
+            find(entry.invisiblePerms, perm => this.hasPerm(perm.replace('{groupId}', group._id)))
+          )) return;
+          ents.push({
+            ...entry,
+            ref,
+            plugin,
+            priority: entry.priority || 100,
+          });
+        });
+      });
+      return orderBy(ents, ['priority', 'name'], ['desc', 'asc']);
     },
   },
   data() {
     return {
-      groups: [],
+      expanded: [true, true, true],
     };
-  },
-  async mounted() {
-    this.getGroups = await this.findGroup();
-    this.loadGroups(this.query || '');
   },
 };
 </script>

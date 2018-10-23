@@ -50,7 +50,6 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   const isPublic = to.matched.some(record => !!record.meta.isPublic);
-  console.log(to.path);
   if (to.path === '/logout') {
     return store.dispatch('auth/logout').catch(console.error).then(() => next({ path: '/login' }));
   }

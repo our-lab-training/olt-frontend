@@ -71,11 +71,16 @@ export default {
   },
   computed: {
     user() {
-      return this.$store.state.auth.user;
+      return this.$store.state.auth.user || { profile: {} };
     },
   },
   methods: {
-    ...mapActions('auth', { logout: 'logout' }),
+    ...mapActions('auth', { logoutUser: 'logout' }),
+    async logout() {
+      await this.logoutUser();
+      this.$router.push({ path: '/login' });
+      // TODO Clear stores
+    },
   },
 };
 </script>
