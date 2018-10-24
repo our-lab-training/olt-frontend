@@ -3,7 +3,15 @@
     <v-badge overlap color="orange" :value="!!notify || notify === ''">
       <v-icon slot="badge" dark small>notifications</v-icon>
 
-      <v-btn outline large fab color="indigo" style="margin: 0;" @click="btnClick">
+      <v-btn
+        outline
+        large
+        fab
+        color="indigo"
+        style="margin: 0;"
+        @click="btnClick"
+        :to="(entry.link || '').replace('{groupId}', groupId)"
+      >
         <v-icon v-text="entry.icon"></v-icon>
       </v-btn>
 
@@ -15,7 +23,7 @@
 import { mapMutations } from 'vuex';
 
 export default {
-  props: ['entry', 'group'],
+  props: ['entry', 'groupId'],
   data() {
     return {
       notify: false,
@@ -25,7 +33,8 @@ export default {
   methods: {
     ...mapMutations('groups', ['setCurrent']),
     btnClick() {
-      this.setCurrent(this.group._id);
+      if (!this.entry.modal) return;
+      this.setCurrent(this.groupId);
       this.$emit('openModal', this.entry);
     },
   },

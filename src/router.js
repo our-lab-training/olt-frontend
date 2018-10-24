@@ -9,6 +9,8 @@ import login from './views/login.vue';
 import Home from './views/layouts/Home.vue';
 import dashboard from './views/dashboard.vue';
 
+import Group from './views/layouts/Group.vue';
+
 Vue.use(Router);
 
 const router = new Router({
@@ -60,5 +62,15 @@ router.beforeEach((to, from, next) => {
   }
   return next();
 });
+
+router.addGroupRoutes = (children) => {
+  router.addRoutes([
+    {
+      path: '/group/:groupId/',
+      component: Group,
+      children,
+    },
+  ]);
+};
 
 export default router;

@@ -8,10 +8,10 @@
 
       <v-layout align-start justify-start class="icon-list">
         <entry-icon
-          v-for="(entry, i) in group.entries"
-          :key="i"
+          v-for="(entry, ref) in groupEntries[group._id]"
+          :key="ref"
           :entry="entry"
-          :group="group"
+          :groupId="group._id"
           @openModal="$emit('openModal', $event)"
         />
       </v-layout>
@@ -28,17 +28,27 @@ export default {
     entryIcon,
   },
   computed: {
-    ...mapState('groups', ['isRemovePending', 'isCreatePending', 'isFindPending']),
+    ...mapState('groups', ['isRemovePending', 'isCreatePending', 'isFindPending', 'isPatchPending']),
+    ...mapState('users', ['isUserGetPending']),
     ...mapGetters('users', ['hasPerm']),
     ...mapGetters('groups', { findGroup: 'find' }),
     groups() {
-      if (this.isFindPending || this.isRemovePending || this.isCreatePending) Math.random();
-      if (this.type === 'search' && !this.query) return [];
-
       const { user } = this.$store.state.auth;
+      // force recompute on state change
+      if (
+        this.isFindPending ||
+        this.isRemovePending ||
+        this.isCreatePending ||
+        this.isPatchPending ||
+        this.isUserGetPending
+      ) Math.random();
+
+      if (this.type === 'search' && !this.query) return [];
       let query = null;
       if (this.type === 'search') {
-        query = RegExp(`(${this.query.trim().replace(/[^\w ]/g, '').replace(/[ ]+/g, ')|(')})`, 'i');
+        const queryString = this.query.replace(/[^\w ]/g, '').trim();
+        if (!queryString) return [];
+        query = RegExp(`(${queryString.replace(/[ ]+/g, ')|(')})`, 'i');
       }
       const typeQueries = {
         search: { name: v => query.test(v) },
@@ -46,17 +56,18 @@ export default {
         templates: { type: 'template' },
         enrolled: { _id: { $in: user.perms.groups } },
       };
-      let groups = this.findGroup({ query: typeQueries[this.type] }).data;
-
-      groups = groups.map((group) => {
+      return this.findGroup({ query: typeQueries[this.type] }).data;
+    },
+    groupEntries() {
+      const { user } = this.$store.state.auth;
+      return this.groups.reduce((a, group) => {
         const isEnrolled = user.perms.groups.indexOf(group._id) !== -1;
+        a[group._id] = [];
         if (isEnrolled || ['template', 'public'].indexOf(group.type) !== -1) {
-          group.entries = this.loadPluginEntries(group, isEnrolled);
+          a[group._id] = this.loadPluginEntries(group, isEnrolled);
         }
-        return group;
-      });
-
-      return groups;
+        return a;
+      }, {});
     },
   },
   props: ['type', 'query'],
@@ -64,6 +75,7 @@ export default {
     loadPluginEntries(group, isEnrolled) {
       const plugs = [
         ...filter(this.$plugins, plugin => plugin.global),
+        ...filter(this.$plugins, p => !!find(group.plugins || [], r => r === p.ref)),
       ];
       const ents = [];
       map(plugs, (plugin) => {
