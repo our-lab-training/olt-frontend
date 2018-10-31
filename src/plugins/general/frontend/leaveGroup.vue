@@ -48,8 +48,8 @@ export default {
       const gid = this.currentGroup._id;
       const perm = find(user.perms.userperms, p => p.perm[0] === gid && p.perm[1] === 'enrolled');
       await this.removePerm(perm._id);
-      await this.sgetUser(user._id);
-      setTimeout(() => { this.$store.state.auth.user = this.users[user._id]; }, 500);
+      // await this.sgetUser(user._id);
+      // setTimeout(() => { this.$store.state.auth.user = this.users[user._id]; }, 500);
       this.$emit('close');
     },
   },

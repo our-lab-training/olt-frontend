@@ -1,60 +1,163 @@
 <template>
   <div>
-    <v-toolbar
-      app
-      :clipped-left="!drawer"
-    >
-      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title class="headline" v-text="title"></v-toolbar-title>
+
+    <v-toolbar scroll-off-screen app v-if="$vuetify.breakpoint.xsOnly">
+      <v-toolbar-side-icon @click.stop="mini=false; drawer=!drawer">
+        <v-icon>menu</v-icon>
+      </v-toolbar-side-icon>
+
+      <v-toolbar-title>{{title}}</v-toolbar-title>
 
       <v-spacer></v-spacer>
-
-      <v-menu :nudge-width="100" open-on-hover bottom offset-y>
-
-        <v-toolbar-title slot="activator">
-          <span class="subheading" v-text="user.profile.displayname"></span>
-          <v-icon>expand_more</v-icon>
-        </v-toolbar-title>
-
-        <v-list>
-          <v-list-tile @click="logout">
-            <v-list-tile-title>Logout</v-list-tile-title>
-          </v-list-tile>
-        </v-list>
-
-      </v-menu>
-
     </v-toolbar>
 
     <v-navigation-drawer
       persistent
-      v-model="drawer"
+      :value="$vuetify.breakpoint.smAndUp || drawer"
       enable-resize-watcher
       app
+      :stateless="!$vuetify.breakpoint.smAndDown || mini"
+      :temporary="$vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smAndDown && !mini"
+      :absolute="$vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smAndDown && !mini"
+      :mini-variant.sync="mini"
     >
+
+      <v-toolbar flat v-if="!$vuetify.breakpoint.xsOnly">
+        <v-list>
+          <v-list-tile>
+            <v-list-tile-action>
+              <v-tooltip right>
+                <v-btn
+                  flat
+                  icon
+                  @click.stop="mini=!mini"
+                  slot="activator"
+                >
+                  <v-icon>menu</v-icon>
+                </v-btn>
+                <span>{{mini ? 'Open' : 'Close'}} Menu</span>
+              </v-tooltip>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title class="title">
+                {{title}}
+              </v-list-tile-title>
+            </v-list-tile-content>
+            <v-list-tile-action>
+              <v-btn flat icon @click.stop="mini=!mini">
+                <v-icon>chevron_left</v-icon>
+              </v-btn>
+            </v-list-tile-action>
+          </v-list-tile>
+        </v-list>
+      </v-toolbar>
+
+      <v-divider/>
+
       <v-list>
+        <v-list-group>
+          <v-list-tile slot="activator">
+            <v-list-tile-action>
+              <v-tooltip right>
+                <v-icon slot="activator">account_circle</v-icon>
+                <span>{{user.profile.displayname}}</span>
+              </v-tooltip>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>
+                {{user.profile.displayname}}
+              </v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+
+          <v-list-tile to="/logout">
+            <v-list-tile-action>
+              <v-tooltip right>
+                <v-icon slot="activator">meeting_room</v-icon>
+                <span>Logout</span>
+              </v-tooltip>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>
+                Logout
+              </v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+
+        </v-list-group>
+
+        <v-divider/>
+
         <v-list-tile
-          value="true"
           v-for="(item, i) in items"
           :key="i"
+          :to="item.link"
+          :value="$router.currentRoute.path === item.link"
+          :color="$router.currentRoute.path === item.link ? 'primary' : 'default'"
         >
           <v-list-tile-action>
-            <v-icon v-html="item.icon"></v-icon>
+            <v-tooltip right>
+              <v-icon v-html="item.icon" slot="activator"/>
+              <span>{{item.name}}</span>
+            </v-tooltip>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title v-text="item.title"></v-list-tile-title>
+            <v-list-tile-title>{{item.name}}</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
+
+        <v-divider/>
+
+        <v-list-group
+          v-for="(group) in groups"
+          :key="`nav-${group._id}`"
+          :value="hasActive(group)"
+          :color="hasActive(group) ? 'primary' : 'default'"
+        >
+          <v-list-tile slot="activator">
+            <v-list-tile-action>
+              <v-tooltip right>
+                <v-icon v-html="group.icon || 'group'" slot="activator"/>
+                <span>{{group.name}}</span>
+              </v-tooltip>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>{{group.name}}</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+
+          <v-list-tile
+            v-for="(entry, eref) in groupEntries[group._id]"
+            :key="`nav-${group._id}-${eref}`"
+            :to="getLink(group, entry)"
+            :value="getLink(group, entry) === $router.currentRoute.path"
+          >
+            <v-list-tile-action>
+              <v-tooltip right>
+                <v-icon v-html="entry.icon" slot="activator"/>
+                <span>{{entry.name}}</span>
+              </v-tooltip>
+            </v-list-tile-action>
+            <v-list-tile-title>{{entry.name}}</v-list-tile-title>
+          </v-list-tile>
+        </v-list-group>
       </v-list>
     </v-navigation-drawer>
   </div>
 </template>
 
 <style scoped>
+
+v-btn {
+  margin: 0;
+}
+
 </style>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState, mapGetters } from 'vuex';
+import { find } from 'lodash';
+import groupEntries from '@/lib/groupEntries';
 
 export default {
   name: 'nav-bar',
@@ -64,15 +167,34 @@ export default {
       clipped: false,
       items: [{
         icon: 'home',
-        title: 'Home',
+        name: 'Home',
+        link: '/',
       }],
+      mini: true,
+      right: null,
       title: 'Access',
     };
   },
   computed: {
+    ...mapState('groups', ['isRemovePending', 'isCreatePending', 'isFindPending', 'isPatchPending']),
+    ...mapGetters('users', ['hasPerm']),
+    ...mapGetters('groups', { findGroup: 'find' }),
     user() {
       return this.$store.state.auth.user || { profile: {} };
     },
+    groups() {
+      const { user } = this.$store.state.auth;
+      // force recompute on state change
+      if (
+        this.isFindPending ||
+        this.isRemovePending ||
+        this.isCreatePending ||
+        this.isPatchPending
+      ) Math.random();
+
+      return this.findGroup({ query: { _id: { $in: user.perms.groups } } }).data;
+    },
+    groupEntries: groupEntries({ globalPlugins: false }),
   },
   methods: {
     ...mapActions('auth', { logoutUser: 'logout' }),
@@ -80,6 +202,15 @@ export default {
       await this.logoutUser();
       this.$router.push({ path: '/login' });
       // TODO Clear stores
+    },
+    hasActive(group) {
+      return !!find(
+        this.groupEntries[group._id],
+        entry => this.getLink(group, entry) === this.$router.currentRoute.path,
+      );
+    },
+    getLink(group, entry) {
+      return (entry.path || entry.link || '').replace('{groupId}', group._id);
     },
   },
 };

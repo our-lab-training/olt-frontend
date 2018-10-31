@@ -49,8 +49,8 @@ export default {
         type: 'users',
       });
       await joinPerm.save();
-      await this.sgetUser(user._id);
-      setTimeout(() => { this.$store.state.auth.user = this.users[user._id]; }, 500);
+      // await this.sgetUser(user._id);
+      // setTimeout(() => { this.$store.state.auth.user = this.users[user._id]; }, 500);
       this.$emit('close');
     },
   },

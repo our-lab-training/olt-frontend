@@ -2,9 +2,9 @@
   "ref": "general",
   "name": "General",
   "entries": {
-    "pluginAdmin": {
-      "name": "Manage Plugins",
-      "component": "frontend/pluginAdmin",
+    "manageGroup": {
+      "name": "Manage Group",
+      "component": "frontend/manageGroup",
       "modal": true,
       "icon": "build",
       "visiblePerms": [
@@ -23,7 +23,7 @@
       "name": "Leave Group",
       "component": "frontend/leaveGroup",
       "modal": true,
-      "icon": "cancel_presentation",
+      "icon": "meeting_room",
       "ifEnrolledIs": true,
       "onlyGroupOfTypes": ["public"]
     }

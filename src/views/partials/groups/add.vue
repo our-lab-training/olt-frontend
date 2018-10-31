@@ -1,11 +1,11 @@
 <template>
   <v-dialog v-model="dialog" persistent max-width="500px">
-    <v-btn slot="activator" @click="loadGroups">
+    <v-btn slot="activator">
       <v-icon>add</v-icon> Create
     </v-btn>
     <v-card>
       <v-card-title>
-        <span class="headline">User Profile</span>
+        <span class="headline">Create New Group</span>
       </v-card-title>
       <v-card-text>
         <v-container grid-list-md>
@@ -20,13 +20,27 @@
                 v-model="newGroup.type"
               />
             </v-flex>
-            <v-flex xs12 sm6>
+            <v-flex xs12 sm6 hidden-sm-and-up hidden-xs-only>
               <v-autocomplete
                 label="Copy Template *"
                 :items="templates"
                 v-model="template"
                 clearable
               />
+            </v-flex>
+            <v-flex xs3>
+              <v-select
+                label="Icon"
+                :items="icons"
+                v-model="newGroup.icon"
+              >
+                <template slot="item" slot-scope="data">
+                  <v-icon>{{data.item}}</v-icon>
+                </template>
+                <template slot="selection" slot-scope="data">
+                  <v-icon>{{data.item}}</v-icon>
+                </template>
+              </v-select>
             </v-flex>
             <v-flex xs12>
               <v-textarea label="Description" v-model="newGroup.desc"></v-textarea>
@@ -46,16 +60,17 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import icons from './icons.json';
 
 const blankGroup = {
   name: '',
   type: 'private',
   desc: '',
+  icon: 'group',
 };
 
 export default {
   methods: {
-    ...mapGetters('groups', { findGroup: 'find' }),
     async submit() {
       const { Group } = this.$FeathersVuex;
       const group = new Group(this.newGroup);
@@ -63,31 +78,24 @@ export default {
       this.dialog = false;
       this.newGroup = { ...blankGroup };
     },
-    async loadGroups() {
-      this.templates = [
+  },
+  computed: {
+    ...mapGetters('groups', { findGroup: 'find' }),
+    templates() {
+      return [
         { value: null, text: 'None' },
         // eslint-disable-next-line no-underscore-dangle
-        ...this.getGroups({ query: { type: 'template' } }).data.map(g => ({ value: g._id, text: g.name })),
+        ...this.findGroup({ query: { type: 'template' } }).data.map(g => ({ value: g._id, text: g.name })),
       ];
     },
   },
   data() {
     return {
       dialog: false,
-      templates: [
-        { value: null, text: 'None' },
-      ],
       newGroup: { ...blankGroup },
       template: null,
+      icons,
     };
-  },
-  async mounted() {
-    this.getGroups = this.findGroup({
-      query: { type: 'template' },
-      paginate: false,
-    });
-    // eslint-disable-next-line no-underscore-dangle
-    // this.templates.push(...this.getTemplates().data.map(g => ({ value: g._id, text: g.name })));
   },
 };
 </script>

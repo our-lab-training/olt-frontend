@@ -10,11 +10,11 @@
         >
           <v-tab>My Groups</v-tab>
           <v-tab>Public</v-tab>
-          <v-tab v-if="showTemplates">Templates</v-tab>
+          <v-tab v-if="showTemplates && false">Templates</v-tab>
           <v-tab v-if="searchValue">Search</v-tab>
         </v-tabs>
       </v-flex>
-      <v-flex order-xs2 order-sm1 order-md2 xs12 sm6 md3 lg4
+      <v-flex order-xs2 order-sm1 order-md2 xs12 sm6 md5 lg4
         v-if="hasPerm('superadmin.groups.create')">
         <groups-add />
         <groups-delete v-if="hasPerm('superadmin.groups.delete')" />

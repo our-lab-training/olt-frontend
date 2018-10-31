@@ -1,5 +1,5 @@
 <template>
-  <div class="groups-entry-icon subheader text-xs-center">
+  <v-flex class="groups-entry-icon subheader text-xs-center">
     <v-badge overlap color="orange" :value="!!notify || notify === ''">
       <v-icon slot="badge" dark small>notifications</v-icon>
 
@@ -17,7 +17,7 @@
 
     </v-badge>
     <span v-text="entry.name"></span>
-  </div>
+  </v-flex>
 </template>
 <script>
 import { mapMutations } from 'vuex';
