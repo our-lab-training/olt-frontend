@@ -5,7 +5,7 @@
       <component
       :is="kebabCase(`${entry.plugin.ref}-${entry.ref}`)"
       :entry="entry"
-      @close="dialog = false"
+      @modalClose="dialog = false"
       @setWidth="width=$event"
       />
     </v-dialog>

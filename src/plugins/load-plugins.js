@@ -23,6 +23,7 @@ export default (async () => {
       plugins[config.ref] = config;
 
       const setupRoute = (route, ref) => {
+        route.ref = route.ref || ref;
         if (route.entry) config.entries.push(route);
         if (!route.component) return;
         route._component = Vue.component(
@@ -31,12 +32,13 @@ export default (async () => {
             () => import(`${dir}/${route.component}.vue`) :
             route.component,
         );
-        const path = (route.path || '').replace('{groupId}', ':groupId');
+        const path = (route.path || '').replace('{groupId}', ':groupRef');
         if (path) {
           routes.push({
             path,
             name: route.name,
             component: route._component,
+            meta: { route },
           });
         }
       };

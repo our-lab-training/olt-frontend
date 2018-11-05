@@ -58,7 +58,10 @@ router.beforeEach((to, from, next) => {
   if (isPublic && store.state.auth.user) {
     return next({ path: '/' });
   } else if (!isPublic && !store.state.auth.user) {
-    return next({ path: '/login' });
+    return next({
+      path: '/login',
+      query: to.path === '/' ? {} : { followPath: to.path },
+    });
   }
   return next();
 });
@@ -66,7 +69,7 @@ router.beforeEach((to, from, next) => {
 router.addGroupRoutes = (children) => {
   router.addRoutes([
     {
-      path: '/group/:groupId/',
+      path: '/group/:groupRef/',
       component: Group,
       children,
     },

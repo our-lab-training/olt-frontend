@@ -11,7 +11,7 @@
 
           <v-btn
             flat="flat"
-            @click="$emit('close')"
+            @click="$emit('modalClose')"
           >
             Close
           </v-btn>
@@ -51,7 +51,7 @@ export default {
       await joinPerm.save();
       // await this.sgetUser(user._id);
       // setTimeout(() => { this.$store.state.auth.user = this.users[user._id]; }, 500);
-      this.$emit('close');
+      this.$emit('modalClose');
     },
   },
   mounted() {

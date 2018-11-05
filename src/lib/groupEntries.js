@@ -7,7 +7,7 @@ function loadPluginEntries(group, isEnrolled, options) {
   ];
   const ents = [];
   map(plugs, (plugin) => {
-    map(plugin.entries, (entry, ref) => {
+    map(plugin.entries, (entry) => {
       if ((
         entry.onlyGroupOfTypes &&
         entry.onlyGroupOfTypes.indexOf(group.type) === -1
@@ -26,7 +26,6 @@ function loadPluginEntries(group, isEnrolled, options) {
       )) return;
       ents.push({
         ...entry,
-        ref,
         plugin,
         priority: entry.priority || 100,
         link: (entry.path || '').replace('{groupId}', group.slugs ? group.slugs[0] : group._id) || '',

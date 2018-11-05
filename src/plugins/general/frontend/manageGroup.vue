@@ -103,7 +103,7 @@
 
       <v-btn
         flat="flat"
-        @click="$emit('close')"
+        @click="closeAndClear()"
       >
         Close
       </v-btn>
@@ -135,7 +135,10 @@ export default {
   computed: {
     ...mapGetters('groups', { currentGroup: 'current' }),
     ...mapState('groups', ['isPatchPending', 'isUpdatePending']),
-    currentClone() { return this.currentGroup.clone(); },
+    currentClone() {
+      const { Group } = this.$FeathersVuex;
+      return (new Group(this.currentGroup)).clone();
+    },
   },
   mounted() {
     this.plugins = [
@@ -157,11 +160,11 @@ export default {
     async saveSettings() {
       this.currentClone.commit();
       await this.currentGroup.save();
-      this.$emit('close');
+      this.$emit('modalClose');
     },
     async closeAndClear() {
       this.currentClone.reset();
-      this.$emit('close');
+      this.$emit('modalClose');
     },
   },
 };

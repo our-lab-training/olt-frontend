@@ -54,16 +54,15 @@ export default {
   },
   methods: {
     ...mapActions('auth', { authenticate: 'authenticate' }),
-    // ...mapActions('self', { findSelf: 'find' }),
     async submit() {
       if (this.$refs.form.validate()) {
+        const { query } = this.$router.currentRoute;
         await this.authenticate({
           strategy: 'local',
           username: this.user.username,
           password: this.user.password,
         });
-        // await this.findSelf();
-        this.$router.push('/dashboard');
+        this.$router.push((query && query.followPath) || '/dashboard');
       }
     },
   },

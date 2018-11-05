@@ -198,6 +198,7 @@ export default {
   },
   methods: {
     ...mapActions('auth', { logoutUser: 'logout' }),
+    ...mapActions('groups', { sFindGroups: 'find' }),
     async logout() {
       await this.logoutUser();
       this.$router.push({ path: '/login' });
@@ -209,6 +210,9 @@ export default {
         entry => entry.link === this.$router.currentRoute.path,
       );
     },
+  },
+  mounted() {
+    this.sFindGroups(); // load all groups from server
   },
 };
 </script>
