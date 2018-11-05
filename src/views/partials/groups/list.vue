@@ -5,7 +5,7 @@
       :key="i"
     >
       <div slot="header" class="title">
-        <v-icon style="margin-right:0.5em;">{{group.icon}}</v-icon>
+        <group-logo style="margin-right:0.5em;" :group="group" />
         <span>{{group.name}}</span>
       </div>
 
@@ -25,10 +25,12 @@
 import { mapGetters, mapState } from 'vuex';
 import groupEntries from '@/lib/groupEntries';
 import entryIcon from './entry-icon.vue';
+import groupLogo from './logo.vue';
 
 export default {
   components: {
     entryIcon,
+    groupLogo,
   },
   computed: {
     ...mapState('groups', ['isRemovePending', 'isCreatePending', 'isFindPending', 'isPatchPending']),

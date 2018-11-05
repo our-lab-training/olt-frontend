@@ -25,6 +25,7 @@
     <v-tabs-items v-model="tab">
       <v-tab-item key="settings">
         <v-container grid-list-md>
+          <small>*indicates required field</small>
           <v-layout wrap>
             <v-flex xs12>
               <v-text-field label="Name *" required v-model="currentClone.name" />
@@ -36,9 +37,15 @@
                 v-model="currentClone.type"
               />
             </v-flex>
-            <v-flex xs3>
+            <v-flex xs12>
+              <v-textarea label="Description" v-model="currentClone.desc"></v-textarea>
+            </v-flex>
+            <v-flex xs12>
+              <h3>Group Logo</h3>
+            </v-flex>
+            <v-flex xs3 v-if="!imageSrc && !currentClone.logo">
               <v-select
-                label="Icon"
+                label="Select Logo"
                 :items="icons"
                 v-model="currentClone.icon"
               >
@@ -50,11 +57,44 @@
                 </template>
               </v-select>
             </v-flex>
+            <v-flex xs3 v-if="imageSrc || currentClone.logo">
+              <v-badge right overlap color="black">
+                <v-icon
+                  slot="badge"
+                  dark
+                  small
+                  style="cursor: pointer;"
+                  @click="
+                    imageSrc='';
+                    imageErr='';
+                    imageSuc='';
+                    currentClone.logo='';
+                    imageReset = Math.random();
+                  "
+                >delete</v-icon>
+                <img :src="imageSrc || currentClone.logo" alt="group logo" id="group-logo-preview">
+              </v-badge>
+            </v-flex>
+            <v-flex xs9>
+              <file-upload
+                label="Upload Logo"
+                icon="cloud_upload"
+                @formData="checkFile"
+                accept="image/png"
+                :reset="imageReset"
+              />
+            </v-flex>
             <v-flex xs12>
-              <v-textarea label="Description" v-model="currentClone.desc"></v-textarea>
+              <span :class="imageErr ? 'error--text': imageSuc ? 'success--text' : 'caption'">
+                {{
+                  imageErr ||
+                  imageSuc ||
+                  'Logo must be a PNG, less than 30KB, square, and more than 64px. ' +
+                  'Preferably with a transparent background.'
+                }}
+              </span>
             </v-flex>
           </v-layout>
-          <small>*indicates required field</small>
         </v-container>
       </v-tab-item>
 
@@ -122,14 +162,22 @@
 import { mapGetters, mapState } from 'vuex';
 import { find, filter, reduce } from 'lodash';
 import icons from '@/views/partials/groups/icons.json';
+import fileUpload from '@/views/partials/file-upload.vue';
 
 export default {
+  components: {
+    fileUpload,
+  },
   props: ['entry'],
   data() {
     return {
       plugins: [],
       tab: 0,
       icons,
+      imageSrc: '',
+      imageErr: '',
+      imageSuc: '',
+      imageReset: 0,
     };
   },
   computed: {
@@ -159,12 +207,42 @@ export default {
     },
     async saveSettings() {
       this.currentClone.commit();
-      await this.currentGroup.save();
+      await this.currentClone.save();
       this.$emit('modalClose');
     },
     async closeAndClear() {
       this.currentClone.reset();
       this.$emit('modalClose');
+    },
+    checkFile(files) {
+      this.imageErr = '';
+      this.imageSuc = '';
+      if (files.length === 0) return;
+      const file = files[0];
+      if (file.size > 30000) {
+        this.imageErr = 'Image too large, cannot be more than 30KB.';
+        return;
+      }
+      if (file.type !== 'image/png') {
+        this.imageErr = 'Invalid file format, must be a .png image.';
+        return;
+      }
+      const reader = new FileReader();
+      reader.addEventListener('load', () => {
+        this.imageSrc = reader.result;
+      }, false);
+      reader.readAsDataURL(file);
+      setTimeout(() => {
+        const imgEl = document.getElementById('group-logo-preview');
+        if (imgEl.naturalHeight < 64) {
+          this.imageErr = 'Image too small, must be larger than 64 pixels.';
+        } else if (imgEl.naturalHeight !== imgEl.naturalWidth) {
+          this.imageErr = 'Image must be square.';
+        } else {
+          this.currentClone.logo = this.imageSrc;
+          this.imageSuc = 'Image is valid.';
+        }
+      }, 100);
     },
   },
 };
@@ -174,6 +252,11 @@ export default {
 
 #pluginAdminLoading {
   margin: 0;
+}
+
+img {
+  max-width: 3em;
+  cursor: default;
 }
 
 </style>

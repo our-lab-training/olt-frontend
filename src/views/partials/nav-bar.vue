@@ -111,13 +111,20 @@
         <v-list-group
           v-for="(group) in groups"
           :key="`nav-${group._id}`"
-          :value="hasActive(group)"
-          :color="hasActive(group) ? 'primary' : 'default'"
+          :value="activeGroup === group"
         >
-          <v-list-tile slot="activator">
+          <v-list-tile
+            slot="activator"
+            :color="activeGroup === group ? 'primary' : 'default'"
+          >
             <v-list-tile-action>
               <v-tooltip right>
-                <v-icon v-html="group.icon || 'group'" slot="activator"/>
+                <group-logo
+                  :color="activeGroup === group ? 'primary' : 'default'"
+                  :greyscale="activeGroup !== group"
+                  :group="group"
+                  slot="activator"
+                />
                 <span>{{group.name}}</span>
               </v-tooltip>
             </v-list-tile-action>
@@ -130,7 +137,7 @@
             v-for="(entry, eref) in groupEntries[group._id]"
             :key="`nav-${group._id}-${eref}`"
             :to="entry.link"
-            :value="entry.link === $router.currentRoute.path"
+            :value="entry.link === $route.path"
           >
             <v-list-tile-action>
               <v-tooltip right>
@@ -158,8 +165,12 @@ v-btn {
 import { mapActions, mapState, mapGetters } from 'vuex';
 import { find } from 'lodash';
 import groupEntries from '@/lib/groupEntries';
+import groupLogo from './groups/logo.vue';
 
 export default {
+  components: {
+    groupLogo,
+  },
   name: 'nav-bar',
   data() {
     return {
@@ -195,6 +206,12 @@ export default {
       return this.findGroup({ query: { _id: { $in: user.perms.groups } } }).data;
     },
     groupEntries: groupEntries({ globalPlugins: false }),
+    activeGroup() {
+      return find(
+        this.groups,
+        group => this.$route.params.groupId === group._id,
+      );
+    },
   },
   methods: {
     ...mapActions('auth', { logoutUser: 'logout' }),
@@ -203,12 +220,6 @@ export default {
       await this.logoutUser();
       this.$router.push({ path: '/login' });
       // TODO Clear stores
-    },
-    hasActive(group) {
-      return !!find(
-        this.groupEntries[group._id],
-        entry => entry.link === this.$router.currentRoute.path,
-      );
     },
   },
   mounted() {
