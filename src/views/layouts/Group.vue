@@ -7,6 +7,7 @@
 
 <script>
 import { mapMutations, mapActions } from 'vuex';
+import router from '@/router';
 import navBar from '../partials/nav-bar.vue';
 
 export default {
@@ -14,18 +15,27 @@ export default {
     navBar,
   },
   methods: {
-    ...mapActions('groups', { sgetGroup: 'get' }),
+    ...mapActions('groups', { sfindGroup: 'find' }),
     ...mapMutations('groups', ['setCurrent']),
+    async setGroup() {
+      const { groupId } = this.$route.params;
+      const groups = (await this.sfindGroup({
+        query: {
+          $or: [
+            ...(/^[0-9a-f]{24}$/.test(groupId) ? [{ _id: groupId }] : []),
+            { slugs: groupId },
+          ],
+        },
+      })).data;
+      if (groups.length !== 1) return router.push('/');
+      return this.setCurrent(groups[0]._id);
+    },
   },
-  async mounted() {
-    const { groupId } = this.$route.params;
-    await this.sgetGroup(groupId);
-    this.setCurrent(groupId);
+  mounted() {
+    this.setGroup();
   },
-  async updated() {
-    const { groupId } = this.$route.params;
-    await this.sgetGroup(groupId);
-    this.setCurrent(groupId);
+  updated() {
+    this.setGroup();
   },
 };
 </script>
