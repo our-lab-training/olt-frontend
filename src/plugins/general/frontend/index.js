@@ -1,27 +1,43 @@
-/*
-import Vue from 'vue';
-import { mapValues } from 'lodash';
-import plugin from '../plugin.json';
-import pluginAdmin from './pluginAdmin.vue';
+
+import manageGroup from './manageGroup.vue';
 import leaveGroup from './leaveGroup.vue';
 import joinGroup from './joinGroup.vue';
 
-Vue.component('general-plugin-admin', pluginAdmin);
-Vue.component('general-join-group', joinGroup);
-Vue.component('general-leave-group', leaveGroup);
-
-const entryComps = {
-  pluginAdmin,
-  leaveGroup,
-  joinGroup,
+export default {
+  ref: 'general',
+  name: 'General',
+  routes: {
+    manageGroup: {
+      name: 'Manage Group',
+      component: manageGroup,
+      path: '/group/{groupId}/manageGroup',
+      entry: true,
+      modal: true,
+      icon: 'build',
+      visiblePerms: [
+        '{groupId}.group.update',
+      ],
+    },
+    joinGroup: {
+      name: 'Join Group',
+      component: joinGroup,
+      path: '/group/{groupId}/join',
+      entry: true,
+      modal: true,
+      icon: 'input',
+      ifEnrolledIs: false,
+      onlyGroupOfTypes: ['public'],
+    },
+    leaveGroup: {
+      name: 'Leave Group',
+      component: leaveGroup,
+      path: '/group/{groupId}/leave',
+      entry: true,
+      modal: true,
+      icon: 'meeting_room',
+      ifEnrolledIs: true,
+      onlyGroupOfTypes: ['public'],
+    },
+  },
+  global: true,
 };
-
-plugin.entries = mapValues(plugin.entries, (entry, i) => {
-  entry.modalComponent = entryComps[i];
-  return entry;
-});
-*/
-
-import plugin from '../plugin.json';
-
-export default plugin;

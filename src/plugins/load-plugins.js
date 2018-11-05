@@ -17,7 +17,7 @@ export default (async () => {
     let config = null;
     try {
       // eslint-disable-next-line
-      config = requireModule(filename);
+      config = requireModule(fileName).default;
       config.ref = config.ref || dir;
       config.entries = [];
       plugins[config.ref] = config;
