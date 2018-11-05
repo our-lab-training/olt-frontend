@@ -10,7 +10,7 @@
         color="indigo"
         style="margin: 0;"
         @click="btnClick"
-        :to="(entry.link || '').replace('{groupId}', groupId)"
+        :to="entry.link"
       >
         <v-icon v-text="entry.icon"></v-icon>
       </v-btn>

@@ -8,35 +8,40 @@ import { kebabCase, forIn } from 'lodash';
 const { service } = feathersVuex(feathersClient, { idField: '_id' });
 
 export default (async () => {
-  const requireModule = require.context('.', true, /plugin\.json$/);
+  const requireModule = require.context('.', true, /\/frontend\/index\.js$/);
   const plugins = {};
   const routes = [];
 
   await Promise.all(requireModule.keys().map(async (fileName) => {
-    const dir = fileName.replace(/\/plugin\.json$/, '');
+    const dir = fileName.replace(/\/frontend\/index\.js$/, '');
     let config = null;
     try {
       // eslint-disable-next-line
-      config = (await import(`${dir}/frontend/index.js`)).default;
+      config = requireModule(filename);
       config.ref = config.ref || dir;
+      config.entries = [];
       plugins[config.ref] = config;
 
-      const setupRoute = (entry, ref) => {
-        if (!entry.component) return;
-        entry._component = Vue.component(
+      const setupRoute = (route, ref) => {
+        if (route.entry) config.entries.push(route);
+        if (!route.component) return;
+        route._component = Vue.component(
           kebabCase(`${config.ref}-${ref}`),
-          () => import(`${dir}/${entry.component}.vue`),
+          typeof route.component === 'string' ?
+            () => import(`${dir}/${route.component}.vue`) :
+            route.component,
         );
-        const path = (entry.path || entry.link || '').replace('{groupId}', ':groupId');
+        const path = (route.path || '').replace('{groupId}', ':groupId');
         if (path) {
           routes.push({
             path,
-            component: entry._component,
+            name: route.name,
+            component: route._component,
           });
         }
       };
 
-      forIn(config.entries || {}, setupRoute);
+      // forIn(config.entries || {}, setupRoute);
       forIn(config.routes || [], setupRoute);
       forIn(config.store || {}, (v, i) => service(i, v)(store));
     } catch (err) {

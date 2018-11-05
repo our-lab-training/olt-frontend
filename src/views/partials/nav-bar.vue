@@ -129,8 +129,8 @@
           <v-list-tile
             v-for="(entry, eref) in groupEntries[group._id]"
             :key="`nav-${group._id}-${eref}`"
-            :to="getLink(group, entry)"
-            :value="getLink(group, entry) === $router.currentRoute.path"
+            :to="entry.link"
+            :value="entry.link === $router.currentRoute.path"
           >
             <v-list-tile-action>
               <v-tooltip right>
@@ -206,11 +206,8 @@ export default {
     hasActive(group) {
       return !!find(
         this.groupEntries[group._id],
-        entry => this.getLink(group, entry) === this.$router.currentRoute.path,
+        entry => entry.link === this.$router.currentRoute.path,
       );
-    },
-    getLink(group, entry) {
-      return (entry.path || entry.link || '').replace('{groupId}', group._id);
     },
   },
 };

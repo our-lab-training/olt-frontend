@@ -29,6 +29,7 @@ function loadPluginEntries(group, isEnrolled, options) {
         ref,
         plugin,
         priority: entry.priority || 100,
+        link: (entry.path || '').replace('{groupId}', group.slugs ? group.slugs[0] : group._id) || '',
       });
     });
   });
