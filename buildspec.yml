@@ -7,15 +7,9 @@ phases:
       - git submodule init
       - git submodule update
       - npm i
-  pre_build:
-    commands:
-      - echo beginning build
   build:
     commands:
-      - npm build
-  post_build:
-    commands:
-      - echo Build completed on `date`
+      - npm run build
 artifacts:
   files:
     - dist/**/*
