@@ -6,8 +6,8 @@ phases:
       - git config --global url."https://$GITHUB_TOKEN@github.com/".insteadOf "https://github.com/"
       - git submodule init
       - git submodule update
-      - npm i
   pre_build:
+      - npm i
     commands:
       - echo beginning build
   build:
@@ -18,4 +18,4 @@ phases:
       - echo Build completed on `date`
 artifacts:
   files:
-    - build/*
+    - dist/**/*
