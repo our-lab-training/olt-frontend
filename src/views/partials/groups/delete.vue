@@ -31,7 +31,6 @@ export default {
   methods: {
     ...mapGetters('groups', { findGroup: 'find' }),
     async submit() {
-      console.log(this.groupId);
       if (this.groupId) {
         const { Group } = this.$FeathersVuex;
         const group = new Group({ _id: this.groupId });
