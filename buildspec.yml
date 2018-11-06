@@ -3,7 +3,8 @@ version: 0.2
 phases:
   install:
     commands:
-      - ls src/plugins/content
+      - git config --global user.name "mrfrase3"
+      - git config --global user.password "$GITHUB_TOKEN"
       - git submodule init
       - git submodule update
       - npm i
