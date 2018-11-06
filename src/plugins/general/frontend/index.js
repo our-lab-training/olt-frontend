@@ -36,7 +36,7 @@ export default {
       entry: true,
       modal: true,
       icon: 'meeting_room',
-      priority: 30,
+      priority: 11,
       ifEnrolledIs: true,
       onlyGroupOfTypes: ['public'],
     },
