@@ -5,7 +5,6 @@ phases:
     commands:
       - git config --global user.name "mrfrase3"
       - git config --global user.password "$GITHUB_TOKEN"
-      - git config --global url."https://mrfrase3@github.com:".insteadOf "https://github.com/"
       - git submodule init
       - git submodule update
       - npm i
