@@ -14,8 +14,9 @@ export default {
       entry: true,
       modal: true,
       icon: 'build',
+      priority: 10,
       visiblePerms: [
-        '{groupId}.group.update',
+        '{groupId}.group.write',
       ],
     },
     joinGroup: {
@@ -35,6 +36,7 @@ export default {
       entry: true,
       modal: true,
       icon: 'meeting_room',
+      priority: 30,
       ifEnrolledIs: true,
       onlyGroupOfTypes: ['public'],
     },
