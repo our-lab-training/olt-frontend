@@ -26,6 +26,7 @@ export default {
       entry: true,
       modal: true,
       icon: 'input',
+      priority: 1000,
       ifEnrolledIs: false,
       onlyGroupOfTypes: ['public'],
     },

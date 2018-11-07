@@ -38,7 +38,8 @@ function loadPluginEntries(group, isEnrolled, options) {
 export default function init(opts = {}) {
   const options = Object.assign({ globalPlugins: true }, opts);
   return function groupEntries() {
-    const { user } = this.$store.state.auth;
+    const user = this.currentUser._id === this.$store.state.auth.payload.userId ?
+      this.currentUser : this.$store.state.auth.user;
     return this.groups.reduce((a, group) => {
       const isEnrolled = user.perms.groups.indexOf(group._id) !== -1;
       a[group._id] = [];
