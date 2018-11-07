@@ -7,8 +7,9 @@ const locations = {
   development: 'http://localhost:3030',
   production: 'https://api.myacc.es',
 };
+const apiDomain = process.env.API_DOMAIN || locations[process.env.NODE_ENV];
 
-const socket = io(locations[process.env.NODE_ENV], { transports: ['websocket'] });
+const socket = io(apiDomain, { transports: ['websocket'] });
 
 const feathersClient = feathers()
   .configure(socketio(socket))

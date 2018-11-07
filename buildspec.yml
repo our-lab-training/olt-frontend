@@ -3,6 +3,7 @@ version: 0.2
 phases:
   install:
     commands:
+      - export API_DOMAIN=$API_DOMAIN
       - git config --global url."https://$GITHUB_TOKEN@github.com/".insteadOf "https://github.com/"
       - git submodule init
       - git submodule update
