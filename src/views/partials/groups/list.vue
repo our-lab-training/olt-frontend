@@ -34,10 +34,11 @@ export default {
   },
   computed: {
     ...mapState('groups', ['isRemovePending', 'isCreatePending', 'isFindPending', 'isPatchPending']),
-    ...mapGetters('users', ['hasPerm']),
+    ...mapGetters('users', { hasPerm: 'hasPerm', currentUser: 'current' }),
     ...mapGetters('groups', { findGroup: 'find' }),
     groups() {
-      const { user } = this.$store.state.auth;
+      const user = this.currentUser._id === this.$store.state.auth.payload.userId ?
+        this.currentUser : this.$store.state.auth.user;
       // force recompute on state change
       if (
         this.isFindPending ||
