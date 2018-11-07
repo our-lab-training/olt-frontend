@@ -5,6 +5,7 @@
     </v-card-title>
     <v-card-text>
       <v-form ref="form" v-model="valid" lazy-validation @submit="submit">
+        <span class="error--text">{{loginError || '&nbsp;'}}</span>
         <v-text-field
           v-model="user.username"
           :rules="usernameRules"
@@ -12,6 +13,7 @@
           label="Pheme Number"
           required
           @keyup.enter="submit"
+          validate-on-blur
         ></v-text-field>
         <v-text-field
           v-model="user.password"
@@ -20,9 +22,10 @@
           type="password"
           required
           @keyup.enter="submit"
+          validate-on-blur
         ></v-text-field>
         <v-btn
-          :disabled="!user.username.trim() || !user.password.trim() || !valid"
+          :disabled="!/^\d{8}$/.test(user.username) || !user.password.trim()"
           @click="submit"
         >
           Login
@@ -39,6 +42,7 @@ export default {
   data() {
     return {
       valid: false,
+      loginError: '',
       user: {
         username: '',
         password: '',
@@ -57,12 +61,18 @@ export default {
     async submit() {
       if (this.$refs.form.validate()) {
         const { query } = this.$router.currentRoute;
-        await this.authenticate({
-          strategy: 'local',
-          username: this.user.username,
-          password: this.user.password,
-        });
-        this.$router.push((query && query.followPath) || '/dashboard');
+        try {
+          await this.authenticate({
+            strategy: 'local',
+            username: this.user.username,
+            password: this.user.password,
+          });
+          this.user.password = '';
+          this.$router.push((query && query.followPath) || '/dashboard');
+        } catch (err) {
+          this.user.password = '';
+          this.loginError = err.message;
+        }
       }
     },
   },

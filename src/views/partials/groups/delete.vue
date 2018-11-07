@@ -1,17 +1,26 @@
 <template>
   <v-dialog v-model="dialog" persistent max-width="300px">
-    <v-btn slot="activator" @click="loadGroups">
+    <v-btn slot="activator" @click="groups=findGroups().data">
       <v-icon>delete_outline</v-icon> Remove
     </v-btn>
     <v-card>
+      <v-progress-linear
+        color="error"
+        height="4"
+        style="margin: 0;"
+        :indeterminate="isRemovePending"
+      />
       <v-card-title>
         <span class="headline">Are you sure?</span>
       </v-card-title>
       <v-card-text>
+        <span v-if="error" class="error--text">{{error}}</span>
         <v-autocomplete
           label="Group"
           :items="groups"
           v-model="groupId"
+          item-text="name"
+          item-value="_id"
           clearable
         ></v-autocomplete>
       </v-card-text>
@@ -25,37 +34,36 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapState } from 'vuex';
 
 export default {
+  computed: {
+    ...mapGetters('groups', { findGroups: 'find' }),
+    ...mapState('groups', ['isRemovePending']),
+  },
   methods: {
-    ...mapGetters('groups', { findGroup: 'find' }),
+    ...mapActions('groups', { removeGroup: 'remove' }),
     async submit() {
+      this.error = '';
       if (this.groupId) {
-        const { Group } = this.$FeathersVuex;
-        const group = new Group({ _id: this.groupId });
-        await group.remove();
+        try {
+          await this.removeGroup(this.groupId);
+        } catch (err) {
+          console.error(err); // eslint-disable-line no-console
+          this.error = 'An unknown error occured, please try again or alert an admin.';
+        }
       }
       this.dialog = false;
       this.groupId = null;
-    },
-    async loadGroups() {
-      // eslint-disable-next-line no-underscore-dangle
-      this.groups = this.getGroups().data.map(g => ({ value: g._id, text: g.name }));
     },
   },
   data() {
     return {
       dialog: false,
-      groups: [],
       groupId: null,
+      groups: [],
+      error: '',
     };
-  },
-  async mounted() {
-    this.getGroups = this.findGroup({
-      query: {},
-      paginate: false,
-    });
   },
 };
 </script>
