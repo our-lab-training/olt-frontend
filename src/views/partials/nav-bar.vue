@@ -228,3 +228,14 @@ export default {
   },
 };
 </script>
+
+<style>
+.v-navigation-drawer--mini-variant .v-list__group__header__append-icon {
+    display: none;
+}
+
+.v-navigation-drawer .v-list {
+  padding: 0;
+}
+</style>
+
