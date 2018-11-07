@@ -17,6 +17,7 @@ phases:
       - cd ../
       - rm -rf node_modules/feathers-vuex/lib/*
       - cp -a feathers-vuex/lib/* node_modules/feathers-vuex/lib/
+      - npm cache clean --force
   build:
     commands:
       - npm run build
