@@ -1,29 +1,35 @@
 <template>
   <v-card>
-        <v-card-title class="headline">{{entry.name}}?</v-card-title>
+    <v-progress-linear
+      color="success"
+      height="4"
+      style="margin: 0;"
+      :indeterminate="isCreatePending"
+    />
+    <v-card-title class="headline">{{entry.name}}?</v-card-title>
 
-        <v-card-text>
-          Are you sure you wish to join {{currentGroup.name}}?
-        </v-card-text>
+    <v-card-text>
+      Are you sure you wish to join {{currentGroup.name}}?
+    </v-card-text>
 
-        <v-card-actions>
-          <v-spacer></v-spacer>
+    <v-card-actions>
+      <v-spacer></v-spacer>
 
-          <v-btn
-            flat="flat"
-            @click="$emit('modalClose')"
-          >
-            Close
-          </v-btn>
-          <v-btn
-            color="success"
-            flat="flat"
-            @click="join"
-          >
-            Join
-          </v-btn>
-        </v-card-actions>
-      </v-card>
+      <v-btn
+        flat="flat"
+        @click="$emit('modalClose')"
+      >
+        Close
+      </v-btn>
+      <v-btn
+        color="success"
+        flat="flat"
+        @click="join"
+      >
+        Join
+      </v-btn>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script>
@@ -37,6 +43,7 @@ export default {
   computed: {
     ...mapGetters('groups', { currentGroup: 'current' }),
     ...mapState('users', { users: 'keyedById' }),
+    ...mapState('perms', ['isCreatePending']),
   },
   methods: {
     ...mapActions('users', { sgetUser: 'get' }),
