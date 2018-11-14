@@ -1,6 +1,7 @@
 <template>
   <v-container grid-list-md>
     <small>*indicates required field</small>
+    <span class="error--text" v-if="error.slugs"><br>{{error.slugs}}</span>
     <v-layout wrap>
       <v-flex xs12>
         <v-text-field
@@ -114,6 +115,7 @@ export default {
       template: null,
       error: {
         name: '',
+        slugs: '',
         type: '',
         desc: '',
         icon: '',
@@ -151,13 +153,7 @@ export default {
       if (!isEqual(this.value, v)) this.$emit('input', v);
     },
     err(err) {
-      Object.keys(err.errors).forEach((key) => {
-        const end = key.split('.').pop();
-        this.error[end] =
-          typeof err.errors[key] === 'string'
-            ? err.message
-            : err.errors[key].message;
-      });
+      this.$helpers.parseErr(err, this.error);
       if (this.error.logo) this.imageErr = this.error.logo;
     },
   },
