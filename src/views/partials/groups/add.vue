@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" persistent max-width="500px">
     <v-btn slot="activator">
-      <v-icon>add</v-icon> Create
+      <v-icon>add</v-icon> Create New Group
     </v-btn>
     <v-card>
       <v-progress-linear
