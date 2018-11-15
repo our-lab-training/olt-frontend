@@ -27,7 +27,13 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="blue darken-1" flat @click.native="dialog = false">Cancel</v-btn>
-        <v-btn color="error" flat @click.native="submit()">Delete</v-btn>
+        <v-btn
+            color="error"
+            flat
+            @click.native="submit()"
+            :disabled="isRemovePending"
+            :loading="isRemovePending"
+          >Delete</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -44,6 +50,7 @@ export default {
   methods: {
     ...mapActions('groups', { removeGroup: 'remove' }),
     async submit() {
+      if (this.isRemovePending) return;
       this.error = '';
       if (this.groupId) {
         try {

@@ -13,7 +13,12 @@ Vue.config.productionTip = false;
 Vue.config.ignoredElements = [/^ion-/];
 
 // Auth first before loading the app
-store.dispatch('auth/authenticate').catch(Math.random).then(() => {
+store.dispatch('auth/authenticate').catch(() => {
+  Object.keys(store._mutations).forEach((key) => {
+    if (key.indexOf('/clearAll') !== -1) store.commit(key);
+  });
+  store.commit('auth/logout');
+}).then(() => {
   new Vue({
     router,
     store,
