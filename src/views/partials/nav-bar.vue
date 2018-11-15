@@ -164,6 +164,7 @@ v-btn {
 <script>
 import { mapActions, mapState, mapGetters } from 'vuex';
 import { find } from 'lodash';
+import store from '@/store';
 import groupEntries from '@/lib/groupEntries';
 import groupLogo from './groups/logo.vue';
 
@@ -218,9 +219,11 @@ export default {
     ...mapActions('auth', { logoutUser: 'logout' }),
     ...mapActions('groups', { sFindGroups: 'find' }),
     async logout() {
+      Object.keys(store._mutations).forEach((key) => {
+        if (key.indexOf('/clearAll') !== -1) store.commit(key);
+      });
       await this.logoutUser();
       this.$router.push({ path: '/login' });
-      // TODO Clear stores
     },
   },
   mounted() {
