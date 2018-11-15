@@ -15,10 +15,10 @@
       persistent
       :value="$vuetify.breakpoint.smAndUp || drawer"
       enable-resize-watcher
-      app
-      :stateless="!$vuetify.breakpoint.smAndDown || mini"
-      :temporary="$vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smAndDown && !mini"
-      :absolute="$vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smAndDown && !mini"
+      :app="!($vuetify.breakpoint.smOnly && !mini)"
+      :stateless="!$vuetify.breakpoint.xsOnly || mini"
+      :temporary="$vuetify.breakpoint.xsOnly"
+      :absolute="$vuetify.breakpoint.xsOnly || ($vuetify.breakpoint.smOnly && !mini)"
       :mini-variant.sync="mini"
     >
 
