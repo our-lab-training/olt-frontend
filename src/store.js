@@ -1,15 +1,16 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import VuexPersist from 'vuex-persist';
+// import VuexPersist from 'vuex-persist';
 import feathersVuex from 'feathers-vuex';
+import { assign } from 'lodash';
 import feathersClient from './feathers-client';
 
-const vuexPersist = new VuexPersist({
+/* const vuexPersist = new VuexPersist({
   key: 'access-frontend',
   storage: localStorage,
-});
+}); */
 
-const { service, auth, FeathersVuex } = feathersVuex(feathersClient, { idField: '_id' });
+const { service, auth, FeathersVuex } = feathersVuex(feathersClient, { idField: '_id', customMerge: assign });
 
 Vue.use(Vuex);
 Vue.use(FeathersVuex);
@@ -46,7 +47,7 @@ export default new Vuex.Store({
       },
     }),
     auth({ userService: 'users' }),
-    vuexPersist.plugin,
+    // vuexPersist.plugin,
   ],
 
   state: {
