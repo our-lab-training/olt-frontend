@@ -1,7 +1,8 @@
 <template>
   <v-card class="loginCard">
     <v-card-title class="headline">
-      Access 2.0 Login
+      <img alt="" :src="logo">
+      Access Login
     </v-card-title>
     <v-card-text>
       <v-form ref="form" v-model="valid" lazy-validation @submit="submit">
@@ -42,6 +43,7 @@ export default {
   data() {
     return {
       valid: false,
+      logo: `${process.env.BASE_URL}img/icons/icon-192x192.png`,
       loginError: '',
       user: {
         username: '',
@@ -79,9 +81,21 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .loginCard {
   max-width: 320px;
   margin: 1rem auto;
+}
+
+.loginCard img {
+  height: 2em;
+  padding-right: 0.5em;
+}
+
+.loginCard .headline {
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  padding-bottom: 0;
 }
 </style>

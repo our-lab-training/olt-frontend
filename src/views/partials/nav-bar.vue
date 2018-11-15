@@ -6,7 +6,7 @@
         <v-icon>menu</v-icon>
       </v-toolbar-side-icon>
 
-      <v-toolbar-title>{{title}}</v-toolbar-title>
+      <v-toolbar-title><img class="access-logo" alt="" :src="logo"> {{title}}</v-toolbar-title>
 
       <v-spacer></v-spacer>
     </v-toolbar>
@@ -40,7 +40,7 @@
             </v-list-tile-action>
             <v-list-tile-content>
               <v-list-tile-title class="title">
-                {{title}}
+                <img class="access-logo" alt="" :src="logo"> {{title}}
               </v-list-tile-title>
             </v-list-tile-content>
             <v-list-tile-action>
@@ -185,6 +185,7 @@ export default {
       mini: true,
       right: null,
       title: 'Access',
+      logo: `${process.env.BASE_URL}img/icons/icon-192x192.png`,
     };
   },
   computed: {
@@ -232,6 +233,20 @@ export default {
 };
 </script>
 
+<style scoped>
+.access-logo {
+  height: 1.7em;
+  padding-right: 0.5em;
+  vertical-align: bottom;
+}
+
+.title .access-logo {
+  height: 1.4em;
+  vertical-align: sub;
+}
+</style>
+
+
 <style>
 .v-navigation-drawer--mini-variant .v-list__group__header__append-icon {
     display: none;
@@ -240,5 +255,6 @@ export default {
 .v-navigation-drawer .v-list {
   padding: 0;
 }
+
 </style>
 
