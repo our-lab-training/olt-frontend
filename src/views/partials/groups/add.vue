@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" persistent max-width="500px">
     <v-btn slot="activator">
-      <v-icon>add</v-icon> Create New Group
+      <v-icon>add</v-icon> Create
     </v-btn>
     <v-card>
       <v-progress-linear
@@ -19,7 +19,13 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="blue darken-1" flat @click.native="dialog = false">Close</v-btn>
-        <v-btn color="blue darken-1" flat @click.native="submit()">Save</v-btn>
+        <v-btn
+          color="blue darken-1"
+          flat
+          @click.native="submit()"
+          :disabled="isCreatePending"
+          :loading="isCreatePending"
+        >Save</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -52,6 +58,7 @@ export default {
   },
   methods: {
     async submit() {
+      if (this.isCreatePending) return;
       const { Group } = this.$FeathersVuex;
       const group = new Group(this.newGroup);
       try {

@@ -79,6 +79,8 @@
         v-if="tab===0"
         flat="flat"
         @click.stop="saveSettings()"
+        :disabled="isPatchPending || isUpdatePending"
+        :loading="isPatchPending || isUpdatePending"
       >
         Save
       </v-btn>
@@ -138,6 +140,7 @@ export default {
       this.patchGroup({ plugins });
     },
     async saveSettings() {
+      if (this.isPatchPending || this.isUpdatePending) return;
       try {
         await this.patchGroup(this.settingsCopy);
         this.$emit('modalClose');
