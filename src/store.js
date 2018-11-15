@@ -15,6 +15,8 @@ const { service, auth, FeathersVuex } = feathersVuex(feathersClient, { idField: 
 Vue.use(Vuex);
 Vue.use(FeathersVuex);
 
+const node2reg = node => new RegExp(node.replace(/\//g, '\\/').replace(/\*/g, '.*'));
+
 const hasPerm = (state, permission, exact = false) => {
   const { user } = state.auth;
   let perm = permission;
@@ -23,7 +25,9 @@ const hasPerm = (state, permission, exact = false) => {
     if (exact && p.length !== perm.length) return false;
     for (let i = 0; i < Math.min(p.length, perm.length); i += 1) {
       if (!exact && p[i] === '*') return true;
-      if ((exact || perm[i] !== '*') && perm[i] !== p[i]) return false;
+      if (p[i] === '*' || p[i].indexOf('*') === -1 || !node2reg(p[i]).test(perm[i])) {
+        if ((exact || perm[i] !== '*') && perm[i] !== p[i]) return false;
+      }
     }
     return true;
   });
