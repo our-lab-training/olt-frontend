@@ -8,16 +8,6 @@ phases:
       - git submodule init
       - git submodule update
       - npm i
-  pre_build:
-    commands:
-      # patch pending fix for feathers-vuex
-      - git clone -b mrf-fix-174 --single-branch https://github.com/mrfrase3/feathers-vuex.git
-      - cd feathers-vuex
-      - npm i
-      - cd ../
-      - rm -rf node_modules/feathers-vuex/lib/*
-      - cp -a feathers-vuex/lib/* node_modules/feathers-vuex/lib/
-      - npm cache clean --force
   build:
     commands:
       - npm run build
