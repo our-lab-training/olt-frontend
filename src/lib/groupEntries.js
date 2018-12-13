@@ -28,7 +28,7 @@ function loadPluginEntries(group, isEnrolled, options) {
         ...entry,
         plugin,
         priority: entry.priority || 100,
-        link: (entry.path || '').replace('{groupId}', group.slugs ? group.slugs[0] : group._id).replace(':path', '') || '',
+        link: (entry.path || '').replace('{groupId}', group.slugs ? group.slugs[0] : group._id).replace(/:[\w+*?]+$/, '') || '',
       });
     });
   });

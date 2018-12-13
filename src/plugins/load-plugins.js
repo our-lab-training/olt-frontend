@@ -38,7 +38,7 @@ export default (async () => {
             path,
             name: route.name,
             component: route._component,
-            meta: { route, ...route.meta },
+            meta: { route, ...route.meta, path: route.path },
           });
         }
       };
