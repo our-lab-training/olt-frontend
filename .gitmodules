@@ -7,3 +7,6 @@
 [submodule "src/plugins/quizzes"]
 	path = src/plugins/quizzes
 	url = https://github.com/ThinkHub-io/access-plugin-quizzes.git
+[submodule "src/plugins/safety-folder"]
+	path = src/plugins/safety-folder
+	url = https://github.com/ThinkHub-io/access-plugin-safety-folder.git

@@ -62,6 +62,12 @@ export default {
       router.push(`/group/${this.current.slugs[0] || this.current._id}/`);
     },
   },
+  async beforeMount() {
+    const exclude = ['auth'];
+    await Promise.all(Object.keys(this.$store.state)
+      .filter(s => exclude.indexOf(s) === -1)
+      .map(s => this.$store.dispatch(`${s}/find`)));
+  },
   beforeRouteEnter: loadGroupRoute,
   beforeRouteUpdate: loadGroupRoute,
   beforeRouteLeave: (to, from, next) => { store.commit('groups/clearCurrent'); next(); },
