@@ -13,5 +13,11 @@ export default {
   components: {
     navBar,
   },
+  async beforeMount() {
+    const exclude = ['auth'];
+    await Promise.all(Object.keys(this.$store.state)
+      .filter(s => exclude.indexOf(s) === -1)
+      .map(s => this.$store.dispatch(`${s}/find`)));
+  },
 };
 </script>
