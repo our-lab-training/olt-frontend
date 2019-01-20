@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 import groupsAdd from './partials/groups/add.vue';
 import groupsDelete from './partials/groups/delete.vue';
 import groupsList from './partials/groups/list.vue';
@@ -78,14 +78,10 @@ export default {
       modalEntry: null,
     };
   },
-  methods: {
-    ...mapActions('groups', { findGroups: 'find' }),
-  },
   computed: {
     ...mapGetters('users', ['hasPerm']),
   },
   async mounted() {
-    await this.findGroups();
     this.showTemplates = this.hasPerm('superadmin.groups.read');
     if (this.showTemplates) this.searchTab += 1;
   },
