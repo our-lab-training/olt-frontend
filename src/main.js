@@ -2,6 +2,7 @@
 import '@babel/polyfill';
 import Vue from 'vue';
 import shortkey from 'vue-shortkey';
+import vueMoment from 'vue-moment';
 import './plugins/vuetify';
 import App from './App.vue';
 import router from './router';
@@ -13,6 +14,7 @@ import './plugins/helpers';
 Vue.config.productionTip = false;
 Vue.config.ignoredElements = [/^ion-/];
 Vue.use(shortkey);
+Vue.use(vueMoment);
 
 // Auth first before loading the app
 store.dispatch('auth/authenticate').catch(() => {
