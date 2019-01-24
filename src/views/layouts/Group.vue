@@ -22,7 +22,7 @@ const loadGroupRoute = async (to, from, next) => {
         { slugs: groupRef },
       ],
     },
-  })).data;
+  }));
   if (groups.length !== 1) return next('/');
   const group = groups[0];
   to.params.groupId = group._id;

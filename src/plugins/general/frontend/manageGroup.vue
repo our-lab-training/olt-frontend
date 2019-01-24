@@ -10,13 +10,25 @@
 
     <v-tabs v-model="tab">
       <v-tab key="settings">
-        <v-icon style="padding-right: 0.5em;">build</v-icon>
+        <v-icon style="padding-right: 0.5em;">fas fa-wrench</v-icon>
         Settings
       </v-tab>
       <v-tab key="plugins">
-        <v-icon style="padding-right: 0.5em;">extension</v-icon>
+        <v-icon style="padding-right: 0.5em;">fas fa-plug</v-icon>
         Plugins
       </v-tab>
+      <v-tab key="users">
+        <v-icon style="padding-right: 0.5em;">fas fa-users</v-icon>
+        Users
+      </v-tab>
+      <v-tab key="roles">
+        <v-icon style="padding-right: 0.5em;">fas fa-user-tag</v-icon>
+        Roles
+      </v-tab>
+      <!-- <v-tab key="perms">
+        <v-icon style="padding-right: 0.5em;">fas fa-key</v-icon>
+        Perms
+      </v-tab> -->
     </v-tabs>
 
     <v-divider xs12></v-divider>
@@ -64,6 +76,39 @@
         </v-list>
       </v-tab-item>
 
+      <v-tab-item key="users">
+        <v-layout row wrap>
+          <v-flex xs6 sm3>
+            <manage-list type="users" :current.sync="manCurr"/>
+          </v-flex>
+          <v-flex xs6 sm9>
+            <manage-edit type="users" :current.sync="manCurr"/>
+          </v-flex>
+        </v-layout>
+      </v-tab-item>
+
+      <v-tab-item key="roles">
+        <v-layout row wrap>
+          <v-flex xs6 sm3>
+            <manage-list type="roles" :current.sync="manCurr"/>
+          </v-flex>
+          <v-flex xs6 sm9>
+            <manage-edit type="roles" :current.sync="manCurr"/>
+          </v-flex>
+        </v-layout>
+      </v-tab-item>
+
+      <!-- <v-tab-item key="perms">
+        <v-layout row wrap>
+          <v-flex xs6 sm3>
+            <manage-list type="perms" :current.sync="manCurr"/>
+          </v-flex>
+          <v-flex expand>
+            <manage-edit type="perms" :current.sync="manCurr"/>
+          </v-flex>
+        </v-layout>
+      </v-tab-item> -->
+
     </v-tabs-items>
 
     <v-card-actions>
@@ -92,10 +137,14 @@
 import { mapGetters, mapState, mapActions } from 'vuex';
 import { find, filter, reduce, forIn } from 'lodash';
 import groupSettings from '@/views/partials/groups/settings.vue';
+import manageList from './manage/list.vue';
+import manageEdit from './manage/edit.vue';
 
 export default {
   components: {
     groupSettings,
+    manageList,
+    manageEdit,
   },
   props: ['entry'],
   data() {
@@ -104,6 +153,7 @@ export default {
       tab: 0,
       error: {},
       settingsCopy: {},
+      manCurr: null,
     };
   },
   computed: {
