@@ -38,6 +38,7 @@ export default new Vuex.Store({
   plugins: [
     service('groups', { paginate: true }),
     service('perms'),
+    service('roles'),
     service('users', {
       paginate: true,
       replaceItems: true,
