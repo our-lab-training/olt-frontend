@@ -10,6 +10,7 @@ const { service } = feathersVuex(feathersClient, { idField: '_id' });
 export default (async () => {
   const requireModule = require.context('.', true, /\/frontend\/index\.js$/);
   const plugins = {};
+  const permFuncs = [];
   const routes = [];
 
   await Promise.all(requireModule.keys().map(async (fileName) => {
@@ -21,6 +22,7 @@ export default (async () => {
       config.ref = config.ref || dir;
       config.entries = [];
       plugins[config.ref] = config;
+      if (config.perms) permFuncs.push(config.perms);
 
       const setupRoute = (route, ref) => {
         route.ref = route.ref || ref;
@@ -57,6 +59,9 @@ export default (async () => {
     install() {
       Object.defineProperty(Vue.prototype, '$plugins', {
         get() { return plugins; },
+      });
+      Object.defineProperty(Vue.prototype, '$perms', {
+        get() { return groupId => permFuncs.reduce((a, perms) => [...a, ...perms(groupId)], []); },
       });
     },
   };

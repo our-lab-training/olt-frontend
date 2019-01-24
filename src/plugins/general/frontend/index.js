@@ -43,4 +43,11 @@ export default {
     },
   },
   global: true,
+  perms: groupId => [
+    { text: 'Group - Override All Permissions', value: `${groupId}.*`, defaultRoles: ['admin'] },
+    { text: 'Group - Manage Group', value: `${groupId}.group.write`, defaultRoles: ['admin'] },
+    { text: 'Group - Joined', value: `${groupId}.enrolled`, defaultRoles: [] },
+    { text: 'Users & Perms - View', value: `${groupId}.users.read`, defaultRoles: ['admin'] },
+    { text: 'Users & Perms - Edit', value: `${groupId}.users.write`, defaultRoles: ['admin'] },
+  ],
 };
