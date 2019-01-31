@@ -1,7 +1,7 @@
 <template>
-  <span v-if="error">
+  <span v-if="error" class="error--text">
     {{message}} <v-btn
-      flat
+      flat small
       :loading="isCreatePending"
       :disabled="isCreatePending || snackbar"
       @click="report"
@@ -33,7 +33,7 @@ import { mapState } from 'vuex';
 export default {
   props: {
     error: {
-      type: Object,
+      type: Error,
       default: () => undefined,
     },
     data: {
@@ -58,17 +58,19 @@ export default {
     async report() {
       if (this.isCreatePending || this.snackbar) return;
       const { Issue } = this.$FeathersVuex;
-      const issue = new Issue({
-        title: `${this.error.message} - ${moment().format('HH:mm DD/MM/YYYY')}`,
-        labels: ['bug'],
-        body: `
+      console.log(this.$route);
+      try {
+        const issue = new Issue({
+          title: `${this.error.message} - ${moment().format('HH:mm DD/MM/YYYY')}`,
+          labels: ['bug'],
+          body: `
 ### Stacktrace
 \`\`\`
 ${this.error.stack}
 \`\`\`
 ### Route
 \`\`\`json
-${JSON.stringify(this.$route)}
+${JSON.stringify({ ...this.$route, matched: undefined })}
 \`\`\`
 ### Other Data
 \`\`\`json
@@ -78,8 +80,7 @@ ${JSON.stringify(this.data)}
 Agent: \`${window.navigator.userAgent}\`
 Time: ${moment().format('HH:mm DD/MM/YYYY')}
 `,
-      });
-      try {
+        });
         await issue.save();
         this.success = true;
       } catch (err) {

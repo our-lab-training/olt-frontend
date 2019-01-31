@@ -7,7 +7,7 @@
 
     <v-footer app absolute>
       <v-flex text-xs-center>
-        <span>&copy; 2018 - Coded By <a class="th-link" href="https://thinkhub.io">Think<b>Hub</b>.io</a></span>
+        <span>&copy; {{(new Date()).getFullYear()}} UWA SHL - Coded By <a class="th-link" href="https://thinkhub.io">Think<b>Hub</b>.io</a></span>
         <report-dialog v-if="$store.state.auth.user" />
       </v-flex>
     </v-footer>
