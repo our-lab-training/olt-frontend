@@ -5,7 +5,7 @@
       <router-view/>
     </v-content>
 
-    <v-footer app absolute>
+    <v-footer inset>
       <v-flex text-xs-center>
         <span>&copy; {{(new Date()).getFullYear()}} UWA SHL - Coded By <a class="th-link" href="https://thinkhub.io">Think<b>Hub</b>.io</a></span>
         <report-dialog v-if="$store.state.auth.user" />
