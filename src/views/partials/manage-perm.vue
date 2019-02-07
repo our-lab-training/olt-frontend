@@ -14,6 +14,7 @@
 <script>
 import { mapGetters, mapState } from 'vuex';
 import sortBy from 'lodash/sortBy';
+import isEqual from 'lodash/isEqual';
 import reportError from './report-error.vue';
 
 export default {
@@ -68,32 +69,36 @@ export default {
     },
   },
   methods: {
-    setGrants() {
-      this.grantees = this.items.reduce((a, item) => {
-        const query = JSON.parse(item.value);
-        query.perm = { $eq: query.perm };
-        if (this.findPerms({ query }).data.length) a.push(item.value);
+    findPerm(value) {
+      const query = JSON.parse(value);
+      delete query.perm;
+      const [perm] = this.findPerms({ query }).data.filter(p => isEqual(p.perm, this.perm));
+      return perm;
+    },
+    getGrants() {
+      const grantees = this.items.reduce((a, item) => {
+        if (this.findPerm(item.value)) a.push(item.value);
         return a;
       }, []);
-      console.log(this.grantees);
+      return grantees;
     },
+    setGrants() { if (!this.loading) this.grantees = this.getGrants(); },
   },
   mounted() { this.setGrants(); },
   watch: {
     items() { this.setGrants(); },
+    loading() { this.setGrants(); },
     grantees() {
+      if (this.loading || this.disabled) return;
       this.err = null;
-      const currGrants = this.items.reduce((a, item) => {
-        if (this.findPerms({ query: JSON.parse(item.value) }).data.length) a.push(item.value);
-        return a;
-      }, []);
+      const currGrants = this.getGrants();
       const adds = this.grantees.filter(g => currGrants.indexOf(g) === -1);
       const removes = currGrants.filter(g => this.grantees.indexOf(g) === -1);
       if (!adds.length && !removes.length) return;
       try {
         Promise.all(adds.map(add => this.$store.dispatch('perms/create', JSON.parse(add))));
         Promise.all(removes.map((remove) => {
-          const [perm] = this.findPerms({ query: JSON.parse(remove) }).data;
+          const perm = this.findPerm(remove);
           if (perm) return this.$store.dispatch('perms/remove', perm._id);
           return null;
         }));
