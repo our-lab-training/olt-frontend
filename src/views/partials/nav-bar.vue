@@ -3,10 +3,13 @@
 
     <v-toolbar scroll-off-screen app v-if="$vuetify.breakpoint.xsOnly">
       <v-toolbar-side-icon @click.stop="mini=false; drawer=!drawer">
-        <v-icon>menu</v-icon>
+        <v-icon>fal fa-bars</v-icon>
       </v-toolbar-side-icon>
 
-      <v-toolbar-title><img class="access-logo" alt="" :src="logo"> {{title}}</v-toolbar-title>
+      <v-toolbar-title><img
+        :class="`access-logo ${$vuetify.dark ? 'dark' : ''}`"
+        alt="" :src="logo"
+      > {{title}}</v-toolbar-title>
 
       <v-spacer></v-spacer>
     </v-toolbar>
@@ -33,19 +36,22 @@
                   @click.stop="mini=!mini"
                   slot="activator"
                 >
-                  <v-icon>menu</v-icon>
+                  <v-icon>fal fa-bars</v-icon>
                 </v-btn>
                 <span>{{mini ? 'Open' : 'Close'}} Menu</span>
               </v-tooltip>
             </v-list-tile-action>
             <v-list-tile-content>
               <v-list-tile-title class="title">
-                <img class="access-logo" alt="" :src="logo"> {{title}}
+                <img
+                  :class="`access-logo ${$vuetify.dark ? 'dark' : ''}`"
+                  alt="" :src="logo"
+                > {{title}}
               </v-list-tile-title>
             </v-list-tile-content>
             <v-list-tile-action>
               <v-btn flat icon @click.stop="mini=!mini">
-                <v-icon>chevron_left</v-icon>
+                <v-icon>fas fa-chevron-left</v-icon>
               </v-btn>
             </v-list-tile-action>
           </v-list-tile>
@@ -59,7 +65,7 @@
           <v-list-tile slot="activator">
             <v-list-tile-action>
               <v-tooltip right>
-                <v-icon slot="activator">account_circle</v-icon>
+                <v-icon slot="activator">fal fa-user-circle</v-icon>
                 <span>{{user.profile.displayname}}</span>
               </v-tooltip>
             </v-list-tile-action>
@@ -73,7 +79,7 @@
           <v-list-tile to="/logout">
             <v-list-tile-action>
               <v-tooltip right>
-                <v-icon slot="activator">meeting_room</v-icon>
+                <v-icon slot="activator">fal fa-sign-out</v-icon>
                 <span>Logout</span>
               </v-tooltip>
             </v-list-tile-action>
@@ -178,7 +184,7 @@ export default {
       drawer: false,
       clipped: false,
       items: [{
-        icon: 'home',
+        icon: 'fal fa-home',
         name: 'Home',
         link: '/',
       }],
@@ -236,13 +242,20 @@ export default {
 <style scoped>
 .access-logo {
   height: 1.7em;
-  padding-right: 0.5em;
+  margin-right: 0.5em;
   vertical-align: bottom;
 }
 
 .title .access-logo {
   height: 1.4em;
   vertical-align: sub;
+}
+
+.access-logo.dark {
+  height: 1.2em;
+  background-color: white;
+  border-radius: 50%;
+  padding: 0.1em;
 }
 </style>
 
