@@ -79,7 +79,7 @@
       <v-flex xs9>
         <file-upload
           label="Upload Logo"
-          icon="cloud_upload"
+          icon="fal fa-cloud-upload"
           @formData="checkFile"
           accept="image/png"
           :reset="imageReset"

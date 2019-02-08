@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build --modern",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit",
     "preinstall": "git submodule init && git submodule update",
@@ -20,6 +20,7 @@
     "crypto-js": "^3.1.9-1",
     "feathers-vuex": "^1.6.2",
     "lodash": "^4.17.11",
+    "moment": "^2.24.0",
     "raphael": "^2.2.7",
     "register-service-worker": "^1.0.0",
     "socket.io-client": "^2.1.1",

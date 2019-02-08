@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" persistent max-width="300px">
     <v-btn slot="activator" @click="groups=findGroups().data">
-      <v-icon>delete_outline</v-icon> Remove
+      <v-icon left>fal fa-trash</v-icon> Remove
     </v-btn>
     <v-card>
       <v-progress-linear

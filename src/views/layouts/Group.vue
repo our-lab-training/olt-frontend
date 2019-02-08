@@ -63,7 +63,7 @@ export default {
     },
   },
   async beforeMount() {
-    const exclude = ['auth'];
+    const exclude = ['auth', 'issues'];
     await Promise.all(Object.keys(this.$store.state)
       .filter(s => exclude.indexOf(s) === -1)
       .map(s => this.$store.dispatch(`${s}/find`)));

@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" persistent max-width="500px">
     <v-btn slot="activator">
-      <v-icon>add</v-icon> Create
+      <v-icon left>fal fa-plus</v-icon> Create
     </v-btn>
     <v-card>
       <v-progress-linear

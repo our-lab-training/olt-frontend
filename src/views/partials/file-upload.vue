@@ -36,7 +36,7 @@ export default {
     },
     icon: {
       type: String,
-      default: 'attach_file',
+      default: 'fal fa-paperclip',
     },
     required: {
       type: Boolean,
