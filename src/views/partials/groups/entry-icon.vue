@@ -1,13 +1,13 @@
 <template>
   <v-flex class="groups-entry-icon subheader text-xs-center">
-    <v-badge overlap color="orange" :value="!!notify || notify === ''">
-      <v-icon slot="badge" dark small>notifications</v-icon>
+    <v-badge overlap color="secondary" :value="!!notify || notify === ''">
+      <v-icon slot="badge" dark small>fal fa-bell</v-icon>
 
       <v-btn
         outline
         large
         fab
-        color="indigo"
+        color="primary"
         style="margin: 0;"
         @click="btnClick"
         :to="!entry.modal ? entry.link : ''"
