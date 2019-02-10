@@ -53,6 +53,7 @@
           :items="perms"
           :disabled="loadingPerms || current === user._id"
           :loading="loadingPerms"
+          item-disabled="readonly"
           multiple chips
           deletable-chips
           :error-messages="errs.perms || []"
