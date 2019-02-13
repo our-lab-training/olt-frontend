@@ -1,7 +1,7 @@
 <template>
   <v-layout row justify-center>
 
-    <v-dialog v-model="dialog" :max-width="width">
+    <v-dialog v-model="dialog" :max-width="width" :fullscreen="$vuetify.breakpoint.smAndDown">
       <component
       :is="kebabCase(`${entry.plugin.ref}-${entry.ref}`)"
       :entry="entry"
