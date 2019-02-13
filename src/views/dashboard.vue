@@ -24,7 +24,7 @@
       </v-flex>
       <v-flex xs12 sm6 md3 order-xs1 order-md4 right>
         <v-text-field
-        prepend-icon="search"
+        prepend-icon="far fa-search"
         label="Search"
         flat
         v-model="searchValue"
