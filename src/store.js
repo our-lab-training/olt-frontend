@@ -40,6 +40,8 @@ export default new Vuex.Store({
     service('perms'),
     service('roles'),
     service('issues'),
+    service('events'),
+    service('notify-templates'),
     service('users', {
       paginate: true,
       replaceItems: true,

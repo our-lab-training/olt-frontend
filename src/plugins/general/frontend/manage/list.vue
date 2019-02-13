@@ -1,10 +1,10 @@
 <template>
   <v-list class="managed-list">
-    <v-list-tile avatar>
+    <v-list-tile>
       <v-list-tile-content>
         <v-text-field
           label="Search"
-          append-icon="fal fa-search"
+          prepend-icon="far fa-search"
           v-model="search"
         />
       </v-list-tile-content>
@@ -13,7 +13,7 @@
       <v-list-tile-content>
         <v-list-tile-title class="text-capitalize">
           <v-icon small left>fal fa-plus</v-icon>
-          New {{type.replace(/s$/, '')}}
+          New {{singular}}
         </v-list-tile-title>
       </v-list-tile-content>
       <v-dialog
@@ -22,15 +22,15 @@
       >
         <v-card>
           <v-card-text>
-            <h1>New {{type.replace(/s$/, '')}}</h1>
+            <h1>New {{singular}}</h1>
             <span v-if="newErr" class="error--text">{{newErr}}</span>
             <v-text-field
               ref="newName"
-              :label="type === 'roles' ? 'Role Name' : 'User Pheme Number'"
-              :counter="type === 'roles' ? 128 : 8"
+              :label="type !== 'users' ? `${singular} Name` : 'User Pheme Number'"
+              :counter="type !== 'users' ? 128 : 8"
               :rules="
-                type === 'roles'
-                ? [v => /^[\w-]{1,128}$/.test(v) || 'Invalid Name.']
+                type !== 'users'
+                ? [v => /^[\w- ]{1,128}$/.test(v) || 'Invalid Name.']
                 : [v => /^[\d]{8}$/.test(v) || 'Invalid pheme number.']
               "
               v-model="newName"
@@ -88,9 +88,14 @@ export default {
     ...mapGetters('groups', { currentGroup: 'current' }),
     ...mapGetters('users', { usersFind: 'find' }),
     ...mapGetters('roles', { rolesFind: 'find' }),
+    ...mapGetters('events', { eventsFind: 'find' }),
     ...mapState('perms', { permsCreatePending: 'isCreatePending' }),
     ...mapState('roles', { rolesCreatePending: 'isCreatePending' }),
-    isCreatePending() { return this.permsCreatePending || this.rolesCreatePending; },
+    ...mapState('events', { eventsCreatePending: 'isCreatePending' }),
+    isCreatePending() {
+      return this.permsCreatePending || this.rolesCreatePending || this.eventsCreatePending;
+    },
+    singular() { return this.type.replace(/^./, c => c.toUpperCase()).replace(/s$/, ''); },
     items() {
       const search = v => !this.search || v.toLowerCase().indexOf(this.search.toLowerCase()) !== -1;
       const query = { $or: [{ name: search }] };
@@ -102,6 +107,9 @@ export default {
         case 'roles':
           query.groupId = this.currentGroup._id;
           return this.rolesFind({ query }).data;
+        case 'events':
+          query.groupId = this.currentGroup._id;
+          return this.eventsFind({ query }).data;
         /* case 'perms':
           return this.perms.filter; */
         default:
@@ -114,11 +122,11 @@ export default {
       this.newErr = '';
       if (!this.$refs.newName.validate() || this.isCreatePending) return;
       try {
-        if (this.type === 'roles') {
+        if (this.type === 'roles' || this.type === 'events') {
           if (this.items.find(i => i.name.toLowerCase() === this.newName.toLowerCase())) {
-            throw new Error('Role name already exists!');
+            throw new Error(`${this.singular} name already exists!`);
           }
-          await this.$store.dispatch('roles/create', {
+          await this.$store.dispatch(`${this.type}/create`, {
             name: this.newName,
             groupId: this.currentGroup._id,
           });
