@@ -21,7 +21,7 @@ export default {
   data() {
     return {
       dialog: true,
-      width: 901,
+      width: 1200,
     };
   },
   watch: {
@@ -39,7 +39,7 @@ export default {
     kebabCase,
   },
   mounted() {
-    if (this.width === 901) this.width = 600;
+    if (this.width === 1200) this.width = 800;
   },
 };
 </script>
