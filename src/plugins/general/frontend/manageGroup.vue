@@ -6,9 +6,15 @@
       style="margin: 0;"
       :indeterminate="isPatchPending || isUpdatePending"
     />
-    <v-card-title class="headline">Manage {{currentGroup.name}}</v-card-title>
+    <v-card-title class="headline">
+      Manage {{currentGroup.name}}
+      <v-spacer/>
+      <v-btn flat icon @click="closeAndClear()">
+        <v-icon>far fa-times</v-icon>
+      </v-btn>
+    </v-card-title>
 
-    <v-tabs v-model="tab">
+    <v-tabs v-model="tab" :show-arrows="$vuetify.breakpoint.smAndDown">
       <v-tab key="settings">
         <v-icon style="padding-right: 0.5em;">fas fa-wrench</v-icon>
         Settings
@@ -24,6 +30,10 @@
       <v-tab key="roles">
         <v-icon style="padding-right: 0.5em;">fas fa-user-tag</v-icon>
         Roles
+      </v-tab>
+      <v-tab key="events">
+        <v-icon style="padding-right: 0.5em;">fas fa-flag</v-icon>
+        Events
       </v-tab>
       <!-- <v-tab key="perms">
         <v-icon style="padding-right: 0.5em;">fas fa-key</v-icon>
@@ -98,6 +108,17 @@
         </v-layout>
       </v-tab-item>
 
+      <v-tab-item key="events">
+        <v-layout row wrap>
+          <v-flex xs6 sm3>
+            <manage-list type="events" :current.sync="manCurr"/>
+          </v-flex>
+          <v-flex xs6 sm9>
+            <manage-event :current.sync="manCurr"/>
+          </v-flex>
+        </v-layout>
+      </v-tab-item>
+
       <!-- <v-tab-item key="perms">
         <v-layout row wrap>
           <v-flex xs6 sm3>
@@ -115,14 +136,14 @@
       <v-spacer></v-spacer>
 
       <v-btn
-        flat="flat"
+        flat
         @click="closeAndClear()"
       >
         Close
       </v-btn>
       <v-btn
         v-if="tab===0"
-        flat="flat"
+        flat
         @click.stop="saveSettings()"
         :disabled="isPatchPending || isUpdatePending"
         :loading="isPatchPending || isUpdatePending"
@@ -139,12 +160,14 @@ import { find, filter, reduce, forIn } from 'lodash';
 import groupSettings from '@/views/partials/groups/settings.vue';
 import manageList from './manage/list.vue';
 import manageEdit from './manage/edit.vue';
+import manageEvent from './manage/event.vue';
 
 export default {
   components: {
     groupSettings,
     manageList,
     manageEdit,
+    manageEvent,
   },
   props: ['entry'],
   data() {

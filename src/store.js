@@ -40,6 +40,23 @@ export default new Vuex.Store({
     service('perms'),
     service('roles'),
     service('issues'),
+    service('events'),
+    service('notify-templates', {
+      instanceDefaults: {
+        groupId: '',
+        subject: '',
+        text: '',
+        short: '',
+        to: '',
+        cc: '',
+        bcc: '',
+        sendToUsers: true,
+        groupUsers: false,
+        sendOn: 'instant',
+        sendOnHour: 8,
+        sendOnDay: [],
+      },
+    }),
     service('users', {
       paginate: true,
       replaceItems: true,

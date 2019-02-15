@@ -32,7 +32,7 @@ export default {
   },
   data() {
     return {
-      dark: false,
+      dark: `${localStorage.dark}` === 'true',
     };
   },
   computed: {
@@ -41,6 +41,9 @@ export default {
       else if ((new Date()).getMonth() === 11) return 'lights-holiday';
       return 'lightbulb-on';
     },
+  },
+  watch: {
+    dark(v) { localStorage.dark = v; },
   },
 };
 </script>

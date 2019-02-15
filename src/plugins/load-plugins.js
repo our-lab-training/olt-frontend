@@ -3,7 +3,7 @@ import router from '@/router';
 import store from '@/store';
 import feathersVuex from 'feathers-vuex';
 import feathersClient from '@/feathers-client';
-import { kebabCase, forIn } from 'lodash';
+import { kebabCase, forIn, sortBy } from 'lodash';
 
 const { service } = feathersVuex(feathersClient, { idField: '_id' });
 
@@ -61,7 +61,7 @@ export default (async () => {
         get() { return plugins; },
       });
       Object.defineProperty(Vue.prototype, '$perms', {
-        get() { return groupId => permFuncs.reduce((a, perms) => [...a, ...perms(groupId)], []); },
+        get() { return groupId => sortBy(permFuncs.reduce((a, perms) => [...a, ...perms(groupId)], []), 'text'); },
       });
     },
   };
