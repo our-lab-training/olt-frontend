@@ -183,7 +183,7 @@ ${this.error.expected}
 ### What result actually happened?
 ${this.error.actual}
 
-### What are you trying to do?
+### Other Useful Information?
 ${this.error.other}
 
 ---
