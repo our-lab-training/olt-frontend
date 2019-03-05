@@ -3,6 +3,7 @@ node_modules
 /dist
 package-lock.json
 .env
+/feathers-vuex
 
 # local env files
 .env.local
