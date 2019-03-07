@@ -22,7 +22,7 @@
         <v-btn
           color="blue darken-1"
           flat
-          @click.native="submit()"
+          @click.stop="submit()"
           :disabled="isCreatePending"
           :loading="isCreatePending"
         >Save</v-btn>
@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import groupSettings from './settings.vue';
 
 const blankGroup = {
@@ -57,15 +57,19 @@ export default {
     ...mapState('groups', ['isCreatePending']),
   },
   methods: {
+    ...mapActions('roles', { findRoles: 'find' }),
     async submit() {
       if (this.isCreatePending) return;
       const { Group } = this.$FeathersVuex;
-      const group = new Group(this.newGroup);
+      let group = new Group(this.newGroup);
       try {
-        await group.save();
+        group = await group.save();
+        console.log('done creating');
+        this.findRoles({ query: { groupId: group._id } });
         this.dialog = false;
         this.newGroup = { ...blankGroup };
       } catch (err) {
+        console.error(err);
         this.error = err;
       }
     },
