@@ -4,7 +4,7 @@
       <v-flex v-if="errs.general" xs12>
         <span class="error--text">{{errs.general}}</span>
       </v-flex>
-      <v-flex xs12 sm6>
+      <v-flex :xs12="type === 'users'" :sm6="type === 'users'" :expand="type !== 'users'">
         <v-text-field
           label="Name"
           v-model="item.name"
@@ -12,7 +12,21 @@
           :loading="isPatchPending"
           @change="save"
         />
-      </v-flex><v-flex v-if="type === 'roles'" xs12 sm6>
+      </v-flex><v-flex shrink v-if="type !== 'users'">
+        <v-menu offset-y>
+          <v-btn flat icon slot="activator" :loading="isRemovePending">
+            <v-icon>fal fa-trash</v-icon>
+          </v-btn>
+          <v-list>
+            <v-list-tile @click="del()">
+              <v-list-tile-title class="error--text">
+                <v-icon color="error" left>fas fa-exclamation-triangle</v-icon>
+                Delete Forever
+              </v-list-tile-title>
+            </v-list-tile>
+          </v-list>
+        </v-menu>
+      </v-flex><v-flex v-if="type === 'roles'" xs12>
         <v-switch
           label="Add role to newly joined users."
           v-model="item.addOnJoin"
@@ -98,7 +112,7 @@ export default {
     ...mapGetters('users', { usersGet: 'get' }),
     ...mapGetters('roles', { rolesGet: 'get', rolesFind: 'find' }),
     ...mapGetters('perms', { permsFind: 'find' }),
-    ...mapState('roles', ['isPatchPending']),
+    ...mapState('roles', ['isPatchPending', 'isRemovePending']),
     roles() { return this.rolesFind({ query: { groupId: this.currentGroup._id } }).data; },
     perms() { return this.$perms(this.currentGroup._id); },
   },
@@ -206,6 +220,10 @@ export default {
         console.error(err);
         this.errs.general = err.message;
       }
+    },
+    async del() {
+      await this.item.remove();
+      this.item = undefined;
     },
   },
 };
