@@ -4,7 +4,7 @@
       <v-flex v-if="err" xs12>
         <report-error :error="err" />
       </v-flex>
-      <v-flex xs12>
+      <v-flex expand>
         <v-text-field
           label="Name"
           v-model="item.name"
@@ -13,6 +13,23 @@
           @change="save"
         />
       </v-flex>
+      <v-flex shrink>
+        <v-menu offset-y>
+          <v-btn flat icon slot="activator" :loading="isRemovePending">
+            <v-icon>fal fa-trash</v-icon>
+          </v-btn>
+          <v-list>
+            <v-list-tile @click="del()">
+              <v-list-tile-title class="error--text">
+                <v-icon color="error" left>fas fa-exclamation-triangle</v-icon>
+                Delete Forever
+              </v-list-tile-title>
+            </v-list-tile>
+          </v-list>
+        </v-menu>
+      </v-flex>
+    </v-layout>
+    <v-layout v-if="item" row wrap>
       <v-flex>
         <h3>Triggers</h3>
         <small>What triggers the event to occur (either)</small>
@@ -245,7 +262,7 @@ export default {
     ...mapGetters('events', { eventsGet: 'get' }),
     ...mapGetters('notify-templates', { ntGet: 'get', ntFind: 'find' }),
     ...mapGetters('perms', { permsFind: 'find' }),
-    ...mapState('events', ['isPatchPending']),
+    ...mapState('events', ['isPatchPending', 'isRemovePending']),
     ...mapState('notify-templates', ['ntIsPatchPending', 'ntIsCreatePending']),
     perms() { return this.$perms(this.currentGroup._id); },
     loading() { return this.isPatchPending || this.ntIsPatchPending || this.ntIsCreatePending; },
@@ -323,6 +340,10 @@ export default {
         console.error(err);
         this.err = err;
       }
+    },
+    async del() {
+      await this.item.remove();
+      this.item = undefined;
     },
   },
 };

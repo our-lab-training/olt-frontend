@@ -12,7 +12,7 @@ const apiDomain = process.env.VUE_APP_API_DOMAIN || locations[process.env.NODE_E
 const socket = io(apiDomain, { transports: ['websocket'] });
 
 const feathersClient = feathers()
-  .configure(socketio(socket, { timeout: 10000 }))
+  .configure(socketio(socket, { timeout: 20000 }))
   .configure(auth({ storage: window.localStorage }));
 
 export default feathersClient;
