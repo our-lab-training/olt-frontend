@@ -11,7 +11,7 @@
         :indeterminate="isCreatePending"
       />
       <v-card-title>
-        <span class="headline">Create New Group</span>
+        <span class="headline">Create New Organisation</span>
       </v-card-title>
       <v-card-text>
         <group-settings v-model="newGroup" :err="error"/>

@@ -8,7 +8,7 @@
           v-model="tabsValue"
           color="transparent"
         >
-          <v-tab>My Groups</v-tab>
+          <v-tab>My Organisations</v-tab>
           <v-tab>Public</v-tab>
           <v-tab v-if="showTemplates && false">Templates</v-tab>
           <v-tab v-if="searchValue">Search</v-tab>
