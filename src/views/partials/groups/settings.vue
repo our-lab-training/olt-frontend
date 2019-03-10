@@ -40,7 +40,7 @@
         />
       </v-flex>
       <v-flex xs12>
-        <h3>Group Logo</h3>
+        <h3>Organisation Logo</h3>
       </v-flex>
       <v-flex xs3 v-if="!imageSrc && !group.logo">
         <v-select

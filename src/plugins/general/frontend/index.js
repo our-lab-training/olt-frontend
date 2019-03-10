@@ -8,9 +8,9 @@ export default {
   name: 'General',
   routes: {
     manageGroup: {
-      name: 'Manage Group',
+      name: 'Manage',
       component: manageGroup,
-      path: '/group/{groupId}/manageGroup',
+      path: '/org/{groupId}/manageGroup',
       entry: true,
       modal: true,
       icon: 'fal fa-wrench',
@@ -20,9 +20,9 @@ export default {
       ],
     },
     joinGroup: {
-      name: 'Join Group',
+      name: 'Join',
       component: joinGroup,
-      path: '/group/{groupId}/join',
+      path: '/org/{groupId}/join',
       entry: true,
       modal: true,
       icon: 'fal fa-sign-in',
@@ -31,9 +31,9 @@ export default {
       onlyGroupOfTypes: ['public'],
     },
     leaveGroup: {
-      name: 'Leave Group',
+      name: 'Leave',
       component: leaveGroup,
-      path: '/group/{groupId}/leave',
+      path: '/org/{groupId}/leave',
       entry: true,
       modal: true,
       icon: 'fal fa-sign-out',
@@ -44,9 +44,9 @@ export default {
   },
   global: true,
   perms: groupId => [
-    { text: 'Group - Override All Permissions', value: `${groupId}.*`, defaultRoles: ['admin'] },
-    { text: 'Group - Manage Group', value: `${groupId}.group.write`, defaultRoles: ['admin'] },
-    { text: 'Group - Joined', value: `${groupId}.enrolled`, defaultRoles: [] },
+    { text: 'Org - Override All Permissions', value: `${groupId}.*`, defaultRoles: ['admin'] },
+    { text: 'Org - Manage Org', value: `${groupId}.group.write`, defaultRoles: ['admin'] },
+    { text: 'Org - Joined', value: `${groupId}.enrolled`, defaultRoles: [] },
     { text: 'Users & Perms - View', value: `${groupId}.users.read`, defaultRoles: ['admin'] },
     { text: 'Users & Perms - Edit', value: `${groupId}.users.write`, defaultRoles: ['admin'] },
   ],
