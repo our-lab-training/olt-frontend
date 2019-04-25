@@ -14,10 +14,27 @@
           <v-tab v-if="searchValue">Search</v-tab>
         </v-tabs>
       </v-flex>
-      <v-flex order-xs2 order-sm1 order-md2 xs12 sm6 md5 lg4
-        v-if="hasPerm('superadmin.groups.create')">
-        <groups-add />
-        <groups-delete v-if="hasPerm('superadmin.groups.delete')" />
+      <v-flex
+        order-xs2 order-sm1 order-md2 xs12 sm6 md5 lg4
+        v-if="hasPerm('superadmin.groups.create') || hasPerm('superadmin.groups.delete')"
+      >
+        <v-menu offset-y>
+          <v-btn slot="activator">
+            <v-icon left small>fal fa-caret-down</v-icon>
+            Admin
+          </v-btn>
+          <v-list>
+            <v-list-tile>
+              <groups-add v-if="hasPerm('superadmin.groups.create')"/>
+            </v-list-tile>
+            <v-list-tile>
+              <groups-delete v-if="hasPerm('superadmin.groups.delete')" />
+            </v-list-tile>
+            <v-list-tile>
+              <super-admin v-if="hasPerm('superadmin.perms.write')"/>
+            </v-list-tile>
+          </v-list>
+        </v-menu>
       </v-flex>
       <v-flex hidden-xs-only order-sm3>
         <v-spacer />
@@ -61,6 +78,7 @@ import groupsAdd from './partials/groups/add.vue';
 import groupsDelete from './partials/groups/delete.vue';
 import groupsList from './partials/groups/list.vue';
 import pluginModal from './partials/groups/plugin-modal.vue';
+import superAdmin from './partials/super-admin.vue';
 
 export default {
   components: {
@@ -68,6 +86,7 @@ export default {
     groupsList,
     groupsDelete,
     pluginModal,
+    superAdmin,
   },
   data() {
     return {
