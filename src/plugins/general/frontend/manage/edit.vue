@@ -62,7 +62,7 @@
       </v-flex>
       <v-flex xs12>
         <v-autocomplete
-          label="Perms"
+          label="Permissions"
           v-model="itemPerms"
           :items="perms"
           :disabled="loadingPerms || current === user._id"

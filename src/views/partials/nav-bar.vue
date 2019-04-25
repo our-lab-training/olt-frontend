@@ -17,12 +17,14 @@
     <v-navigation-drawer
       persistent
       :value="$vuetify.breakpoint.smAndUp || drawer"
+      @input="drawer = $event"
       enable-resize-watcher
-      :app="!($vuetify.breakpoint.smOnly && !mini)"
+      :app="true || !($vuetify.breakpoint.smOnly && !mini)"
       :stateless="!$vuetify.breakpoint.xsOnly || mini"
-      :temporary="$vuetify.breakpoint.xsOnly"
-      :absolute="$vuetify.breakpoint.xsOnly || ($vuetify.breakpoint.smOnly && !mini)"
-      :mini-variant.sync="mini"
+      :temporary="$vuetify.breakpoint.xsOnly && drawer"
+      :absolute="($vuetify.breakpoint.xsOnly || (false && $vuetify.breakpoint.smOnly && !mini))"
+      :mini-variant="mini && !$vuetify.breakpoint.xsOnly"
+      :fixed="$vuetify.breakpoint.smAndUp"
     >
 
       <v-toolbar flat v-if="!$vuetify.breakpoint.xsOnly">
@@ -33,7 +35,10 @@
                 <v-btn
                   flat
                   icon
-                  @click.stop="mini=!mini"
+                  @click.stop="
+                    if (!$vuetify.breakpoint.xsOnly) mini=!mini;
+                    else drawer = !drawer;
+                  "
                   slot="activator"
                 >
                   <v-icon>fal fa-bars</v-icon>
@@ -50,7 +55,13 @@
               </v-list-tile-title>
             </v-list-tile-content>
             <v-list-tile-action>
-              <v-btn flat icon @click.stop="mini=!mini">
+              <v-btn
+                flat icon
+                @click.stop="
+                  if (!$vuetify.breakpoint.xsOnly) mini=!mini;
+                  else drawer = !drawer;
+                "
+              >
                 <v-icon>fas fa-chevron-left</v-icon>
               </v-btn>
             </v-list-tile-action>

@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" persistent max-width="300px">
     <v-btn slot="activator" @click="groups=findGroups().data">
-      <v-icon left>fal fa-trash</v-icon> Remove
+      <v-icon left>fal fa-trash</v-icon> Remove Organisation
     </v-btn>
     <v-card>
       <v-progress-linear
@@ -16,7 +16,7 @@
       <v-card-text>
         <span v-if="error" class="error--text">{{error}}</span>
         <v-autocomplete
-          label="Group"
+          label="Organisation"
           :items="groups"
           v-model="groupId"
           item-text="name"

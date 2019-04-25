@@ -42,7 +42,7 @@ export default {
       const items = [
         ...this.findUsers({
           query: {
-            'perms.groups': this.currentGroup._id,
+            'perms.groups': this.currentGroup ? this.currentGroup._id : { $exists: true },
           },
         }).data.map(user => ({
           text: `User: ${user.name} (${user.username})`,
@@ -54,7 +54,7 @@ export default {
         })),
         ...this.findRoles({
           query: {
-            groupId: this.currentGroup._id,
+            groupId: this.currentGroup ? this.currentGroup._id : 'noRoles',
           },
         }).data.map(role => ({
           text: `Role: ${role.name}`,

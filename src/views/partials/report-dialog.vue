@@ -23,11 +23,10 @@
       <v-card>
         <v-card-title>
           <span class="headline"><v-icon left>fal fa-bullhorn</v-icon> Provide Feedback</span>
-          <!-- <br><br>
+          <br><br>
           <span>
-            Please note: This is only feedback for the COEUS software, not your marks/grades.
-            If you need feedback for your marks/grades, please speak to your unit coordinator.
-          </span> -->
+            Your feedback is automatically posted and tracked <a href="https://github.com/ThinkHub-io/access-issues/issues">here.</a>
+          </span>
         </v-card-title>
         <v-card-text>
           <v-form ref="form">
