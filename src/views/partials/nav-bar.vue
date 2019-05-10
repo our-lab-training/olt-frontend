@@ -77,12 +77,12 @@
             <v-list-tile-action>
               <v-tooltip right>
                 <v-icon slot="activator">fal fa-user-circle</v-icon>
-                <span>{{user.profile.displayname}}</span>
+                <span>{{user.name}}</span>
               </v-tooltip>
             </v-list-tile-action>
             <v-list-tile-content>
               <v-list-tile-title>
-                {{user.profile.displayname}}
+                {{user.name}}
               </v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
@@ -100,6 +100,8 @@
               </v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
+
+          <profile/>
 
         </v-list-group>
 
@@ -184,10 +186,12 @@ import { find } from 'lodash';
 import store from '@/store';
 import groupEntries from '@/lib/groupEntries';
 import groupLogo from './groups/logo.vue';
+import profile from './profile.vue';
 
 export default {
   components: {
     groupLogo,
+    profile,
   },
   name: 'nav-bar',
   data() {
