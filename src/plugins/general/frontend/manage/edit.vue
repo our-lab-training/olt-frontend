@@ -27,6 +27,14 @@
           </v-list>
         </v-menu>
       </v-flex><v-flex v-if="type === 'roles'" xs12>
+        <v-textarea
+          label="Role description."
+          v-model="item.desc"
+          :disabled="isPatchPending"
+          :loading="isPatchPending"
+          @change="save"
+        />
+      </v-flex><v-flex v-if="type === 'roles'" xs12>
         <v-switch
           label="Add role to newly joined users."
           v-model="item.addOnJoin"
