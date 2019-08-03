@@ -18,31 +18,55 @@
       </v-list-tile-content>
       <v-dialog
         v-model="newDialog"
-        max-width="300px"
+        max-width="350px"
       >
         <v-card>
           <v-card-text>
             <h1>New {{singular}}</h1>
-            <span v-if="newErr" class="error--text">{{newErr}}</span>
+            <report-error :error="newErr" />
             <v-text-field
               ref="newName"
-              :label="type !== 'users' ? `${singular} Name` : 'User Pheme Number'"
-              :counter="type !== 'users' ? 128 : 8"
+              :label="
+                type !== 'users'
+                ? `${singular} Name`
+                : 'Their Pheme Number'
+              "
+              :hint="type === 'users' ? 'Can be a comma seperated list' : ''"
+              :counter="
+                type !== 'users'
+                ? 128
+                : newName.split(',').length * 8 + (newName.split(',').length - 1)
+              "
               :rules="
                 type !== 'users'
-                ? [v => /^[\w- ]{1,128}$/.test(v) || 'Invalid Name.']
-                : [v => /^[\d]{8}$/.test(v) || 'Invalid pheme number.']
+                ? [v => !v || /^[\w- ]{1,128}$/.test(v) || 'Invalid Name.']
+                : [v => !v || /^([\d]{8}(,|$))+$/.test(v) || 'Invalid pheme number.']
               "
               v-model="newName"
             />
+            <div v-if="type === 'users'">
+              <br>
+              <v-divider/>
+              <br>
+              <span>
+                You must enter your password bellow to authorise loading the user from pheme.
+                It may take time to load.
+              </span>
+              <v-text-field
+                ref="newName"
+                label="Your Pheme Password"
+                type="password"
+                v-model="newAuthPass"
+              />
+            </div>
           </v-card-text>
           <v-card-actions><v-spacer />
             <v-btn flat @click="newDialog = false" :disabled="isCreatePending">Cancel</v-btn>
             <v-btn
               flat color="success"
               @click="newItem"
-              :loading="isCreatePending"
-              :disabled="isCreatePending"
+              :loading="loading"
+              :disabled="loading || !this.newName || (type === 'users' && !this.newAuthPass)"
             >Add</v-btn>
           </v-card-actions>
         </v-card>
@@ -64,8 +88,12 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex';
+import reportError from '@/views/partials/report-error.vue';
 
 export default {
+  components: {
+    reportError,
+  },
   props: {
     type: {
       type: String,
@@ -79,12 +107,15 @@ export default {
   data() {
     return {
       search: '',
+      loading: false,
       newDialog: false,
       newName: '',
-      newErr: '',
+      newAuthPass: '',
+      newErr: null,
     };
   },
   computed: {
+    ...mapState('auth', ['user']),
     ...mapGetters('groups', { currentGroup: 'current' }),
     ...mapGetters('users', { usersFind: 'find' }),
     ...mapGetters('roles', { rolesFind: 'find' }),
@@ -120,7 +151,14 @@ export default {
   methods: {
     async newItem() {
       this.newErr = '';
-      if (!this.$refs.newName.validate() || this.isCreatePending) return;
+      if (
+        !this.$refs.newName.validate()
+        || !this.newName
+        || this.isCreatePending
+        || this.loading
+        || (this.type === 'users' && !this.newAuthPass)
+      ) return;
+      this.loading = true;
       try {
         if (this.type === 'roles' || this.type === 'events') {
           if (this.items.find(i => i.name.toLowerCase() === this.newName.toLowerCase())) {
@@ -134,20 +172,30 @@ export default {
           if (this.items.find(i => i.username.toLowerCase() === this.newName.toLowerCase())) {
             throw new Error('User is already joined!');
           }
-          const perm = await this.$store.dispatch('perms/create', {
-            grantee: this.newName,
-            perm: [this.currentGroup._id, 'enrolled'],
-            type: 'users',
-          });
-          this.$store.dispatch('users/get', perm.grantee);
+          await this.newName.split(',').reduce(async (a, username) => {
+            await a;
+            if (!/^\d{8}$/.test(username)) return;
+            const perm = await this.$store.dispatch('perms/create', {
+              grantee: username,
+              authUser: this.user.username,
+              authPass: this.newAuthPass,
+              perm: [this.currentGroup._id, 'enrolled'],
+              type: 'users',
+            });
+            this.$store.dispatch('users/get', perm.grantee);
+          }, Promise.resolve());
         }
         this.newName = '';
         this.newDialog = false;
       } catch (err) {
         console.error(err);
-        this.newErr = err.message;
+        this.newErr = err;
       }
+      this.loading = false;
     },
+  },
+  watch: {
+    newDialog() { this.newAuthPass = ''; },
   },
 };
 </script>
