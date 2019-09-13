@@ -3,7 +3,8 @@ version: 0.2
 phases:
   install:
     commands:
-      - NODE_ENV=development npm i
+      - git init
+      - npm i
     runtime-versions:
       nodejs: 10
   build:
