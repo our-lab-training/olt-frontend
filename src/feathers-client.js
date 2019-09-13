@@ -5,7 +5,7 @@ import io from 'socket.io-client';
 
 const locations = {
   development: 'http://localhost:3030',
-  production: 'https://api.myacc.es',
+  production: 'https://api.ourlab.training',
 };
 const apiDomain = process.env.VUE_APP_API_DOMAIN || locations[process.env.NODE_ENV];
 
