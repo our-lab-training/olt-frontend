@@ -9,7 +9,7 @@ const locations = {
 };
 const apiDomain = process.env.VUE_APP_API_DOMAIN || locations[process.env.NODE_ENV];
 
-const socket = io(apiDomain, { transports: ['websocket'] });
+const socket = io(apiDomain);
 
 const feathersClient = feathers()
   .configure(socketio(socket, { timeout: 20000 }))
