@@ -3,8 +3,7 @@ version: 0.2
 phases:
   install:
     commands:
-      - git init
-      - npm i
+      - npm i --unsafe-perm
     runtime-versions:
       nodejs: 10
   build:
