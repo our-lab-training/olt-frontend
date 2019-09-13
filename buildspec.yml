@@ -4,7 +4,6 @@ phases:
   install:
     commands:
       - export API_DOMAIN=$API_DOMAIN
-      - git config --global url."https://$GITHUB_TOKEN@github.com/".insteadOf "https://github.com/"
       - npm i
   build:
     commands:

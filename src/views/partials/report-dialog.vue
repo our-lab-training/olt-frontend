@@ -25,7 +25,7 @@
           <span class="headline"><v-icon left>fal fa-bullhorn</v-icon> Provide Feedback</span>
           <br><br>
           <span>
-            Your feedback is automatically posted and tracked <a href="https://github.com/ThinkHub-io/access-issues/issues">here.</a>
+            Your feedback is automatically posted and tracked <a href="https://github.com/our-lab-training/olt-frontend/issues">here.</a>
           </span>
         </v-card-title>
         <v-card-text>

@@ -1,6 +1,6 @@
 module.exports = {
   pwa: {
-    name: 'Access',
+    name: 'Our Lab Training',
   },
   devServer: {
     disableHostCheck: true,

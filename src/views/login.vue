@@ -2,7 +2,7 @@
   <v-card class="loginCard">
     <v-card-title class="headline">
       <img alt="" :src="logo">
-      Access Login
+      Our Lab Training Login
     </v-card-title>
     <v-card-text>
       <v-form ref="form" v-model="valid" lazy-validation @submit="submit">

@@ -7,7 +7,7 @@
       </v-toolbar-side-icon>
 
       <v-toolbar-title><img
-        :class="`access-logo ${$vuetify.dark ? 'dark' : ''}`"
+        :class="`olt-logo ${$vuetify.dark ? 'dark' : ''}`"
         alt="" :src="logo"
       > {{title}}</v-toolbar-title>
 
@@ -49,7 +49,7 @@
             <v-list-tile-content>
               <v-list-tile-title class="title">
                 <img
-                  :class="`access-logo ${$vuetify.dark ? 'dark' : ''}`"
+                  :class="`olt-logo ${$vuetify.dark ? 'dark' : ''}`"
                   alt="" :src="logo"
                 > {{title}}
               </v-list-tile-title>
@@ -205,7 +205,7 @@ export default {
       }],
       mini: true,
       right: null,
-      title: 'Access',
+      title: 'Our Lab Training',
       logo: `${process.env.BASE_URL}img/icons/icon-192x192.png`,
     };
   },
@@ -255,18 +255,18 @@ export default {
 </script>
 
 <style scoped>
-.access-logo {
+.olt-logo {
   height: 1.7em;
   margin-right: 0.5em;
   vertical-align: bottom;
 }
 
-.title .access-logo {
+.title .olt-logo {
   height: 1.4em;
   vertical-align: sub;
 }
 
-.access-logo.dark {
+.olt-logo.dark {
   height: 1.2em;
   background-color: white;
   border-radius: 50%;

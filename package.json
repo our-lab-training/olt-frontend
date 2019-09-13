@@ -1,5 +1,5 @@
 {
-  "name": "access-frontend",
+  "name": "olt-frontend",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,7 +9,7 @@
     "test:unit": "vue-cli-service test:unit",
     "preinstall": "git submodule init && git submodule update",
     "postinstall": "git clone -b mrf-fix-174 --single-branch https://github.com/mrfrase3/feathers-vuex.git && cd feathers-vuex && npm i && cd ../ && rm -rf node_modules/feathers-vuex/* && cp -a feathers-vuex/* node_modules/feathers-vuex/ && npm cache clean --force && rm -rf feathers-vuex",
-    "backend": "cd ../access-api/ && nodemon -L src"
+    "backend": "cd ../olt-backend/ && nodemon -L src"
   },
   "dependencies": {
     "@feathersjs/authentication-client": "^1.0.6",

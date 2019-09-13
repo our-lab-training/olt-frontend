@@ -6,7 +6,7 @@ import { assign } from 'lodash';
 import feathersClient from './feathers-client';
 
 /* const vuexPersist = new VuexPersist({
-  key: 'access-frontend',
+  key: 'olt-frontend',
   storage: localStorage,
 }); */
 

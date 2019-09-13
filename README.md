@@ -1,4 +1,4 @@
-# access-frontend
+# olt-frontend
 
 ## Project setup
 ```
@@ -24,3 +24,9 @@ npm run lint
 ```
 npm run test:unit
 ```
+
+## License
+
+Copyright (c) 2019
+
+Licensed under the [MIT license](LICENSE).
