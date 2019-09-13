@@ -3,8 +3,9 @@ version: 0.2
 phases:
   install:
     commands:
-      - export API_DOMAIN=$API_DOMAIN
       - npm i
+    runtime-versions:
+      nodejs: 10
   build:
     commands:
       - npm run build
