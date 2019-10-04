@@ -150,7 +150,7 @@ export default {
   },
   methods: {
     async newItem() {
-      this.newErr = '';
+      this.newErr = null;
       if (
         !this.$refs.newName.validate()
         || !this.newName
@@ -203,7 +203,7 @@ export default {
 <style scoped>
 .managed-list {
   border-right: solid thin rgba(0,0,0,.12);
-  max-height: 400px;
+  max-height: 500px;
   overflow-y: auto;
 }
 </style>

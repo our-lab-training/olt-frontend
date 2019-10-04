@@ -156,7 +156,7 @@ export default {
     // eslint-disable-next-line func-names
     'item.perms': function (v) {
       if (this.type !== 'roles') return;
-      this.itemPerms = v.map(p => p.perm.join('.'))
+      this.itemPerms = !v ? [] : v.map(p => p.perm.join('.'))
         .filter(perm => this.perms.find(p => p.value === perm));
     },
     async userRoles() {

@@ -252,7 +252,7 @@ export default {
       trigDialog: false,
       actDialog: false,
       notifyValid: false,
-      err: undefined,
+      err: null,
       item: null,
     };
   },
@@ -306,7 +306,7 @@ export default {
       }
     },
     async saveAct() {
-      this.err = undefined;
+      this.err = null;
       if (this.action.actionType === 'notify') {
         try {
           this.action.ntId = await this.$refs.nt.save();
@@ -324,7 +324,7 @@ export default {
     },
     async save() {
       if (!this.current) return;
-      this.err = undefined;
+      this.err = null;
       let item = this.eventsGet(this.current);
       if (
         item.name === this.item.name

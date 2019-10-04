@@ -174,7 +174,7 @@ export default {
     return {
       plugins: [],
       tab: 0,
-      error: {},
+      error: null,
       settingsCopy: {},
       manCurr: null,
     };
@@ -214,6 +214,7 @@ export default {
     },
     async saveSettings() {
       if (this.isPatchPending || this.isUpdatePending) return;
+      this.error = null;
       try {
         await this.patchGroup(this.settingsCopy);
         this.$emit('modalClose');
