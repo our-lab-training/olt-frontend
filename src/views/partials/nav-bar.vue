@@ -54,17 +54,6 @@
                 > {{title}}
               </v-list-tile-title>
             </v-list-tile-content>
-            <v-list-tile-action>
-              <v-btn
-                flat icon
-                @click.stop="
-                  if (!$vuetify.breakpoint.xsOnly) mini=!mini;
-                  else drawer = !drawer;
-                "
-              >
-                <v-icon>fas fa-chevron-left</v-icon>
-              </v-btn>
-            </v-list-tile-action>
           </v-list-tile>
         </v-list>
       </v-toolbar>
@@ -153,7 +142,7 @@
           </v-list-tile>
 
           <v-list-tile
-            v-for="(entry, eref) in groupEntries[group._id]"
+            v-for="(entry, eref) in groupEntries[group._id].filter(e => !e.secondary)"
             :key="`nav-${group._id}-${eref}`"
             :to="entry.link"
             :value="entry.link === $route.path"
@@ -259,6 +248,10 @@ export default {
   height: 1.7em;
   margin-right: 0.5em;
   vertical-align: bottom;
+}
+
+.title {
+  overflow: visible;
 }
 
 .title .olt-logo {

@@ -7,16 +7,35 @@
       <div slot="header" class="title">
         <group-logo style="margin-right:0.5em;" :group="group" />
         <span>{{group.name}}</span>
+        <span v-if="$vuetify.breakpoint.mdAndUp" :style="{float: 'right'}">
+          <entry-button
+            v-for="(entry, ref) in groupEntries[group._id].filter(e => e.secondary)"
+            :key="ref"
+            :entry="entry"
+            :groupId="group._id"
+            @openModal="$emit('openModal', $event)"
+          />
+        </span>
       </div>
 
       <v-layout align-start justify-start class="icon-list" wrap row>
         <entry-icon
-          v-for="(entry, ref) in groupEntries[group._id]"
+          v-for="(entry, ref) in groupEntries[group._id].filter(e => !e.secondary)"
           :key="ref"
           :entry="entry"
           :groupId="group._id"
           @openModal="$emit('openModal', $event)"
         />
+        <v-flex v-if="!$vuetify.breakpoint.mdAndUp" xs12>
+          <entry-button
+            v-for="(entry, ref) in groupEntries[group._id].filter(e => e.secondary)"
+            :key="ref"
+            :entry="entry"
+            :groupId="group._id"
+            @openModal="$emit('openModal', $event)"
+            :style="{float: 'right'}"
+          />
+        </v-flex>
       </v-layout>
     </v-expansion-panel-content>
   </v-expansion-panel>
@@ -24,13 +43,15 @@
 <script>
 import { mapGetters, mapState } from 'vuex';
 import groupEntries from '@/lib/groupEntries';
-import entryIcon from './entry-icon.vue';
-import groupLogo from './logo.vue';
+import EntryIcon from './entry-icon.vue';
+import EntryButton from './entry-button.vue';
+import GroupLogo from './logo.vue';
 
 export default {
   components: {
-    entryIcon,
-    groupLogo,
+    EntryIcon,
+    EntryButton,
+    GroupLogo,
   },
   computed: {
     ...mapState('groups', ['isRemovePending', 'isCreatePending', 'isFindPending', 'isPatchPending']),

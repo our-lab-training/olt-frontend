@@ -13,6 +13,7 @@ export default {
       path: '/org/{groupId}/manageGroup',
       entry: true,
       modal: true,
+      secondary: true,
       icon: 'fal fa-wrench',
       priority: 10,
       visiblePerms: [
@@ -36,6 +37,7 @@ export default {
       path: '/org/{groupId}/leave',
       entry: true,
       modal: true,
+      secondary: true,
       icon: 'fal fa-sign-out',
       priority: 11,
       ifEnrolledIs: true,
