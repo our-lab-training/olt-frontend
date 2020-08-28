@@ -1,13 +1,13 @@
 <template>
   <v-card>
     <v-toolbar dense>
-      <back-btn v-if="back"/>
-      <v-toolbar-title v-if="title">{{title}}</v-toolbar-title>
+      <back-btn v-if="back" />
+      <v-toolbar-title v-if="title">{{ title }}</v-toolbar-title>
       <v-toolbar-title v-else>
-        <span
-          class="text-capitalize"
-          ref="filename"
-        >{{current.filename.replace(/\.[\w-]+$/, '')}}</span>.{{ext}}
+        <span class="text-capitalize" ref="filename">
+          {{ current.filename.replace(/\.[\w-]+$/, '') }}
+          </span>
+        .{{ ext }}
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn v-if="!hidden" flat icon @click="refresh()" :loading="refreshing">
@@ -22,19 +22,19 @@
         />
       </v-flex>
       <v-btn flat icon v-if="toggleHidden" @click="$emit('update:hidden', !hidden)">
-        <v-icon>far fa-{{hidden ? 'chevron-up' : 'chevron-down'}}</v-icon>
+        <v-icon>far fa-{{ hidden ? 'chevron-up' : 'chevron-down' }}</v-icon>
       </v-btn>
     </v-toolbar>
     <iframe
       v-if="url"
       :style="!toggleHidden || !hidden ? {} : { height: '0' }"
       :src="url"
-      frameborder='0'
+      frameborder="0"
     >
       This is an embedded
-      <a target='_blank' href='http://office.com'> Microsoft Office </a>
+      <a target="_blank" href="http://office.com">Microsoft Office</a>
       document, powered by
-      <a target='_blank' href='http://office.com/webapps'> Office Online </a>
+      <a target="_blank" href="http://office.com/webapps">Office Online</a>
       .
     </iframe>
   </v-card>
@@ -79,20 +79,34 @@ export default {
   computed: {
     ...mapGetters('content', { currentContent: 'current', getContent: 'get' }),
     ...mapState('content', ['isOperationPending']),
-    ext() { return this.current.filename.split('.').pop(); },
-    path() { return this.$route.params.path; },
+    ext() {
+      return this.current.filename.split('.').pop();
+    },
+    path() {
+      return this.$route.params.path;
+    },
     url() {
       if (!this.presign || this.refreshing) return '';
       if (this.ext === 'pdf') return this.presign.url;
       return this.render === 'Google Docs'
-        ? `https://docs.google.com/gview?url=${this.presign.url.replace(/[&]/g, '%26')}&embedded=true`
-        : `https://view.officeapps.live.com/op/embed.aspx?src=${this.presign.url.replace(/[&]/g, '%26')}`;
+        ? `https://docs.google.com/gview?url=${this.presign.url.replace(
+            /[&]/g,
+            '%26',
+          )}&embedded=true`
+        : `https://view.officeapps.live.com/op/embed.aspx?src=${this.presign.url.replace(
+            /[&]/g,
+            '%26',
+          )}`;
     },
-    current() { return this.fileId ? this.getContent(this.fileId) : this.currentContent; },
+    current() {
+      return this.fileId ? this.getContent(this.fileId) : this.currentContent;
+    },
   },
   methods: {
     async getPresign() {
-      if (!this.current) return console.log('nope');
+      if (!this.current) {
+        console.log('nope');
+      }
       const content = await this.$content._getPresign(this.current, 'read');
       this.presign = content.presign;
       return content;
@@ -101,14 +115,18 @@ export default {
       setTimeout(async () => {
         if (!(await this.getPresign())) {
           setTimeout(async () => {
-            if (!(await this.getPresign())) setTimeout(async () => this.getPresign(), 300);
+            if (!(await this.getPresign())) {
+              setTimeout(async () => this.getPresign(), 300);
+            }
           }, 200);
         }
       }, 100);
     },
     refresh() {
       this.refreshing = true;
-      setTimeout(() => {this.refreshing = false;}, 500);
+      setTimeout(() => {
+        this.refreshing = false;
+      }, 500);
     },
   },
   mounted() {
@@ -128,4 +146,3 @@ iframe {
   height: 75vh;
 }
 </style>
-
