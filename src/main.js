@@ -17,15 +17,18 @@ Vue.use(shortkey);
 Vue.use(vueMoment);
 
 // Auth first before loading the app
-store.dispatch('auth/authenticate').catch(() => {
-  Object.keys(store._mutations).forEach((key) => {
-    if (key.indexOf('/clearAll') !== -1) store.commit(key);
+store
+  .dispatch('auth/authenticate')
+  .catch(() => {
+    Object.keys(store._mutations).forEach((key) => {
+      if (key.indexOf('/clearAll') !== -1) store.commit(key);
+    });
+    store.commit('auth/logout');
+  })
+  .then(() => {
+    new Vue({
+      router,
+      store,
+      render: h => h(App),
+    }).$mount('#app');
   });
-  store.commit('auth/logout');
-}).then(() => {
-  new Vue({
-    router,
-    store,
-    render: h => h(App),
-  }).$mount('#app');
-});
