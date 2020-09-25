@@ -51,10 +51,10 @@ export default {
     ...mapActions('perms', { removePerm: 'remove' }),
     ...mapActions('users', { sgetUser: 'get' }),
     async leave() {
-      const user = this.currentUser._id === this.$store.state.auth.payload.userId ?
-        this.currentUser : this.$store.state.auth.user;
+      const user = this.currentUser._id === this.$store.state.auth.payload.userId
+        ? this.currentUser : this.$store.state.auth.user;
       const gid = this.currentGroup._id;
-      const perm = find(user.perms.userperms, p => p.perm[0] === gid && p.perm[1] === 'enrolled');
+      const perm = find(user.perms.userperms, (p) => p.perm[0] === gid && p.perm[1] === 'enrolled');
       await this.removePerm(perm._id);
       // await this.sgetUser(user._id);
       // setTimeout(() => { this.$store.state.auth.user = this.users[user._id]; }, 500);
@@ -66,4 +66,3 @@ export default {
   },
 };
 </script>
-

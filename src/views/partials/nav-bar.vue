@@ -203,17 +203,17 @@ export default {
     ...mapGetters('users', { hasPerm: 'hasPerm', currentUser: 'current' }),
     ...mapGetters('groups', { findGroup: 'find' }),
     user() {
-      return (this.currentUser._id === this.$store.state.auth.payload.userId ?
-        this.currentUser : this.$store.state.auth.user) || { profile: {} };
+      return (this.currentUser._id === this.$store.state.auth.payload.userId
+        ? this.currentUser : this.$store.state.auth.user) || { profile: {} };
     },
     groups() {
       const { user } = this;
       // force recompute on state change
       if (
-        this.isFindPending ||
-        this.isRemovePending ||
-        this.isCreatePending ||
-        this.isPatchPending
+        this.isFindPending
+        || this.isRemovePending
+        || this.isCreatePending
+        || this.isPatchPending
       ) Math.random();
 
       return this.findGroup({ query: { _id: { $in: user.perms.groups } } }).data;
@@ -222,7 +222,7 @@ export default {
     activeGroup() {
       return find(
         this.groups,
-        group => this.$route.params.groupId === group._id,
+        (group) => this.$route.params.groupId === group._id,
       );
     },
   },
@@ -267,7 +267,6 @@ export default {
 }
 </style>
 
-
 <style>
 .v-navigation-drawer--mini-variant .v-list__group__header__append-icon {
     display: none;
@@ -278,4 +277,3 @@ export default {
 }
 
 </style>
-

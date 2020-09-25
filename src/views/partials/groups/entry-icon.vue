@@ -47,4 +47,3 @@ export default {
   margin: 0 12px;
 }
 </style>
-

@@ -51,7 +51,7 @@ import listInduct from './components/inductions/list-inductions.vue';
 import viewInduct from './components/inductions/view-inductions.vue';
 import statInduct from './components/inductions/stat-inductions.vue';
 import compInduct from './components/inductions/comp-inductions.vue';
-import msdocViewer from '../../../plugins/content/frontend/explorer/view/msdoc.vue';
+import msdocViewer from '../../content/frontend/explorer/view/msdoc.vue';
 
 export default {
   components: {
@@ -90,7 +90,7 @@ export default {
   },
   async mounted() {
     await this.findInducts({ query: { groupId: this.currentGroup._id } });
-    const inductIds = this.findLocalInducts().data.map(ind => ind._id);
+    const inductIds = this.findLocalInducts().data.map((ind) => ind._id);
     await this.findComps({
       query: { inductId: { $in: inductIds } },
     });

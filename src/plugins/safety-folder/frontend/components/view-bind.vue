@@ -78,10 +78,10 @@ export default {
     ...mapGetters('binders', { getBind: 'get' }),
     id() { return this.$route.params.bindId; },
     writePerm() { return this.hasPerm(`${this.currentGroup._id}.binder.write`); },
-    type() { return this.types.binds.find(t => t.value === this.binder.type); },
+    type() { return this.types.binds.find((t) => t.value === this.binder.type); },
     items() {
       const items = groupBy(cloneDeep(this.binder.items), 'category');
-      Object.values(items).forEach(catItems => catItems.forEach((item) => {
+      Object.values(items).forEach((catItems) => catItems.forEach((item) => {
         item.data = this.$store.getters[`${item.type}/get`](item.itemId) || {};
       }));
       return items;

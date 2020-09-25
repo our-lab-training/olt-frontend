@@ -257,9 +257,9 @@ export default {
       this.err = null;
       const { CompletedInduction } = this.$FeathersVuex;
       this.comp = new CompletedInduction({
-        list: this.induction.list.map(section => ({
+        list: this.induction.list.map((section) => ({
           ...section,
-          children: section.children.map(child => ({ ...child, checked: false })),
+          children: section.children.map((child) => ({ ...child, checked: false })),
         })),
         inductId: this.inductId,
       });

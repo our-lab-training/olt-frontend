@@ -268,19 +268,19 @@ export default {
     loading() { return this.isPatchPending || this.ntIsPatchPending || this.ntIsCreatePending; },
     trigValid() {
       return !!(
-        this.triggerTypes.find(t => t.value === this.trigger.triggerType)
+        this.triggerTypes.find((t) => t.value === this.trigger.triggerType)
         && (
           this.trigger.triggerType.indexOf('perm') === -1
-          || this.perms.find(p => p.value === this.trigger.perm.join('.'))
+          || this.perms.find((p) => p.value === this.trigger.perm.join('.'))
         )
       );
     },
     actValid() {
       return !!(
-        this.actionTypes.find(t => t.value === this.action.actionType)
+        this.actionTypes.find((t) => t.value === this.action.actionType)
         && (
           this.action.actionType.indexOf('perm') === -1
-          || this.perms.find(p => p.value === this.action.perm.join('.'))
+          || this.perms.find((p) => p.value === this.action.perm.join('.'))
         ) && (
           this.action.actionType !== 'notify'
           || this.notifyValid

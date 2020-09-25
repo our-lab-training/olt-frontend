@@ -48,7 +48,7 @@ import editTrain from './components/training/edit-training.vue';
 import listTrain from './components/training/list-training.vue';
 import viewTrain from './components/training/view-training.vue';
 import statTrain from './components/training/stat-training.vue';
-import msdocViewer from '../../../plugins/content/frontend/explorer/view/msdoc.vue';
+import msdocViewer from '../../content/frontend/explorer/view/msdoc.vue';
 
 export default {
   components: {

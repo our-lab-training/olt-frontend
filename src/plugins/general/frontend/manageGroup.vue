@@ -156,7 +156,9 @@
 
 <script>
 import { mapGetters, mapState, mapActions } from 'vuex';
-import { find, filter, reduce, forIn } from 'lodash';
+import {
+ find, filter, reduce, forIn,
+} from 'lodash';
 import groupSettings from '@/views/partials/groups/settings.vue';
 import manageList from './manage/list.vue';
 import manageEdit from './manage/edit.vue';
@@ -205,11 +207,11 @@ export default {
     },
     getIcon(plugin) {
       if (plugin.icon) return plugin.icon;
-      const { icon } = find(plugin.entries, entry => entry.icon);
+      const { icon } = find(plugin.entries, (entry) => entry.icon);
       return icon || 'dashboard';
     },
     pluginsChange() {
-      const plugins = filter(this.plugins, p => !this.$plugins[p].global) || [];
+      const plugins = filter(this.plugins, (p) => !this.$plugins[p].global) || [];
       this.patchGroup({ plugins });
     },
     async saveSettings() {

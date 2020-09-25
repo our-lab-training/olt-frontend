@@ -44,7 +44,7 @@ export default {
           query: {
             'perms.groups': this.currentGroup ? this.currentGroup._id : { $exists: true },
           },
-        }).data.map(user => ({
+        }).data.map((user) => ({
           text: `User: ${user.name} (${user.username})`,
           value: JSON.stringify({
             type: 'users',
@@ -56,7 +56,7 @@ export default {
           query: {
             groupId: this.currentGroup ? this.currentGroup._id : 'noRoles',
           },
-        }).data.map(role => ({
+        }).data.map((role) => ({
           text: `Role: ${role.name}`,
           value: JSON.stringify({
             type: 'roles',
@@ -72,7 +72,7 @@ export default {
     findPerm(value) {
       const query = JSON.parse(value);
       delete query.perm;
-      const [perm] = this.findPerms({ query }).data.filter(p => isEqual(p.perm, this.perm));
+      const [perm] = this.findPerms({ query }).data.filter((p) => isEqual(p.perm, this.perm));
       return perm;
     },
     getGrants() {
@@ -92,11 +92,11 @@ export default {
       if (this.loading || this.disabled) return;
       this.err = null;
       const currGrants = this.getGrants();
-      const adds = this.grantees.filter(g => currGrants.indexOf(g) === -1);
-      const removes = currGrants.filter(g => this.grantees.indexOf(g) === -1);
+      const adds = this.grantees.filter((g) => currGrants.indexOf(g) === -1);
+      const removes = currGrants.filter((g) => this.grantees.indexOf(g) === -1);
       if (!adds.length && !removes.length) return;
       try {
-        Promise.all(adds.map(add => this.$store.dispatch('perms/create', JSON.parse(add))));
+        Promise.all(adds.map((add) => this.$store.dispatch('perms/create', JSON.parse(add))));
         Promise.all(removes.map((remove) => {
           const perm = this.findPerm(remove);
           if (perm) return this.$store.dispatch('perms/remove', perm._id);

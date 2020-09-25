@@ -62,7 +62,7 @@
 import { mapGetters } from 'vuex';
 
 const tagsToReplace = { '&': '&amp;', '<': '&lt;', '>': '&gt;' };
-const escapeHTML = v => v.replace(/[&<>]/g, tag => tagsToReplace[tag] || tag);
+const escapeHTML = (v) => v.replace(/[&<>]/g, (tag) => tagsToReplace[tag] || tag);
 
 export default {
   props: {
@@ -83,7 +83,7 @@ export default {
   },
   computed: {
     ...mapGetters('users', { findUsers: 'find' }),
-    users() { return this.findUsers().data.map(u => ({ text: u.name, value: u.email })); },
+    users() { return this.findUsers().data.map((u) => ({ text: u.name, value: u.email })); },
     searchReg() {
       const query = (this.search || '')
         .trim()
@@ -99,12 +99,12 @@ export default {
       this.$emit('update:valid', valid);
       return valid || 'Invalid Email';
     },
-    highlight(v) { return escapeHTML(v).replace(this.searchReg, h => `<span class="v-list__tile__mask">${h}</span>`); },
+    highlight(v) { return escapeHTML(v).replace(this.searchReg, (h) => `<span class="v-list__tile__mask">${h}</span>`); },
     loadEmails() {
       this.emails = this.value
         .split(', ')
-        .filter(v => v)
-        .map(v => this.users.find(u => u.value === v) || v);
+        .filter((v) => v)
+        .map((v) => this.users.find((u) => u.value === v) || v);
     },
   },
   mounted() {
@@ -113,7 +113,7 @@ export default {
   watch: {
     value() { this.loadEmails(); },
     emails() {
-      const list = this.emails.map(v => v.value || v).join(', ');
+      const list = this.emails.map((v) => v.value || v).join(', ');
       if (list !== this.value) this.$emit('input', list);
     },
   },

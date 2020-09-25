@@ -1,6 +1,7 @@
 // eslint-disable-next-line
 import '@babel/polyfill';
 import Vue from 'vue';
+import VueCompositionApi from '@vue/composition-api';
 import shortkey from 'vue-shortkey';
 import vueMoment from 'vue-moment';
 import './plugins/vuetify';
@@ -15,6 +16,7 @@ Vue.config.productionTip = false;
 Vue.config.ignoredElements = [/^ion-/];
 Vue.use(shortkey);
 Vue.use(vueMoment);
+Vue.use(VueCompositionApi);
 
 // Auth first before loading the app
 store
@@ -29,6 +31,6 @@ store
     new Vue({
       router,
       store,
-      render: h => h(App),
+      render: (h) => h(App),
     }).$mount('#app');
   });

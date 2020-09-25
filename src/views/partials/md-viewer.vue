@@ -1,8 +1,7 @@
 <template>
-  <viewer v-model="value" :options="options"/>
+  <viewer v-model="value" :options="options" />
 </template>
 <script>
-/* eslint-disable no-extraneous-dependencies */
 // import 'tui-editor/dist/tui-editor-contents.css';
 import 'tui-editor/dist/tui-editor.css';
 // import 'tui-chart/dist/tui-chart.min.css';
@@ -42,56 +41,76 @@ export default {
 </script>
 
 <style lang="stylus">
-.tui-editor-defaultUI
-  font-family Roboto,sans-serif
-.tui-editor-contents
-  h1, h2, h3, h4, h5, h6, li
-    margin-bottom 0.5em
-  table
+.tui-editor-defaultUI {
+  font-family: Roboto, sans-serif;
+}
+
+.tui-editor-contents {
+  h1, h2, h3, h4, h5, h6, li {
+    margin-bottom: 0.5em;
+  }
+
+  table {
     margin: 2px 0 14px;
     color: #555;
     width: auto;
     border-collapse: collapse;
     box-sizing: border-box;
-  th, td
+  }
+
+  th, td {
     height: 32px;
     padding: 5px 14px 5px 12px;
-  td
+  }
+
+  td {
     border: 1px solid #eaeaea;
-  th
+  }
+
+  th {
     border: 1px solid #72777b;
     border-top: 0;
     background-color: #7b8184;
     font-weight: 300;
     color: #fff;
     padding-top: 6px;
-  .task-list-item
+  }
+
+  .task-list-item {
     border: 0;
     list-style: none;
     padding-left: 22px;
     margin-left: -22px;
-    position relative
-  .task-list-item::after
-    font-family: "Font Awesome 5 Pro";
+    position: relative;
+  }
+
+  .task-list-item::after {
+    font-family: 'Font Awesome 5 Pro';
     font-weight: 400;
-    position absolute
-    content "\f0c8"
-    left 0
-    top 0
-  .task-list-item.checked::after
-    font-weight 900
-    content "\f14a"
-  .task-list-item input[type='checkbox'],
-  .task-list-item .task-list-item-checkbox
+    position: absolute;
+    content: '\f0c8';
+    left: 0;
+    top: 0;
+  }
+
+  .task-list-item.checked::after {
+    font-weight: 900;
+    content: '\f14a';
+  }
+
+  .task-list-item input[type='checkbox'], .task-list-item .task-list-item-checkbox {
     margin-left: -17px;
     margin-right: 3.8px;
     margin-top: 3px;
-  code
+  }
+
+  code {
     width: 100%;
-  code::after,
-  code::before,
-  kbd::after,
-  kbd::before
+  }
+
+  code::after, code::before, kbd::after, kbd::before {
     width: 100%;
     display: inline-block;
+  }
+}
 </style>

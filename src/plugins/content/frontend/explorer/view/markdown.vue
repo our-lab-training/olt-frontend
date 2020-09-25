@@ -27,7 +27,6 @@
   </v-card>
 </template>
 <script>
-/* eslint-disable no-extraneous-dependencies */
 // import 'tui-editor/dist/tui-editor-contents.css';
 import 'tui-editor/dist/tui-editor.css';
 // import 'tui-chart/dist/tui-chart.min.css';

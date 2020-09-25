@@ -103,8 +103,8 @@ export default {
       if (this.search && this.search.trim()) {
         const reg = RegExp(`(${this.search.trim().replace(/\s/g, ')|(')})`, 'i');
         query.$or = [
-          { username: v => reg.test(v) },
-          { name: v => reg.test(v) },
+          { username: (v) => reg.test(v) },
+          { name: (v) => reg.test(v) },
         ];
       }
       return this.findUser({ query }).data
@@ -115,7 +115,7 @@ export default {
           const inductor = completed && this.getUser(completed.inductorId || completed.createdBy);
           return {
             ...user,
-            comPerm: user.perms.userperms.find(p => p.perm.join('.') === `inductions.${this.inductId}.complete`),
+            comPerm: user.perms.userperms.find((p) => p.perm.join('.') === `inductions.${this.inductId}.complete`),
             completed,
             inductor,
           };

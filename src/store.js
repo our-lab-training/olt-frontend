@@ -15,7 +15,7 @@ const { service, auth, FeathersVuex } = feathersVuex(feathersClient, { idField: 
 Vue.use(Vuex);
 Vue.use(FeathersVuex);
 
-const node2reg = node => new RegExp(node.replace(/\//g, '\\/').replace(/\*/g, '.*'));
+const node2reg = (node) => new RegExp(node.replace(/\//g, '\\/').replace(/\*/g, '.*'));
 
 const hasPerm = (state, permission, exact = false) => {
   const { user } = state.auth;
@@ -61,8 +61,7 @@ export default new Vuex.Store({
       paginate: true,
       replaceItems: true,
       getters: {
-        hasPerm: (state, getters, rootState) =>
-          (perm, exact = false) => hasPerm(rootState, perm, exact),
+        hasPerm: (state, getters, rootState) => (perm, exact = false) => hasPerm(rootState, perm, exact),
       },
       actions: {
         hasPerm: ({ rootState }, perm) => hasPerm(rootState, perm, false),

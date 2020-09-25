@@ -84,10 +84,10 @@ export default {
     bindId() { return this.$route.params.bindId; },
     binder() {
       const bind = this.getBind(this.bindId) || { items: [] };
-      const type = types.binds.find(t => t.value === bind.type) || { cats: [] };
+      const type = types.binds.find((t) => t.value === bind.type) || { cats: [] };
       bind.items.forEach((i) => {
         i.data = this.$store.getters[`${i.type}/get`](i.itemId) || {};
-        i.catName = (type.cats.find(c => c.value === i.category) || {}).text;
+        i.catName = (type.cats.find((c) => c.value === i.category) || {}).text;
       });
       return bind;
     },
@@ -100,7 +100,7 @@ export default {
       if (!train) return this.$router.push('./');
       let c = 1;
       train.steps.forEach((step) => {
-        if (step.type === 'doc') step.data = this.binder.items.find(i => i._id === step.docId);
+        if (step.type === 'doc') step.data = this.binder.items.find((i) => i._id === step.docId);
         if (step.required) {
           step.count = c;
           c += 1;

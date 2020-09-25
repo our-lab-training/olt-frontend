@@ -38,7 +38,7 @@ export default {
   computed: {
     darkIcon() {
       if (this.dark) return 'lightbulb-slash';
-      else if ((new Date()).getMonth() === 11) return 'lights-holiday';
+      if ((new Date()).getMonth() === 11) return 'lights-holiday';
       return 'lightbulb-on';
     },
   },

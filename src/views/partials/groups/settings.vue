@@ -141,7 +141,7 @@ export default {
       return [
         { value: null, text: 'None' },
         // eslint-disable-next-line no-underscore-dangle
-        ...this.findGroup({ query: { type: 'template' } }).data.map(g => ({ value: g._id, text: g.name })),
+        ...this.findGroup({ query: { type: 'template' } }).data.map((g) => ({ value: g._id, text: g.name })),
       ];
     },
   },
@@ -200,4 +200,3 @@ img {
 }
 
 </style>
-

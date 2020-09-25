@@ -15,6 +15,8 @@ module.exports = {
     'template-curly-spacing': 'off',
     indent: 'off',
     'max-len': 'off',
+    'vue/no-unused-vars': 'warn',
+    'import/no-cycle': 'warn',
   },
   parserOptions: {
     parser: 'babel-eslint',

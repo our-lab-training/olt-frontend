@@ -131,7 +131,7 @@ export default {
         const reg = RegExp(`(${this.search.trim().replace(/\s/g, ')|(')})`, 'i');
         getPath(this.root._id);
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        return this.$content._sort(searchResults.filter(child => reg.test(child.name)));
+        return this.$content._sort(searchResults.filter((child) => reg.test(child.name)));
       }
       return [
         {
@@ -185,4 +185,3 @@ export default {
   min-width: 150px;
 }
 </style>
-

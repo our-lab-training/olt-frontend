@@ -58,16 +58,16 @@ export default {
     const trainings = store.getters['trainings/find']({ query: { groupId } }).data;
     return [
       ...perms(groupId),
-      ...inductions.map(ind => ({
+      ...inductions.map((ind) => ({
         text: `Inductions - Induct ${ind.name}`,
         value: `inductions.${ind._id}.inductor`,
       })),
-      ...inductions.map(ind => ({
+      ...inductions.map((ind) => ({
         text: `Inductions - Completed ${ind.name}`,
         value: `inductions.${ind._id}.complete`,
         readonly: true,
       })),
-      ...trainings.map(train => ({
+      ...trainings.map((train) => ({
         text: `Training - Completed ${train.name}`,
         value: `trainings.${train._id}.complete`,
         readonly: true,

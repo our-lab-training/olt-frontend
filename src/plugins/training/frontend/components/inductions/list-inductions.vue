@@ -88,12 +88,12 @@ export default {
       const query = {
         groupId: this.currentGroup._id,
       };
-      if (!this.writePerm) query.published = v => (new Date(v)).getTime() < Date.now();
+      if (!this.writePerm) query.published = (v) => (new Date(v)).getTime() < Date.now();
       if (this.search) {
         const reg = RegExp(`(${this.search.replace(/\s/g, ')|(')})`, 'i');
-        query.name = v => reg.test(v);
+        query.name = (v) => reg.test(v);
       }
-      return this.findInduct({ query }).data.map(induct => ({
+      return this.findInduct({ query }).data.map((induct) => ({
         ...induct,
         complete: this.hasPerm(`inductions.${induct._id}.complete`, true),
         filter: this.hasPerm(`inductions.${induct._id}.inductor`, true) ? 'inductor' : 'inductee',

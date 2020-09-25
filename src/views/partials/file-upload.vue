@@ -99,7 +99,7 @@ export default {
       // const form = this.getFormData(files);
       if (files) {
         if (files.length > 0) {
-          this.filename = [...files].map(file => file.name).join(', ');
+          this.filename = [...files].map((file) => file.name).join(', ');
         } else {
           this.filename = null;
         }

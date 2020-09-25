@@ -20,8 +20,8 @@ const contentLib = {
   _url2File(url, filename, type) {
     type = type || (url.match(/^data:([^;]+);/) || '')[1];
     return (fetch(url)
-      .then(res => res.arrayBuffer())
-      .then(buf => new File([buf], filename, { type }))
+      .then((res) => res.arrayBuffer())
+      .then((buf) => new File([buf], filename, { type }))
     );
   },
   _file2Url(file) {
@@ -109,7 +109,7 @@ const contentLib = {
 
     // build request
     const fd = new FormData();
-    Object.keys(presign.fields).forEach(i => fd.append(i, presign.fields[i]));
+    Object.keys(presign.fields).forEach((i) => fd.append(i, presign.fields[i]));
     fd.append('file', file);
 
     // send request
@@ -130,7 +130,7 @@ const contentLib = {
         return content;
       }
       return new Content(await this._get(content._id));
-    } else if (method === 'write') {
+    } if (method === 'write') {
       if (content.presign && content.presign.expires > Date.now() && content.presign.method !== 'GET') {
         return content;
       }
@@ -174,8 +174,7 @@ const contentLib = {
           parent: { $exists: false },
         },
       }).data[0];
-      parentContent = await parts.reduce(async (a, p) =>
-        this._findFile(p, a ? (await a) : null, {
+      parentContent = await parts.reduce(async (a, p) => this._findFile(p, a ? (await a) : null, {
           createIfNotFound: true,
           type: 'text/x-directory',
           perms,
@@ -270,7 +269,6 @@ const contentLib = {
     });
   },
 };
-
 
 export default (() => {
   const plugin = {

@@ -58,14 +58,14 @@ export default {
     ...mapGetters('users', { hasPerm: 'hasPerm', currentUser: 'current' }),
     ...mapGetters('groups', { findGroup: 'find' }),
     groups() {
-      const user = this.currentUser._id === this.$store.state.auth.payload.userId ?
-        this.currentUser : this.$store.state.auth.user;
+      const user = this.currentUser._id === this.$store.state.auth.payload.userId
+        ? this.currentUser : this.$store.state.auth.user;
       // force recompute on state change
       if (
-        this.isFindPending ||
-        this.isRemovePending ||
-        this.isCreatePending ||
-        this.isPatchPending
+        this.isFindPending
+        || this.isRemovePending
+        || this.isCreatePending
+        || this.isPatchPending
       ) Math.random();
 
       if (this.type === 'search' && !this.query) return [];
@@ -76,7 +76,7 @@ export default {
         query = RegExp(`(${queryString.replace(/[ ]+/g, ')|(')})`, 'i');
       }
       const typeQueries = {
-        search: { name: v => query.test(v) },
+        search: { name: (v) => query.test(v) },
         public: { type: 'public' },
         templates: { type: 'template' },
         enrolled: { _id: { $in: user.perms.groups } },

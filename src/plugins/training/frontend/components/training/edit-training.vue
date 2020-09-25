@@ -285,15 +285,15 @@ export default {
     bindId() { return this.$route.params.bindId; },
     binder() {
       const bind = this.getBind(this.bindId) || { items: [] };
-      const type = types.binds.find(t => t.value === bind.type) || { cats: [] };
+      const type = types.binds.find((t) => t.value === bind.type) || { cats: [] };
       bind.items.forEach((i) => {
         i.data = this.$store.getters[`${i.type}/get`](i.itemId) || {};
-        i.catName = (type.cats.find(c => c.value === i.category) || {}).text;
+        i.catName = (type.cats.find((c) => c.value === i.category) || {}).text;
       });
       return bind;
     },
     getItem() {
-      return docId => (this.binder.items.find(i => i._id === docId) || { data: { name: '' } });
+      return (docId) => (this.binder.items.find((i) => i._id === docId) || { data: { name: '' } });
     },
     otherTrains() {
       return this.findTrain({
@@ -309,7 +309,7 @@ export default {
     binds() {
       return this.findBind({
         query: {
-          _id: { $nin: this.otherTrains.map(t => t.bindId) },
+          _id: { $nin: this.otherTrains.map((t) => t.bindId) },
           groupId: this.currentGroup._id,
         },
       }).data;

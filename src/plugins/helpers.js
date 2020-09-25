@@ -12,14 +12,12 @@ const helpers = {
       let end = keys.pop();
       while (!Number.isNaN(Number(end))) end = keys.pop();
       if (!end) return;
-      errorObj[end] =
-        typeof err.errors[key] === 'string'
+      errorObj[end] = typeof err.errors[key] === 'string'
           ? err.message
           : err.errors[key].message;
     });
   },
 };
-
 
 export default (() => {
   const plugin = {

@@ -131,48 +131,48 @@ export default {
       if (!item) return;
       if (this.type === 'users') {
         this.item = (new this.$FeathersVuex.User(item)).clone();
-        this.userRoles = this.item.perms.roles.filter(id => this.roles.find(r => r._id === id));
+        this.userRoles = this.item.perms.roles.filter((id) => this.roles.find((r) => r._id === id));
         this.itemPerms = this.item.perms.userperms
-          .map(p => p.perm.join('.'))
-          .filter(perm => this.perms.find(p => p.value === perm));
+          .map((p) => p.perm.join('.'))
+          .filter((perm) => this.perms.find((p) => p.value === perm));
       } else if (this.type === 'roles') {
         this.item = (new this.$FeathersVuex.Role(item)).clone();
         this.itemPerms = this.item.perms
-          .map(p => p.perm.join('.'))
-          .filter(perm => this.perms.find(p => p.value === perm));
+          .map((p) => p.perm.join('.'))
+          .filter((perm) => this.perms.find((p) => p.value === perm));
       }
     },
     // eslint-disable-next-line func-names
     'item.perms.roles': function (v) {
       if (this.type !== 'users') return;
-      this.userRoles = v.filter(id => this.roles.find(r => r._id === id));
+      this.userRoles = v.filter((id) => this.roles.find((r) => r._id === id));
     },
     // eslint-disable-next-line func-names
     'item.perms.userperms': function (v) {
       if (this.type !== 'users') return;
-      this.itemPerms = v.map(p => p.perm.join('.'))
-        .filter(perm => this.perms.find(p => p.value === perm));
+      this.itemPerms = v.map((p) => p.perm.join('.'))
+        .filter((perm) => this.perms.find((p) => p.value === perm));
     },
     // eslint-disable-next-line func-names
     'item.perms': function (v) {
       if (this.type !== 'roles') return;
-      this.itemPerms = !v ? [] : v.map(p => p.perm.join('.'))
-        .filter(perm => this.perms.find(p => p.value === perm));
+      this.itemPerms = !v ? [] : v.map((p) => p.perm.join('.'))
+        .filter((perm) => this.perms.find((p) => p.value === perm));
     },
     async userRoles() {
       if (this.type !== 'users') return;
       this.loadingRoles = true;
       this.errs = {};
       try {
-        const roles = this.item.perms.roles.filter(id => this.roles.find(r => r._id === id));
-        const adds = this.userRoles.filter(id => roles.indexOf(id) === -1);
-        const removes = roles.filter(id => this.userRoles.indexOf(id) === -1);
+        const roles = this.item.perms.roles.filter((id) => this.roles.find((r) => r._id === id));
+        const adds = this.userRoles.filter((id) => roles.indexOf(id) === -1);
+        const removes = roles.filter((id) => this.userRoles.indexOf(id) === -1);
         await Promise.all(removes.map((id) => {
-          const perm = this.item.perms.userperms.find(p => p.perm[0] === 'roles' && p.perm[1] === id);
+          const perm = this.item.perms.userperms.find((p) => p.perm[0] === 'roles' && p.perm[1] === id);
           if (!perm) return null;
           return this.$store.dispatch('perms/remove', perm._id);
         }));
-        await Promise.all(adds.map(id => this.$store.dispatch('perms/create', {
+        await Promise.all(adds.map((id) => this.$store.dispatch('perms/create', {
           grantee: this.item._id,
           perm: ['roles', id],
           type: 'users',
@@ -188,21 +188,21 @@ export default {
       this.errs = {};
       try {
         const perms = (this.type === 'roles' ? this.item.perms : this.item.perms.userperms)
-          .map(p => p.perm.join('.'))
-          .filter(perm => this.perms.find(p => p.value === perm));
-        const adds = this.itemPerms.filter(perm => perms.indexOf(perm) === -1);
-        const removes = perms.filter(perm => this.itemPerms.indexOf(perm) === -1);
+          .map((p) => p.perm.join('.'))
+          .filter((perm) => this.perms.find((p) => p.value === perm));
+        const adds = this.itemPerms.filter((perm) => perms.indexOf(perm) === -1);
+        const removes = perms.filter((perm) => this.itemPerms.indexOf(perm) === -1);
         if (!adds.length && !removes.length) {
           this.loadingPerms = false;
           return;
         }
         await Promise.all(removes.map((permstr) => {
           const perm = (this.type === 'roles' ? this.item.perms : this.item.perms.userperms)
-            .find(p => p.perm.join('.') === permstr);
+            .find((p) => p.perm.join('.') === permstr);
           if (!perm) return null;
           return this.$store.dispatch('perms/remove', perm._id);
         }));
-        await Promise.all(adds.map(permstr => this.$store.dispatch('perms/create', {
+        await Promise.all(adds.map((permstr) => this.$store.dispatch('perms/create', {
           grantee: this.item._id,
           perm: permstr.split('.'),
           type: this.type,

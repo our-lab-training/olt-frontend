@@ -62,7 +62,7 @@ const loadPath = async (to, from, next) => {
   const { path } = to.params;
   // const { parent } = to.meta;
   const gPath = (to.meta.path || '').replace('{groupId}', group.slugs ? group.slugs[0] : group._id);
-  router.contPush = p => router.push(gPath.replace(':path*', p));
+  router.contPush = (p) => router.push(gPath.replace(':path*', p));
   let pathId = null;
   if (!path) {
     const contents = await store._actions['content/find'][0]({

@@ -50,11 +50,11 @@ export default {
         password: '',
       },
       usernameRules: [
-        v => !!v || 'Pheme number is required',
-        v => /^\d{8}$/.test(v) || 'Pheme number must be 8 digits',
+        (v) => !!v || 'Pheme number is required',
+        (v) => /^\d{8}$/.test(v) || 'Pheme number must be 8 digits',
       ],
       passwordRules: [
-        v => !!v.trim() || 'Password is required',
+        (v) => !!v.trim() || 'Password is required',
       ],
     };
   },

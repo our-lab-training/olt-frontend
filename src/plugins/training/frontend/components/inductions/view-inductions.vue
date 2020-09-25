@@ -60,7 +60,7 @@ export default {
       return this.findUser({
         query: {
           'perms.groups': this.currentGroup._id,
-          'perms.all': v => v.join('.') === `inductions.${this.inductId}.inductor`,
+          'perms.all': (v) => v.join('.') === `inductions.${this.inductId}.inductor`,
         },
       }).data;
     },

@@ -54,7 +54,7 @@ import supportedFiles from '../supportedFiles';
 const getType = (filename) => {
   const ext = filename.split('.').pop();
   if (!ext) return undefined;
-  return Object.keys(supportedFiles).find(i => supportedFiles[i].ext.indexOf(ext) !== -1);
+  return Object.keys(supportedFiles).find((i) => supportedFiles[i].ext.indexOf(ext) !== -1);
 };
 
 export default {
@@ -121,4 +121,3 @@ export default {
   },
 };
 </script>
-

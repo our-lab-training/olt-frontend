@@ -64,8 +64,8 @@ export default {
     ...mapState('content', ['isOperationPending']),
     fileTypes() {
       return Object.keys(supportedFiles)
-        .filter(i => supportedFiles[i].edit === 'textEdit')
-        .map(i => ({ text: supportedFiles[i].name, value: i }));
+        .filter((i) => supportedFiles[i].edit === 'textEdit')
+        .map((i) => ({ text: supportedFiles[i].name, value: i }));
     },
     filename() { return this.$refs.filename.innerHTML.trim(); },
     ext() {
@@ -120,4 +120,3 @@ export default {
   height: 100%;
 }
 </style>
-

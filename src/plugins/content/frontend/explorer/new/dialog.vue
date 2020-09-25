@@ -81,7 +81,7 @@ import supportedFiles from '../../../supportedFiles';
 const getType = (filename) => {
   const ext = filename.split('.').pop();
   if (!ext) return undefined;
-  return Object.keys(supportedFiles).find(i => supportedFiles[i].ext.indexOf(ext) !== -1);
+  return Object.keys(supportedFiles).find((i) => supportedFiles[i].ext.indexOf(ext) !== -1);
 };
 let suffix;
 let currentType;
@@ -113,7 +113,7 @@ export default {
       filename: '',
       link: '',
       filenameRules: [
-        v => /^[^\\/:*"<>|]+$/.test(v) || 'Invalid file name charaters.',
+        (v) => /^[^\\/:*"<>|]+$/.test(v) || 'Invalid file name charaters.',
         (v) => {
           let filename = v;
           if (suffix && !RegExp(`${suffix.replace('.', '\\.')}$`).test(filename)) {
@@ -144,7 +144,7 @@ export default {
       }
       const type = this.type === 'directory' ? 'text/x-directory' : getType(filename);
       const name = filename;
-      const perms = (this.currParent.perms || []).filter(p => p !== 'superadmin.content.deleteroots');
+      const perms = (this.currParent.perms || []).filter((p) => p !== 'superadmin.content.deleteroots');
       try {
         await this.$content.createFile(name, (this.currParent || {})._id, content, type, perms);
         this.$emit('update:dialog', false);

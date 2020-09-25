@@ -1,4 +1,3 @@
-
 import manageGroup from './manageGroup.vue';
 import leaveGroup from './leaveGroup.vue';
 import joinGroup from './joinGroup.vue';
@@ -45,7 +44,7 @@ export default {
     },
   },
   global: true,
-  perms: groupId => [
+  perms: (groupId) => [
     { text: 'Org - Override All Permissions', value: `${groupId}.*`, defaultRoles: ['admin'] },
     { text: 'Org - Manage Org', value: `${groupId}.group.write`, defaultRoles: ['admin'] },
     { text: 'Org - Joined', value: `${groupId}.enrolled`, defaultRoles: [] },

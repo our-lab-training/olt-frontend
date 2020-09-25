@@ -32,20 +32,20 @@ const loadGroupRoute = async (to, from, next) => {
   const { route } = to.meta;
   const isEnrolled = store.state.auth.user.perms.groups.indexOf(group._id) !== -1;
   if ((
-    route.onlyGroupOfTypes &&
-    route.onlyGroupOfTypes.indexOf(group.type) === -1
-  ) ||
-  (
-    typeof route.ifEnrolledIs === 'boolean' &&
-    route.ifEnrolledIs !== isEnrolled
-  ) ||
-  (
-    route.visiblePerms &&
-    !find(route.visiblePerms, perm => store.dispatch('users/hasPerm', perm.replace('{groupId}', group._id)))
-  ) ||
-  (
-    route.invisiblePerms &&
-    find(route.invisiblePerms, perm => store.dispatch('users/hasPerm', perm.replace('{groupId}', group._id)))
+    route.onlyGroupOfTypes
+    && route.onlyGroupOfTypes.indexOf(group.type) === -1
+  )
+  || (
+    typeof route.ifEnrolledIs === 'boolean'
+    && route.ifEnrolledIs !== isEnrolled
+  )
+  || (
+    route.visiblePerms
+    && !find(route.visiblePerms, (perm) => store.dispatch('users/hasPerm', perm.replace('{groupId}', group._id)))
+  )
+  || (
+    route.invisiblePerms
+    && find(route.invisiblePerms, (perm) => store.dispatch('users/hasPerm', perm.replace('{groupId}', group._id)))
   )) return next('/');
   return next();
 };
@@ -65,8 +65,8 @@ export default {
   async beforeMount() {
     const exclude = ['auth', 'issues'];
     await Promise.all(Object.keys(this.$store.state)
-      .filter(s => exclude.indexOf(s) === -1)
-      .map(s => this.$store.dispatch(`${s}/find`)));
+      .filter((s) => exclude.indexOf(s) === -1)
+      .map((s) => this.$store.dispatch(`${s}/find`)));
   },
   beforeRouteEnter: loadGroupRoute,
   beforeRouteUpdate: loadGroupRoute,

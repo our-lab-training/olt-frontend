@@ -126,15 +126,15 @@ export default {
     isCreatePending() {
       return this.permsCreatePending || this.rolesCreatePending || this.eventsCreatePending;
     },
-    singular() { return this.type.replace(/^./, c => c.toUpperCase()).replace(/s$/, ''); },
+    singular() { return this.type.replace(/^./, (c) => c.toUpperCase()).replace(/s$/, ''); },
     items() {
-      const search = v => !this.search || v.toLowerCase().indexOf(this.search.toLowerCase()) !== -1;
+      const search = (v) => !this.search || v.toLowerCase().indexOf(this.search.toLowerCase()) !== -1;
       const query = { $or: [{ name: search }] };
       switch (this.type) {
         case 'users':
           query.$or.push({ username: search });
           query['perms.groups'] = this.currentGroup._id;
-          return this.usersFind({ query }).data.map(u => ({ ...u, subname: u.username }));
+          return this.usersFind({ query }).data.map((u) => ({ ...u, subname: u.username }));
         case 'roles':
           query.groupId = this.currentGroup._id;
           return this.rolesFind({ query }).data;
@@ -161,7 +161,7 @@ export default {
       this.loading = true;
       try {
         if (this.type === 'roles' || this.type === 'events') {
-          if (this.items.find(i => i.name.toLowerCase() === this.newName.toLowerCase())) {
+          if (this.items.find((i) => i.name.toLowerCase() === this.newName.toLowerCase())) {
             throw new Error(`${this.singular} name already exists!`);
           }
           await this.$store.dispatch(`${this.type}/create`, {
@@ -169,7 +169,7 @@ export default {
             groupId: this.currentGroup._id,
           });
         } else if (this.type === 'users') {
-          if (this.items.find(i => i.username.toLowerCase() === this.newName.toLowerCase())) {
+          if (this.items.find((i) => i.username.toLowerCase() === this.newName.toLowerCase())) {
             throw new Error('User is already joined!');
           }
           await this.newName.split(',').reduce(async (a, username) => {
@@ -207,4 +207,3 @@ export default {
   overflow-y: auto;
 }
 </style>
-

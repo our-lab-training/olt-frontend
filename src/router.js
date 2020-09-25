@@ -51,14 +51,14 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-  const isPublic = to.matched.some(record => !!record.meta.isPublic);
+  const isPublic = to.matched.some((record) => !!record.meta.isPublic);
   if (to.path === '/logout') {
     // eslint-disable-next-line no-console
     return store.dispatch('auth/logout').catch(console.error).then(() => next({ path: '/login' }));
   }
   if (isPublic && store.state.auth.user) {
     return next({ path: '/' });
-  } else if (!isPublic && !store.state.auth.user) {
+  } if (!isPublic && !store.state.auth.user) {
     return next({
       path: '/login',
       query: to.path === '/' ? {} : { followPath: to.path },
