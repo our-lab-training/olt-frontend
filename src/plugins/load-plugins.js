@@ -1,11 +1,11 @@
 import Vue from 'vue';
 import router from '@/router';
 import store from '@/store';
-import feathersVuex from 'feathers-vuex';
-import feathersClient from '@/feathers-client';
-import { kebabCase, forIn, sortBy } from 'lodash';
-
-const { service } = feathersVuex(feathersClient, { idField: '_id' });
+import feathersClient,
+{ makeServicePlugin, BaseModel } from '@/feathers-client';
+import {
+  kebabCase, forIn, sortBy, startCase, toLower,
+} from 'lodash';
 
 export default (async () => {
   const requireModule = require.context('.', true, /\/frontend\/index\.js$/);
@@ -30,9 +30,9 @@ export default (async () => {
         if (!route.component) return;
         route._component = Vue.component(
           kebabCase(`${config.ref}-${ref}`),
-          typeof route.component === 'string' ?
-            () => import(`${dir}/${route.component}.vue`) :
-            route.component,
+          typeof route.component === 'string'
+            ? () => import(`${dir}/${route.component}.vue`)
+            : route.component,
         );
         const path = (route.path || '').replace('{groupId}', ':groupRef');
         if (path) {
@@ -47,7 +47,15 @@ export default (async () => {
 
       // forIn(config.entries || {}, setupRoute);
       forIn(config.routes || [], setupRoute);
-      forIn(config.store || {}, (v, i) => service(i, v)(store));
+      forIn(config.store || {}, (serviceProperties, servicePath) => {
+        class SpecificModel extends BaseModel {
+          // TITLE CASE
+          static modelName = startCase(toLower(servicePath));
+        }
+        return makeServicePlugin({
+          Model: SpecificModel, servicePath, service: feathersClient.service(servicePath), ...serviceProperties,
+        })(store);
+      });
     } catch (err) {
       console.error(err); // eslint-disable-line no-console
       if (config && config.ref && plugins[config.ref]) delete plugins[config.ref];
@@ -61,7 +69,7 @@ export default (async () => {
         get() { return plugins; },
       });
       Object.defineProperty(Vue.prototype, '$perms', {
-        get() { return groupId => sortBy(permFuncs.reduce((a, perms) => [...a, ...perms(groupId)], []), 'text'); },
+        get() { return (groupId) => sortBy(permFuncs.reduce((a, perms) => [...a, ...perms(groupId)], []), 'text'); },
       });
     },
   };
