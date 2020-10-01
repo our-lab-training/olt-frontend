@@ -14,7 +14,7 @@
         />
       </v-flex><v-flex shrink v-if="type !== 'users'">
         <v-menu offset-y>
-          <v-btn flat icon slot="activator" :loading="isRemovePending">
+          <v-btn text icon slot="activator" :loading="isRemovePending">
             <v-icon>fal fa-trash</v-icon>
           </v-btn>
           <v-list>

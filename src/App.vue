@@ -1,14 +1,14 @@
 <template>
   <v-app :dark="dark">
 
-    <v-content>
+    <v-main>
       <router-view/>
-    </v-content>
+    </v-main>
 
     <v-footer inset class="footer">
       <v-flex text-xs-center xs12>
         <span>
-          <v-btn flat icon small @click="dark = !dark">
+          <v-btn text icon small @click="dark = !dark">
             <v-icon small>fal fa-{{darkIcon}}</v-icon>
           </v-btn>
         </span>

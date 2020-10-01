@@ -20,7 +20,7 @@
           v-if="writePerm && bindId !== 'new'"
           slot="activator"
           to="./new"
-          flat icon
+          text icon
         >
           <v-icon>far fa-plus</v-icon>
         </v-btn>

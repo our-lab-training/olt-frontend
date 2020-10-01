@@ -43,7 +43,7 @@
         <v-text-field
         prepend-icon="far fa-search"
         label="Search"
-        flat
+        text
         v-model="searchValue"
         @keyup="tabsValue = searchValue ? searchTab : 0"
       ></v-text-field>

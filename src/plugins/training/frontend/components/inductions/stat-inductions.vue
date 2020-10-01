@@ -50,7 +50,7 @@
         <td><span v-if="props.item.completed && props.item.completed.proofId">
           <v-tooltip left>
             <v-btn
-              icon flat
+              icon text
               :to="`../content/${props.item.completed.proofId}`"
               slot="activator"
             >

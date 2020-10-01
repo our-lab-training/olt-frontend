@@ -15,7 +15,7 @@
       </v-flex>
       <v-flex shrink>
         <v-menu offset-y>
-          <v-btn flat icon slot="activator" :loading="isRemovePending">
+          <v-btn text icon slot="activator" :loading="isRemovePending">
             <v-icon>fal fa-trash</v-icon>
           </v-btn>
           <v-list>
@@ -36,7 +36,7 @@
       </v-flex>
       <v-spacer/>
       <v-btn
-        flat color="primary"
+        text color="primary"
         @click.stop="trigger={triggerType:'',perm:[]};trigDialog=true;"
         :disabled="loading"
         :loading="loading"
@@ -57,7 +57,7 @@
             </v-list-tile-content>
             <v-list-tile-action>
               <v-menu offset-y>
-                <v-btn flat icon small slot="activator"><v-icon small>fal fa-times</v-icon></v-btn>
+                <v-btn text icon small slot="activator"><v-icon small>fal fa-times</v-icon></v-btn>
                 <v-list>
                   <v-list-tile @click.stop="item.triggers.splice(i, 1); save();">
                     <v-list-tile-title class="error--text">
@@ -78,7 +78,7 @@
       </v-flex>
       <v-spacer/>
       <v-btn
-        flat color="primary"
+        text color="primary"
         @click.stop="action={actionType:'',perm:[]};actDialog=true;"
         :disabled="loading"
         :loading="loading"
@@ -102,7 +102,7 @@
             </v-list-tile-content>
             <v-list-tile-action>
               <v-menu offset-y>
-                <v-btn flat icon small slot="activator"><v-icon small>fal fa-times</v-icon></v-btn>
+                <v-btn text icon small slot="activator"><v-icon small>fal fa-times</v-icon></v-btn>
                 <v-list>
                   <v-list-tile @click.stop="item.actions.splice(i, 1);save();">
                     <v-list-tile-title class="error--text">
@@ -151,14 +151,14 @@
         <v-card-actions>
           <v-spacer/>
           <v-btn
-            flat
+            text
             @click.stop="trigDialog = false; trigger = {};"
             :disabled="loading"
             :loading="loading"
             v-text="'Close'"
           />
           <v-btn
-            flat color="success"
+            text color="success"
             @click.stop="saveTrig"
             :disabled="!trigValid || loading"
             :loading="loading"
@@ -200,14 +200,14 @@
         <v-card-actions>
           <v-spacer/>
           <v-btn
-            flat
+            text
             @click.stop="actDialog = false; action = {};"
             :disabled="loading"
             :loading="loading"
             v-text="'Close'"
           />
           <v-btn
-            flat color="success"
+            text color="success"
             @click.stop="saveAct"
             :disabled="!actValid || loading"
             :loading="loading"

@@ -1,7 +1,7 @@
 <template>
   <v-btn
     @click.stop="$router.go(-1)"
-    flat
+    text
     icon
   >
     <v-icon>far fa-arrow-alt-left</v-icon>

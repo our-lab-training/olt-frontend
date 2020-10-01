@@ -1,7 +1,7 @@
 <template>
   <span v-if="error">
     <v-btn
-      flat
+      text
       @click="dialog = true"
       small
     >
@@ -17,7 +17,7 @@
         ? 'Bug has been reported, thanks!'
         : 'Another error has occurred, please contact an administrator.'
       }}
-      <v-btn dark flat @click="snackbar = false">Close</v-btn>
+      <v-btn dark text @click="snackbar = false">Close</v-btn>
     </v-snackbar>
     <v-dialog v-model="dialog" persistent max-width="500px">
       <v-card>
@@ -123,9 +123,9 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" flat @click.native="dialog = false">Close</v-btn>
+          <v-btn color="blue darken-1" text @click.native="dialog = false">Close</v-btn>
           <v-btn
-            color="success" flat
+            color="success" text
             @click.native="report"
             :loading="isCreatePending"
             :disabled="isCreatePending || snackbar"

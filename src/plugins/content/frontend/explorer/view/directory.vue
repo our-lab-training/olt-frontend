@@ -28,7 +28,7 @@
         <v-spacer/>
         <v-tooltip top v-if="hasPerm(`${currentGroup._id}.content.read-hidden`)">
           <v-btn
-            flat icon
+            text icon
             @click.stop="$emit('update:show-hidden', !showHidden)"
             slot="activator"
           >
@@ -231,9 +231,9 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn flat @click.stop="renameMenu = null">Close</v-btn>
+          <v-btn text @click.stop="renameMenu = null">Close</v-btn>
           <v-btn
-            color="success" flat
+            color="success" text
             @click.stop="renameFile();"
             :loading="isOperationPending"
             :disabled="isOperationPending || !newFilename"

@@ -92,19 +92,19 @@
                       itemAddTo = s.children;
                       itemDialog = true;
                     "
-                    flat icon
+                    text icon
                   >
                     <v-icon small>fal fa-plus</v-icon>
                   </v-btn>
                   <span>&nbsp;</span>
                 </v-list-tile-action>
                 <v-list-tile-action>
-                  <v-btn flat icon v-if="i - 1 > -1" @click.stop="swap(induction.list, i-1, i)">
+                  <v-btn text icon v-if="i - 1 > -1" @click.stop="swap(induction.list, i-1, i)">
                     <v-icon small>fal fa-arrow-up</v-icon>
                   </v-btn>
                   <span v-else>&nbsp;</span>
                   <v-menu offset-y>
-                    <v-btn flat icon slot="activator"><v-icon small>fal fa-trash</v-icon></v-btn>
+                    <v-btn text icon slot="activator"><v-icon small>fal fa-trash</v-icon></v-btn>
                     <v-list>
                       <v-list-tile @click="itemDelete(induction.list, i)">
                         <v-list-tile-title class="error--text">
@@ -117,7 +117,7 @@
                     </v-list>
                   </v-menu>
                   <v-btn
-                    flat icon
+                    text icon
                     v-if="i + 1 < induction.list.length"
                     @click.stop="swap(induction.list, i, i+1)"
                   >
@@ -143,12 +143,12 @@
                   </v-list-tile-sub-title>
                 </v-list-tile-content>
                 <v-list-tile-action>
-                  <v-btn flat icon v-if="j - 1 > -1" @click.stop="swap(s.children, j-1, j)">
+                  <v-btn text icon v-if="j - 1 > -1" @click.stop="swap(s.children, j-1, j)">
                     <v-icon small>fal fa-arrow-up</v-icon>
                   </v-btn>
                   <span v-else>&nbsp;</span>
                   <v-menu offset-y>
-                    <v-btn flat icon slot="activator"><v-icon small>fal fa-trash</v-icon></v-btn>
+                    <v-btn text icon slot="activator"><v-icon small>fal fa-trash</v-icon></v-btn>
                     <v-list>
                       <v-list-tile @click="itemDelete(s.children, j)">
                         <v-list-tile-title class="error--text">
@@ -161,7 +161,7 @@
                     </v-list>
                   </v-menu>
                   <v-btn
-                    flat icon
+                    text icon
                     v-if="j + 1 < s.children.length"
                     @click.stop="swap(s.children, j, j+1)"
                   >
@@ -209,9 +209,9 @@
         </v-container>
         <v-card-actions>
           <v-spacer/>
-          <v-btn flat @click.native="itemDialog = false">Close</v-btn>
+          <v-btn text @click.native="itemDialog = false">Close</v-btn>
           <v-btn
-            color="primary" flat
+            color="primary" text
             @click.native="addItem"
             :disabled="!itemValid"
           >

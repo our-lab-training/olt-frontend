@@ -10,7 +10,7 @@
         .{{ ext }}
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn v-if="!hidden" flat icon @click="refresh()" :loading="refreshing">
+      <v-btn v-if="!hidden" text icon @click="refresh()" :loading="refreshing">
         <v-icon>fal fa-sync</v-icon>
       </v-btn>
       <v-flex shrink>
@@ -21,7 +21,7 @@
           label="Renderer"
         />
       </v-flex>
-      <v-btn flat icon v-if="toggleHidden" @click="$emit('update:hidden', !hidden)">
+      <v-btn text icon v-if="toggleHidden" @click="$emit('update:hidden', !hidden)">
         <v-icon>far fa-{{ hidden ? 'chevron-up' : 'chevron-down' }}</v-icon>
       </v-btn>
     </v-toolbar>

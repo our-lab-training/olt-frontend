@@ -4,7 +4,7 @@
       <v-btn
         slot="activator"
         @click.stop="$router.go(-1)"
-        flat icon
+        text icon
       >
         <v-icon>far fa-arrow-left</v-icon>
       </v-btn>
@@ -23,7 +23,7 @@
       <v-btn
         slot="activator"
         to="?edit"
-        flat icon
+        text icon
         :disabled="disabled"
       >
         <v-icon>fal fa-pencil</v-icon>
@@ -34,7 +34,7 @@
       <v-btn
         slot="activator"
         @click.stop="$emit('save')"
-        flat icon
+        text icon
         :disabled="disabled || loading"
         :loading="loading"
       >
@@ -46,7 +46,7 @@
       <v-btn
         slot="activator"
         @click.stop="del = true"
-        flat icon
+        text icon
         :disabled="disabled"
       >
         <v-icon>fal fa-trash</v-icon>
@@ -60,8 +60,8 @@
         <v-card-text>Delete {{binder.name}} forever?</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn flat @click.native="del = false">Cancel</v-btn>
-          <v-btn color="error" flat @click.native="deleteBind">Delete</v-btn>
+          <v-btn text @click.native="del = false">Cancel</v-btn>
+          <v-btn color="error" text @click.native="deleteBind">Delete</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

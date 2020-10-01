@@ -4,7 +4,7 @@ import Vue from 'vue';
 import VueCompositionApi from '@vue/composition-api';
 import shortkey from 'vue-shortkey';
 import vueMoment from 'vue-moment';
-import './plugins/vuetify';
+import Vuetify from './plugins/vuetify';
 import App from './App.vue';
 import router from './router';
 import store from './store';
@@ -32,5 +32,6 @@ store
       router,
       store,
       render: (h) => h(App),
+      vuetify: new Vuetify(),
     }).$mount('#app');
   });

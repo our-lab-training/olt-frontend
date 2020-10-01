@@ -64,14 +64,14 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
-            flat
+            text
             :disabled="isPatchPending"
             @click.native="dialog = false"
           >
             Close
           </v-btn>
           <v-btn
-            flat
+            text
             :loading="isPatchPending"
             :disabled="isPatchPending"
             @click.native="save()"

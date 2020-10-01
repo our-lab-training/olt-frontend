@@ -45,7 +45,7 @@
         >
           <v-tooltip left>
             <v-btn
-              icon flat
+              icon text
               :to="`../content/${props.item.comPerm.data.proofId}`"
               slot="activator"
             >

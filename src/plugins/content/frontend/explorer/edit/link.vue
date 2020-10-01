@@ -12,7 +12,7 @@
       <v-spacer></v-spacer>
       <v-btn
         @click.stop="save"
-        flat
+        text
         icon
         :loading="isOperationPending"
         :disabled="isOperationPending || text === savedText"

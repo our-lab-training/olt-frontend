@@ -4,7 +4,7 @@
       <v-btn
         slot="activator"
         @click.stop="$router.go(-1)"
-        flat icon
+        text icon
       >
         <v-icon>far fa-arrow-left</v-icon>
       </v-btn>
@@ -18,7 +18,7 @@
       <v-btn
         slot="activator"
         @click.stop="evi = true"
-        flat icon
+        text icon
         :disabled="disabled"
       >
         <v-icon>fal fa-file-upload</v-icon>
@@ -29,7 +29,7 @@
       <v-btn
         slot="activator"
         @click.stop="del = true"
-        flat icon
+        text icon
         :disabled="disabled"
       >
         <v-icon>fal fa-trash</v-icon>
@@ -40,7 +40,7 @@
       <v-btn
         slot="activator"
         to="?view"
-        flat icon
+        text icon
         :disabled="disabled"
       >
         <v-icon>fal fa-eye</v-icon>
@@ -51,7 +51,7 @@
       <v-btn
         slot="activator"
         to="?stats"
-        flat icon
+        text icon
         :disabled="disabled"
       >
         <v-icon>fal fa-chart-bar</v-icon>
@@ -62,7 +62,7 @@
       <v-btn
         slot="activator"
         to="?edit"
-        flat icon
+        text icon
         :disabled="disabled"
       >
         <v-icon>fal fa-pencil</v-icon>
@@ -73,7 +73,7 @@
       <v-btn
         slot="activator"
         @click.stop="$emit('save')"
-        flat icon
+        text icon
         :disabled="disabled || loading"
         :loading="loading"
       >
@@ -84,7 +84,7 @@
     <!-- <v-tooltip v-if="!edit" top>
       <v-btn
         slot="activator"
-        flat icon
+        text icon
         @click.stop="$emit('refresh')"
       >
         <v-icon>fal fa-sync {{isGetPending ? 'fa-spin' : ''}}</v-icon>
@@ -98,8 +98,8 @@
         </v-card-title>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn flat @click.stop="del = false">Cancel</v-btn>
-          <v-btn color="error" flat @click.stop="deleteInduct">Delete</v-btn>
+          <v-btn text @click.stop="del = false">Cancel</v-btn>
+          <v-btn color="error" text @click.stop="deleteInduct">Delete</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

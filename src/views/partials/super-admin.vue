@@ -15,7 +15,7 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn flat @click.native="dialog = false">Close</v-btn>
+        <v-btn text @click.native="dialog = false">Close</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

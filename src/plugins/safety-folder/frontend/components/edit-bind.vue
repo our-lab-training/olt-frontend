@@ -81,7 +81,7 @@
               </v-list-tile-content>
               <v-list-tile-action>
                 <v-tooltip top>
-                  <v-btn flat icon slot="activator" :to="`../${item.type}/${item.itemId}`">
+                  <v-btn text icon slot="activator" :to="`../${item.type}/${item.itemId}`">
                     <v-icon small>fal fa-external-link</v-icon>
                   </v-btn>
                   <span>View Document</span>
@@ -89,7 +89,7 @@
               </v-list-tile-action>
               <v-list-tile-action>
                 <v-menu offset-y>
-                  <v-btn flat icon slot="activator" @click.prevent="">
+                  <v-btn text icon slot="activator" @click.prevent="">
                     <v-icon small>fal fa-trash</v-icon>
                   </v-btn>
                   <v-list>
@@ -162,9 +162,9 @@
         </v-container>
         <v-card-actions>
           <v-spacer/>
-          <v-btn flat @click.native="itemDialog = false">Close</v-btn>
+          <v-btn text @click.native="itemDialog = false">Close</v-btn>
           <v-btn
-            color="primary" flat
+            color="primary" text
             @click.native="dialogAdd"
             :disabled="isOperationPending || !dialogValid"
             :loading="isOperationPending"

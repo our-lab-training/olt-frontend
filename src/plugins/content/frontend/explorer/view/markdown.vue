@@ -12,7 +12,7 @@
       <v-btn
         v-if="hasPerm(`${currentGroup._id}.content.write`)"
         @click.stop="loading = true;"
-        flat
+        text
         icon
         :loading="loading"
         :disabled="loading"

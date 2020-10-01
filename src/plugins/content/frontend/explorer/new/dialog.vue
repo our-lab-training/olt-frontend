@@ -51,7 +51,7 @@
           <v-spacer></v-spacer>
 
           <v-btn
-            flat="flat"
+            text="text"
             @click="$emit('update:dialog', false);"
           >
             Cancel
@@ -59,7 +59,7 @@
 
           <v-btn
             color="green darken-1"
-            flat="flat"
+            text="text"
             @click.stop="create()"
             :loading="isOperationPending"
             :disabled="!valid || !fileValid || isOperationPending"

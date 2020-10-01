@@ -42,9 +42,9 @@
                 <v-card-text>{{step.name}}</v-card-text>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="error" flat @click.native="step.dialog = false">Disagree</v-btn>
+                  <v-btn color="error" text @click.native="step.dialog = false">Disagree</v-btn>
                   <v-btn
-                    color="success" flat
+                    color="success" text
                     @click.native="accept(step)"
                     :loading="isCreatePending"
                   >

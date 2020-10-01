@@ -4,7 +4,7 @@
       <v-btn
         slot="activator"
         @click.stop="$router.go(-1)"
-        flat icon
+        text icon
       >
         <v-icon>far fa-arrow-left</v-icon>
       </v-btn>
@@ -18,7 +18,7 @@
       <v-btn
         slot="activator"
         to="?view"
-        flat icon
+        text icon
         :disabled="disabled"
       >
         <v-icon>fal fa-eye</v-icon>
@@ -29,7 +29,7 @@
       <v-btn
         slot="activator"
         to="?stats"
-        flat icon
+        text icon
         :disabled="disabled"
       >
         <v-icon>fal fa-chart-bar</v-icon>
@@ -40,7 +40,7 @@
       <v-btn
         slot="activator"
         to="?edit"
-        flat icon
+        text icon
         :disabled="disabled"
       >
         <v-icon>fal fa-pencil</v-icon>
@@ -51,7 +51,7 @@
       <v-btn
         slot="activator"
         @click.stop="$emit('save')"
-        flat icon
+        text icon
         :disabled="disabled || loading"
         :loading="loading"
       >
@@ -62,7 +62,7 @@
     <v-tooltip v-if="!edit" top>
       <v-btn
         slot="activator"
-        flat icon
+        text icon
         @click.stop="$emit('refresh')"
       >
         <v-icon>fal fa-sync {{isFindPending ? 'fa-spin' : ''}}</v-icon>

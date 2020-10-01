@@ -71,7 +71,7 @@
           <h2 class="title">Inducted Users</h2>
         </v-flex>
         <v-spacer/>
-        <v-btn flat color="primary" @click="userDialog = true">
+        <v-btn text color="primary" @click="userDialog = true">
           <v-icon left>fal fa-plus</v-icon>
           Add User
         </v-btn>
@@ -111,7 +111,7 @@
           <v-tooltip top>
             <v-btn
               slot="activator"
-              icon flat
+              icon text
               @click="showMore(showMoreData.i, showMoreData.j - 1)"
             >
               <v-icon>far fa-arrow-left</v-icon>
@@ -119,11 +119,11 @@
             <span>Up or Left Arrow Key</span>
           </v-tooltip>
           <v-spacer></v-spacer>
-          <v-btn flat @click="showMore()">Close</v-btn>
+          <v-btn text @click="showMore()">Close</v-btn>
           <v-tooltip top v-if="!showMoreData.item.checked">
             <v-btn
               slot="activator"
-              color="success" flat
+              color="success" text
               @click="showMore(showMoreData.i, showMoreData.j + 1, true)"
             >
               {{!showMoreData.isSection ? 'Mark Done and' : ''}} Next
@@ -132,13 +132,13 @@
           </v-tooltip>
           <v-btn
             v-if="!showMoreData.isSection && showMoreData.item.checked"
-            color="error" flat
+            color="error" text
             @click="showMoreData.item.checked = false; showMore()"
           >
             Mark Undone
           </v-btn>
           <v-btn
-            icon flat
+            icon text
             @click="showMore(showMoreData.i, showMoreData.j + 1)"
           >
             <v-icon>far fa-arrow-right</v-icon>
@@ -183,9 +183,9 @@
         </v-container>
         <v-card-actions>
           <v-spacer/>
-          <v-btn flat @click.native="userDialog = false; resetUser();">Close</v-btn>
+          <v-btn text @click.native="userDialog = false; resetUser();">Close</v-btn>
           <v-btn
-            color="success" flat
+            color="success" text
             :disabled="!userValid || loading"
             :loading="loading"
             @click.stop="addUser()"
@@ -196,7 +196,7 @@
     <v-card-actions v-if="comp && begun">
       <v-spacer/>
       <v-btn
-        color="success" flat
+        color="success" text
         @click.stop="finish"
         :disabled="!comp.userIds.find(uid => typeof uid === 'string')"
         :loading="loading"
@@ -208,7 +208,7 @@
       :timeout="10000"
     >
       Induction succesfully submitted and saved!
-      <v-btn dark flat icon @click="success = false">
+      <v-btn dark text icon @click="success = false">
         <v-icon>fal fa-times</v-icon>
       </v-btn>
     </v-snackbar>

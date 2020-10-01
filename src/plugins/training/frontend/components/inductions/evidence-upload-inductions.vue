@@ -64,10 +64,10 @@
     </v-card-text>
     <v-card-actions>
       <v-spacer/>
-      <v-btn @click="reset(); $emit('update:show', false);" flat>Cancel</v-btn>
+      <v-btn @click="reset(); $emit('update:show', false);" text>Cancel</v-btn>
       <v-btn
         @click="save()"
-        color="success" flat
+        color="success" text
         :disabled="!valid || loading"
       >Upload</v-btn>
     </v-card-actions>

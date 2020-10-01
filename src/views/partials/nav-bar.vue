@@ -27,13 +27,13 @@
       :fixed="$vuetify.breakpoint.smAndUp"
     >
 
-      <v-toolbar flat v-if="!$vuetify.breakpoint.xsOnly">
+      <v-toolbar text v-if="!$vuetify.breakpoint.xsOnly">
         <v-list>
           <v-list-tile>
             <v-list-tile-action>
               <v-tooltip right>
                 <v-btn
-                  flat
+                  text
                   icon
                   @click.stop="
                     if (!$vuetify.breakpoint.xsOnly) mini=!mini;

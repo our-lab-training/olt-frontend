@@ -16,7 +16,7 @@
         <v-card-title>
           <span class="headline">Message Injection</span>
           <v-spacer/>
-          <v-btn small flat icon @click="dialog=false">
+          <v-btn small text icon @click="dialog=false">
             <v-icon small>fal fa-times</v-icon>
           </v-btn>
         </v-card-title>
@@ -72,7 +72,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer/>
-          <v-btn flat color="primary" @click="dialog=false">
+          <v-btn text color="primary" @click="dialog=false">
             ok, got it
           </v-btn>
         </v-card-actions>

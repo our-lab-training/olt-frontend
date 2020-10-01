@@ -1,7 +1,7 @@
 <template>
   <span v-if="error" class="error--text">
     {{message}} <v-btn
-      flat small
+      text small
       :loading="isCreatePending"
       :disabled="isCreatePending || snackbar"
       @click="report"
@@ -17,7 +17,7 @@
       }}
       <v-btn
         dark
-        flat
+        text
         @click="snackbar = false"
       >
         Close

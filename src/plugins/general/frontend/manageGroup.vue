@@ -9,7 +9,7 @@
     <v-card-title class="headline">
       Manage {{currentGroup.name}}
       <v-spacer/>
-      <v-btn flat icon @click="closeAndClear()">
+      <v-btn text icon @click="closeAndClear()">
         <v-icon>far fa-times</v-icon>
       </v-btn>
     </v-card-title>
@@ -64,7 +64,7 @@
               <v-layout row wrap>
                 <v-flex style="margin-right: 1em;">
                   <v-btn
-                    flat
+                    text
                     icon
                     :to="plugin.settingsLink.replace('{groupId}', currentGroup._id)"
                     v-if="plugin.settingsLink"
@@ -136,14 +136,14 @@
       <v-spacer></v-spacer>
 
       <v-btn
-        flat
+        text
         @click="closeAndClear()"
       >
         Close
       </v-btn>
       <v-btn
         v-if="tab===0"
-        flat
+        text
         @click.stop="saveSettings()"
         :disabled="isPatchPending || isUpdatePending"
         :loading="isPatchPending || isUpdatePending"

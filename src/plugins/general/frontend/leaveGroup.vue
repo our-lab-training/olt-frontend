@@ -16,14 +16,14 @@
       <v-spacer></v-spacer>
 
       <v-btn
-        flat="flat"
+        text="text"
         @click="$emit('modalClose')"
       >
         Close
       </v-btn>
       <v-btn
         color="error"
-        flat="flat"
+        text="text"
         @click="leave"
       >
         Leave

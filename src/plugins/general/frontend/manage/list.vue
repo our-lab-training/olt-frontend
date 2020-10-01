@@ -61,9 +61,9 @@
             </div>
           </v-card-text>
           <v-card-actions><v-spacer />
-            <v-btn flat @click="newDialog = false" :disabled="isCreatePending">Cancel</v-btn>
+            <v-btn text @click="newDialog = false" :disabled="isCreatePending">Cancel</v-btn>
             <v-btn
-              flat color="success"
+              text color="success"
               @click="newItem"
               :loading="loading"
               :disabled="loading || !this.newName || (type === 'users' && !this.newAuthPass)"
